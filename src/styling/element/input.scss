@@ -1,0 +1,21 @@
+@use '~@wjb/styling/variables' as *;
+
+input,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--wjb-background-colour);
+    color: var(--wjb-text-colour);
+    border-radius: var(--wjb-border-radius);
+    border: 0;
+    outline: 2px dashed transparent;
+    line-height: 1em;
+    font: inherit;
+    letter-spacing: inherit;
+
+    &:focus {
+        outline: 2px dashed var(--wjb-secondary);
+    }
+
+    @include shadow-small();
+}

@@ -1,0 +1,28 @@
+@use '~@wjb/styling/setup-variables' as *;
+@use '~@wjb/styling/main' as *;
+
+@use './element/input' as *;
+
+:root {
+    @include setup-variables();
+
+    --wjb-primary: #4db87b;
+    --wjb-primary-light: #94d4b0;
+    --wjb-primary-dark: #348256;
+
+    --wjb-secondary: #4d8ab8;
+    --wjb-secondary-light: #92a9b8;
+    --wjb-secondary-dark: #292f49;
+
+    --wjb-tertiary: #644db8;
+    --wjb-tertiary-light: #a294d4;
+    --wjb-tertiary-dark: #453482;
+
+    --wjb-border-radius: 4px;
+}
+
+.modal-component {
+    & > .content-container {
+        border-top: 4px solid var(--wjb-secondary);
+    }
+}
