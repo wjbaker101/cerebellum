@@ -2,10 +2,12 @@
     <div class="page flex">
         <NavComponent></NavComponent>
         <router-view></router-view>
+        <ModalComponent />
     </div>
 </template>
 
 <script setup lang="ts">
+import ModalComponent from '@wjb/vue/component/ModalComponent.vue';
 import NavComponent from '@/component/nav/NavComponent.vue';
 </script>
 

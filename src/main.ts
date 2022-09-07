@@ -21,7 +21,6 @@ import FormComponent from '@wjb/vue/component/form/FormComponent.vue';
 import FormInputComponent from '@wjb/vue/component/form/FormInputComponent.vue';
 import FormSectionComponent from '@wjb/vue/component/form/FormSectionComponent.vue';
 import IconComponent from '@wjb/vue/component/IconComponent.vue';
-import ModalComponent from '@wjb/vue/component/ModalComponent.vue';
 import ViewComponent from '@/component/ViewComponent.vue';
 
 const app = createApp(App);
@@ -31,7 +30,6 @@ app.component('FormComponent', FormComponent);
 app.component('FormInputComponent', FormInputComponent);
 app.component('FormSectionComponent', FormSectionComponent);
 app.component('IconComponent', IconComponent);
-app.component('ModalComponent', ModalComponent);
 app.component('ViewComponent', ViewComponent);
 
 app.use(router);

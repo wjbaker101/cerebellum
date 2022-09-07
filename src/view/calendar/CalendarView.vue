@@ -43,7 +43,6 @@
                 </GradientBorderComponent>
             </div>
         </div>
-        <ModalComponent></ModalComponent>
     </ViewComponent>
 </template>
 
