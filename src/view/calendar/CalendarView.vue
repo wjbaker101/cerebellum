@@ -114,6 +114,7 @@ const shouldShowEntryForDay = function (entry: ICalendarEntry, day: Dayjs) {
 
 const onNew = function() {
     modal.show({
+        style: 'centered',
         component: NewEntryModalComponent,
         componentProps: {},
     });
