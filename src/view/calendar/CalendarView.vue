@@ -157,7 +157,5 @@ const onNew = function() {
             }
         }
     }
-
-    --wjb_modal-content-background-colour: var(--wjb-background-colour);
 }
 </style>
