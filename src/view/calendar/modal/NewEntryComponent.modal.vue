@@ -51,7 +51,7 @@ const onCreate = function () {
         reference: 'ref',
         createdAt: dayjs(),
         description: description.value,
-        recurringPeriod: 'yearly',
+        recurringPeriod: recurringPeriod.value,
         startAt: dayjs(dateRange.value[0]),
         endAt: dayjs(dateRange.value[1]),
     });
