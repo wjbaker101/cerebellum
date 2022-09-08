@@ -91,7 +91,12 @@ const shouldShowEntryForDay = function (entry: ICalendarEntry, day: Dayjs) {
         return true;
 
     if (entry.recurringPeriod === 'weekly') {
+        const startDay = entry.startAt.day();
+        const endDay = entry.endAt.day();
 
+        if (day.day() >= startDay && day.day() <= endDay) {
+            return true;
+        }
     }
 
     if (entry.recurringPeriod === 'monthly') {
