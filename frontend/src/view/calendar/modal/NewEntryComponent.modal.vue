@@ -7,7 +7,7 @@
                     <input type="text" placeholder="Eat lunch" v-model="description">
                 </FormInputComponent>
                 <FormInputComponent label="Start & End">
-                    <DatePicker datetime range dark v-model="dateRange" />
+                    <DatePicker datetime range dark v-model="dateRange" weekStart="1" />
                 </FormInputComponent>
                 <FormInputComponent label="Recurring Period">
                     <select v-model="recurringPeriod">
