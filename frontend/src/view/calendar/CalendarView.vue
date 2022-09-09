@@ -28,7 +28,15 @@
                 <div>Sun</div>
             </div>
             <div class="days">
-                <GradientBorderComponent class="day" :class="{ 'is-today': day.isToday() }" v-for="day in days" :disabled="!day.isToday()">
+                <GradientBorderComponent
+                    class="day"
+                    :class="{
+                        'is-today': day.isToday(),
+                        'is-different-month': date.month() !== day.month()
+                    }"
+                    v-for="day in days"
+                    :disabled="!day.isToday()"
+                >
                     <div class="day-header">{{ day.date() }}</div>
                     <div>
                         <div
@@ -75,8 +83,12 @@ const resetMonth = function (): void {
 };
 
 const days = computed<Array<Dayjs>>(() => {
-    const placeholder = Array(date.value.daysInMonth()).fill(0);
-    return placeholder.map((_, index) => date.value.date(index + 1));
+    const dayOfWeek = (date.value.startOf('month').day() + 6) % 7;
+    const daysTilLastOfMonth = date.value.daysInMonth() + dayOfWeek;
+    const remainingDays = 7 - (daysTilLastOfMonth % 7);
+
+    const placeholder = Array(daysTilLastOfMonth + remainingDays).fill(0);
+    return placeholder.map((_, index) => date.value.date(index + 1 - dayOfWeek));
 });
 
 const isDateWithinBounds = function (day: Dayjs, start: Dayjs, end: Dayjs) {
@@ -147,6 +159,10 @@ const onNew = function() {
                 padding: 0.5rem;
 
                 @include shadow-small();
+
+                &.is-different-month {
+                    opacity: 0.2;
+                }
 
                 &.is-today {
                     .day-header {
