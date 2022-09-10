@@ -11,4 +11,8 @@
     <PackageReference Include="NHibernate" Version="5.3.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Records\" />
+  </ItemGroup>
+
 </Project>
