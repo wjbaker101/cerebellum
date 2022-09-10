@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Calendar\" />
+    <Folder Include="Calendar\Types\" />
   </ItemGroup>
 
   <ItemGroup>

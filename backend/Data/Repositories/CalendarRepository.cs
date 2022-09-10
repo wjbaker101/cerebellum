@@ -5,17 +5,20 @@ namespace Data.Repositories;
 
 public interface ICalendarRepository
 {
+    CalendarEntryRecord SaveEntry(CalendarEntryRecord entry);
     Result<CalendarEntryRecord> GetEntryByReference(Guid reference);
 }
 
-public sealed class CalendarRepository : ICalendarRepository
+public sealed class CalendarRepository : BaseRepository, ICalendarRepository
 {
     private readonly IApiDatabase _database;
 
-    public CalendarRepository(IApiDatabase database)
+    public CalendarRepository(IApiDatabase database) : base(database)
     {
         _database = database;
     }
+
+    public CalendarEntryRecord SaveEntry(CalendarEntryRecord entry) => SaveRecord(entry);
 
     public Result<CalendarEntryRecord> GetEntryByReference(Guid reference)
     {
