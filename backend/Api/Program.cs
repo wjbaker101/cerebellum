@@ -1,4 +1,5 @@
 using Api.Calendar;
+using Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -6,6 +7,7 @@ var services = builder.Services;
 services.AddControllers();
 
 services.AddSingleton<ICalendarService, CalendarService>();
+services.AddSingleton<ICalendarRepository, CalendarRepository>();
 
 var app = builder.Build();
 
