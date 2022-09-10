@@ -22,4 +22,13 @@ public sealed class CalendarController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpGet]
+    [Route("entries")]
+    public IActionResult SearchEntries([FromQuery] SearchEntriesRequest request)
+    {
+        var result = _calendarService.SearchEntries(request);
+
+        return ToApiResponse(result);
+    }
 }

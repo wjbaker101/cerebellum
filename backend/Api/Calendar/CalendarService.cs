@@ -10,6 +10,7 @@ namespace Api.Calendar;
 public interface ICalendarService
 {
     Result<CreateEntryResponse> CreateEntry(CreateEntryRequest request);
+    Result<SearchEntriesResponse> SearchEntries(SearchEntriesRequest request);
 }
 
 public sealed class CalendarService : ICalendarService
@@ -47,6 +48,24 @@ public sealed class CalendarService : ICalendarService
                 EndAt = entry.EndAt,
                 RecurringPeriod = (CalendarEntryRecurringPeriod)entry.RecurringPeriod
             }
+        };
+    }
+
+    public Result<SearchEntriesResponse> SearchEntries(SearchEntriesRequest request)
+    {
+        var entries = _calendarRepository.SearchEntries(request.StartAt, request.EndAt);
+
+        return new SearchEntriesResponse
+        {
+            Entries = entries.ConvertAll(x => new CalendarEntryModel
+            {
+                Reference = x.Reference,
+                CreatedAt = x.CreatedAt,
+                Description = x.Description,
+                StartAt = x.StartAt,
+                EndAt = x.EndAt,
+                RecurringPeriod = (CalendarEntryRecurringPeriod)x.RecurringPeriod
+            })
         };
     }
 }
