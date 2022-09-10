@@ -10,4 +10,8 @@
     <PackageReference Include="NetApiLibs" Version="220123.1327.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Calendar\" />
+  </ItemGroup>
+
 </Project>

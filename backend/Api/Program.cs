@@ -1,6 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
+using Api.Calendar;
 
-builder.Services.AddControllers();
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddControllers();
+
+services.AddSingleton<ICalendarService, CalendarService>();
 
 var app = builder.Build();
 
