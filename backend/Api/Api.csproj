@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NetApiLibs" Version="220123.1327.0" />
+  </ItemGroup>
+
 </Project>
