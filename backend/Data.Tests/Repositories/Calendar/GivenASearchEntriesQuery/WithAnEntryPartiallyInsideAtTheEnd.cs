@@ -1,45 +1,31 @@
 ﻿using Data.Records;
 using Data.Repositories;
-using Moq;
-using NHibernate;
+using Data.Tests._Helper;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Data.Tests.Repositories.Calendar;
+namespace Data.Tests.Repositories.Calendar.GivenASearchEntriesQuery;
 
 [TestFixture]
 [Parallelizable]
-public sealed class GivenASearchEntriesQuery
+public sealed class WithAnEntryPartiallyInsideAtTheEnd
 {
     private List<CalendarEntryRecord> _result = null!;
 
     [OneTimeSetUp]
     public void Setup()
     {
-        var records = new List<CalendarEntryRecord>
+        var database = DatabaseHelper.Mock(new List<CalendarEntryRecord>
         {
             new()
             {
                 Reference = Guid.Parse("6fde403b-b32e-42e5-8ac5-7785b23b6d62"),
-                StartAt = new DateTime(2020, 04, 03),
+                StartAt = new DateTime(2020, 04, 05),
                 EndAt = new DateTime(2020, 04, 07)
             }
-        };
-
-        var session = new Mock<ISession>();
-        session
-            .Setup(mock => mock.BeginTransaction())
-            .Returns(Mock.Of<ITransaction>());
-        session
-            .Setup(mock => mock.Query<CalendarEntryRecord>())
-            .Returns(records.AsQueryable());
-
-        var database = new Mock<IApiDatabase>();
-        database
-            .Setup(mock => mock.SessionFactory.OpenSession())
-            .Returns(session.Object);
+        });
 
         var subject = new CalendarRepository(database.Object);
 

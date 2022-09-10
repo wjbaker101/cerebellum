@@ -1,0 +1,39 @@
+﻿using Data.Records;
+using Data.Repositories;
+using Data.Tests._Helper;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+
+namespace Data.Tests.Repositories.Calendar.GivenASearchEntriesQuery;
+
+[TestFixture]
+[Parallelizable]
+public sealed class WithAnEntryOutsideAfterTheBounds
+{
+    private List<CalendarEntryRecord> _result = null!;
+
+    [OneTimeSetUp]
+    public void Setup()
+    {
+        var database = DatabaseHelper.Mock(new List<CalendarEntryRecord>
+        {
+            new()
+            {
+                Reference = Guid.Parse("6fde403b-b32e-42e5-8ac5-7785b23b6d62"),
+                StartAt = new DateTime(2020, 04, 07),
+                EndAt = new DateTime(2020, 04, 08)
+            }
+        });
+
+        var subject = new CalendarRepository(database.Object);
+
+        _result = subject.SearchEntries(new DateTime(2020, 04, 04), new DateTime(2020, 04, 06));
+    }
+
+    [Test]
+    public void ThenNoEntriesAreReturned()
+    {
+        Assert.That(_result, Is.Empty);
+    }
+}
