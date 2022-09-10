@@ -46,7 +46,7 @@ public sealed class CalendarRepository : BaseRepository, ICalendarRepository
         var entries = session
             .Query<CalendarEntryRecord>()
             .Where(x =>
-                x.StartAt >= startAt && x.EndAt >= endAt ||
+                x.StartAt >= startAt && x.EndAt <= endAt ||
                 (startAt >= x.StartAt && startAt <= x.EndAt || endAt >= x.StartAt && endAt <= x.EndAt)/* ||*/
                 //(x.RecurringPeriod == CalendarEntryRecurringPeriod.Yearly && x.StartAt.Day >= startAt.Day && x.EndAt.Day <= endAt.Day) ||
                 //(x.RecurringPeriod == CalendarEntryRecurringPeriod.Monthly && x.StartAt.Day >= startAt.Day && x.EndAt.Day <= endAt.Day)
