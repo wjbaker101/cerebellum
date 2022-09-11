@@ -2,6 +2,7 @@
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
+using NetApiLibs.Extension;
 using NetApiLibs.Type;
 using CalendarEntryRecurringPeriod = Core.Model.CalendarEntryRecurringPeriod;
 
@@ -57,15 +58,36 @@ public sealed class CalendarService : ICalendarService
 
         return new SearchEntriesResponse
         {
-            Entries = entries.ConvertAll(x => new CalendarEntryModel
-            {
-                Reference = x.Reference,
-                CreatedAt = x.CreatedAt,
-                Description = x.Description,
-                StartAt = x.StartAt,
-                EndAt = x.EndAt,
-                RecurringPeriod = (CalendarEntryRecurringPeriod)x.RecurringPeriod
-            })
+            Entries = entries
+                .Where(x => ShouldShowEntry(x, request.StartAt, request.EndAt))
+                .ConvertAll(x => new CalendarEntryModel
+                {
+                    Reference = x.Reference,
+                    CreatedAt = x.CreatedAt,
+                    Description = x.Description,
+                    StartAt = x.StartAt,
+                    EndAt = x.EndAt,
+                    RecurringPeriod = (CalendarEntryRecurringPeriod)x.RecurringPeriod
+                })
         };
+    }
+
+    private static bool ShouldShowEntry(CalendarEntryRecord entry, DateTime startAt, DateTime endAt)
+    {
+        if (entry.RecurringPeriod == Data.Records.CalendarEntryRecurringPeriod.Weekly)
+            return DoesIntersect((int)entry.StartAt.DayOfWeek, (int)entry.EndAt.DayOfWeek, (int)startAt.DayOfWeek, (int)endAt.DayOfWeek);
+
+        if (entry.RecurringPeriod == Data.Records.CalendarEntryRecurringPeriod.Monthly)
+            return DoesIntersect(entry.StartAt.Day, entry.EndAt.Day, startAt.Day, endAt.Day);
+
+        if (entry.RecurringPeriod == Data.Records.CalendarEntryRecurringPeriod.Yearly)
+            return DoesIntersect(entry.StartAt.Month, entry.EndAt.Month, startAt.Month, endAt.Month) && DoesIntersect(entry.StartAt.Day, entry.EndAt.Day, startAt.Day, endAt.Day);
+
+        return false;
+    }
+
+    private static bool DoesIntersect(int first, int last, int lower, int upper)
+    {
+        return (first >= lower && last <= upper) || (lower >= first && lower <= last || upper >= first && upper <= last);
     }
 }
