@@ -22,7 +22,8 @@ public sealed class WithAnEntryOutsideBeforeTheBounds
             {
                 Reference = Guid.Parse("6fde403b-b32e-42e5-8ac5-7785b23b6d62"),
                 StartAt = new DateTime(2020, 04, 02),
-                EndAt = new DateTime(2020, 04, 03)
+                EndAt = new DateTime(2020, 04, 03),
+                RecurringPeriod = CalendarEntryRecurringPeriod.None
             }
         });
 

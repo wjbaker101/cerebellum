@@ -5,30 +5,32 @@ using System.Linq;
 
 namespace Data.Tests._Helper;
 
-public static class DatabaseHelper
+public sealed class DatabaseHelper
 {
-    private static readonly Mock<ISession> Session;
-    private static readonly Mock<IApiDatabase> Database;
+    private readonly Mock<ISession> _session;
+    private readonly Mock<IApiDatabase> _database;
 
-    static DatabaseHelper()
+    private DatabaseHelper()
     {
-        Session = new Mock<ISession>();
-        Session
+        _session = new Mock<ISession>();
+        _session
             .Setup(mock => mock.BeginTransaction())
             .Returns(Moq.Mock.Of<ITransaction>());
 
-        Database = new Mock<IApiDatabase>();
-        Database
+        _database = new Mock<IApiDatabase>();
+        _database
             .Setup(mock => mock.SessionFactory.OpenSession())
-            .Returns(Session.Object);
+            .Returns(_session.Object);
     }
 
     public static Mock<IApiDatabase> Mock<T>(List<T> records)
     {
-        Session
+        var helper = new DatabaseHelper();
+        helper
+            ._session
             .Setup(mock => mock.Query<T>())
             .Returns(records.AsQueryable());
 
-        return Database;
+        return helper._database;
     }
 }
