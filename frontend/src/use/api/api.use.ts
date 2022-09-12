@@ -42,6 +42,9 @@ export const useApi = function () {
 
                 const response = await fetch(`${baseUrl}/calendar/entry`, {
                     method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
                     body: JSON.stringify({
                         description: request.description,
                         startAt: request.startAt.toISOString(),

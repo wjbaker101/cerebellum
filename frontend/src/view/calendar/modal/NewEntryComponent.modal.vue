@@ -27,10 +27,12 @@ import { ref } from 'vue';
 import dayjs from 'dayjs';
 import DatePicker from '@vuepic/vue-datepicker';
 
+import { useApi } from '@/use/api/api.use';
 import { useCalendar } from '@/use/calendar.use';
 
 import { CalendarRecurringPeriod } from '@/model/CalendarEntry.model';
 
+const api = useApi();
 const calendar = useCalendar();
 
 const recurringPeriods: Record<CalendarRecurringPeriod, string> = {
@@ -46,14 +48,21 @@ const recurringPeriod = ref<CalendarRecurringPeriod>('none');
 const startAt = dayjs().add(1, 'hour').startOf('hour');
 const dateRange = ref<[Date, Date]>([startAt.toDate(), startAt.add(1, 'hour').toDate()]);
 
-const onCreate = function () {
-    calendar.add({
-        reference: 'ref',
-        createdAt: dayjs(),
+const onCreate = async function () {
+    const result = await api.calendar.addEntry({
         description: description.value,
-        recurringPeriod: recurringPeriod.value,
         startAt: dayjs(dateRange.value[0]),
         endAt: dayjs(dateRange.value[1]),
+        recurringPeriod: recurringPeriod.value,
+    });
+
+    calendar.add({
+        reference: result.reference,
+        createdAt: result.createdAt,
+        description: result.description,
+        recurringPeriod: result.recurringPeriod,
+        startAt: result.startAt,
+        endAt: result.endAt,
     });
 };
 </script>
