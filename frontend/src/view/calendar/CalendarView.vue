@@ -55,9 +55,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
+import { useApi } from '@/use/api/api.use';
 import { useCalendar } from '@/use/calendar.use';
 import { useModal } from '@wjb/vue/use/modal.use';
 
@@ -66,6 +67,7 @@ import GradientBorderComponent from '@/component/GradientBorderComponent.vue';
 
 import { ICalendarEntry } from '@/model/CalendarEntry.model.js';
 
+const api = useApi();
 const calendar = useCalendar();
 const modal = useModal();
 
@@ -135,6 +137,10 @@ const onNew = function() {
         componentProps: {},
     });
 };
+
+watch(days, async () => {
+    const result = await api.calendar.searchEntries(days.value[0], days.value[days.value.length - 1].endOf('day'));
+});
 </script>
 
 <style lang="scss">
