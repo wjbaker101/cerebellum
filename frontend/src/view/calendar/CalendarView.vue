@@ -139,7 +139,7 @@ const onNew = function() {
 };
 
 watch(days, async () => {
-    const result = await api.calendar.searchEntries(days.value[0], days.value[days.value.length - 1].endOf('day'));
+    const result = await api.calendar.searchEntries(days.value[0].startOf('day'), days.value[days.value.length - 1].endOf('day'));
 });
 </script>
 

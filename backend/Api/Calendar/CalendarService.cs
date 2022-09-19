@@ -83,7 +83,7 @@ public sealed class CalendarService : ICalendarService
         if (entry.RecurringPeriod == Data.Records.CalendarEntryRecurringPeriod.Yearly)
             return DoesIntersect(entry.StartAt.Month, entry.EndAt.Month, startAt.Month, endAt.Month) && DoesIntersect(entry.StartAt.Day, entry.EndAt.Day, startAt.Day, endAt.Day);
 
-        return false;
+        return true;
     }
 
     private static bool DoesIntersect(int first, int last, int lower, int upper)
