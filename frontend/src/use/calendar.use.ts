@@ -1,12 +1,23 @@
 import { readonly, ref } from 'vue';
+import { Dayjs } from 'dayjs';
+
+import { useApi } from '@/use/api/api.use';
 
 import { ICalendarEntry } from '@/model/CalendarEntry.model';
+
+const api = useApi();
 
 const entries = ref<Array<ICalendarEntry> | null>([]);
 
 export const useCalendar = function () {
     return {
         entries: readonly(entries),
+
+        async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<void> {
+            const result = await api.calendar.searchEntries(startAt, endAt);
+
+            entries.value = result;
+        },
 
         add(entry: ICalendarEntry): void {
             entries.value?.push(entry);
