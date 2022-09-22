@@ -1,4 +1,5 @@
 using Api.Calendar;
+using Api.Notes;
 using Data;
 using Data.Repositories;
 
@@ -11,6 +12,9 @@ services.AddSingleton<IApiDatabase, ApiDatabase>();
 
 services.AddSingleton<ICalendarService, CalendarService>();
 services.AddSingleton<ICalendarRepository, CalendarRepository>();
+
+services.AddSingleton<INotesService, NotesService>();
+services.AddSingleton<INotesRepository, NotesRepository>();
 
 var app = builder.Build();
 
