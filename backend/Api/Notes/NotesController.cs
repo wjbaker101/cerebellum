@@ -31,4 +31,13 @@ public sealed class NotesController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpGet]
+    [Route("note/{reference:guid}")]
+    public IActionResult GetNote([FromRoute] Guid reference)
+    {
+        var result = _notesService.GetNote(reference);
+
+        return ToApiResponse(result);
+    }
 }

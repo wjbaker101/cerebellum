@@ -10,6 +10,7 @@ public interface INotesService
 {
     Result<SearchNotesResponse> SearchNotes();
     Result<CreateNoteResponse> CreateNote(CreateNoteRequest request);
+    Result<GetNoteResponse> GetNote(Guid reference);
 }
 
 public sealed class NotesService : INotesService
@@ -46,6 +47,23 @@ public sealed class NotesService : INotesService
         });
 
         return new CreateNoteResponse
+        {
+            Note = new NoteModel
+            {
+                Reference = note.Reference,
+                CreatedAt = note.CreatedAt,
+                Content = note.Content
+            }
+        };
+    }
+    
+    public Result<GetNoteResponse> GetNote(Guid reference)
+    {
+        var noteResult = _notesRepository.GetByReference(reference);
+        if (!noteResult.TrySuccess(out var note))
+            return Result<GetNoteResponse>.FromFailure(noteResult);
+
+        return new GetNoteResponse
         {
             Note = new NoteModel
             {
