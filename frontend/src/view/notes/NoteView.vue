@@ -10,16 +10,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import { useApi } from '@/use/api/api.use';
+
+import { INote } from '@/model/Note.model';
+
+const api = useApi();
 const route = useRoute();
 
-const noteReference = route.params.noteReference;
+const noteReference = route.params.noteReference as string;
 
-const noteContent = ref<string>('');
+const note = ref<INote | null>(null);
 
+const noteContent = computed<string>({
+    get() {
+        return note.value?.content ?? '';
+    },
+    set(value: string) {
+        if (note.value === null)
+            return;
+
+        note.value.content = value;
+    },
+});
 const rowCount = computed<number>(() => noteContent.value.split('\n').length);
+
+onMounted(async () => {
+    const result = await api.notes.getNote(noteReference);
+
+    note.value = result;
+});
 </script>
 
 <style lang="scss">
