@@ -81,6 +81,7 @@ export const useApi = function () {
                 return notes.map(x => ({
                     reference: x.reference,
                     createdAt: dayjs(x.createdAt),
+                    title: x.title,
                     content: x.content,
                 }));
             },
@@ -94,6 +95,7 @@ export const useApi = function () {
                 return {
                     reference: note.reference,
                     createdAt: dayjs(note.createdAt),
+                    title: note.title,
                     content: note.content,
                 };
             },
@@ -117,6 +119,7 @@ export const useApi = function () {
                 return {
                     reference: note.reference,
                     createdAt: dayjs(note.createdAt),
+                    title: note.title,
                     content: note.content,
                 };
             },
