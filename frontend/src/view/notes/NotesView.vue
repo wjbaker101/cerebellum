@@ -6,7 +6,7 @@
         <div v-else>
             <router-link class="note" :to="`/notes/${note.reference}`" :key="note.reference" v-for="note in notes">
                 <div>
-                    {{ note.reference }}
+                    {{ note.title }}
                 </div>
             </router-link>
         </div>
