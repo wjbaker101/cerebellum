@@ -7,7 +7,7 @@ import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 
 import { ISearchCalendarEntriesResponse } from '@/use/api/type/SearchCalendarEntries.type';
 import { IAddCalendarEntryResponse } from '@/use/api/type/AddCalendarEntry.type';
-import { ISearchNotes } from '@/use/api/type/SearchNotes.type';
+import { ISearchNotesResponse } from '@/use/api/type/SearchNotes.type';
 import { IGetNoteResponse } from './type/GetNote.type';
 
 const baseUrl = '/api';
@@ -73,7 +73,7 @@ export const useApi = function () {
         notes: {
             async search(): Promise<Array<INote>> {
                 const response = await fetch(`${baseUrl}/notes`);
-                const json = await response.json() as IApiResponse<ISearchNotes>;
+                const json = await response.json() as IApiResponse<ISearchNotesResponse>;
 
                 const notes = json.result.notes;
 
