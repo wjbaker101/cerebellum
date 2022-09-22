@@ -38,6 +38,7 @@ public sealed class NotesService : INotesService
         {
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
+            Title = request.Title,
             Content = request.Content
         });
 
