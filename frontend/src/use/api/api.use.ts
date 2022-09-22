@@ -120,6 +120,12 @@ export const useApi = function () {
                     content: note.content,
                 };
             },
+
+            async deleteNote(reference: string): Promise<void> {
+                await fetch(`${baseUrl}/note/${reference}`, {
+                    method: 'delete',
+                });
+            },
         },
     };
 };
