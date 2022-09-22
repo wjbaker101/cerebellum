@@ -11,6 +11,7 @@ public static class NoteMapper
         {
             Reference = note.Reference,
             CreatedAt = note.CreatedAt,
+            Title = note.Title,
             Content = note.Content
         };
     }
