@@ -5,6 +5,7 @@ namespace Data.Repositories;
 
 public interface INotesRepository
 {
+    NoteRecord SaveNote(NoteRecord entry);
     Result<NoteRecord> GetByReference(Guid reference);
 }
 
@@ -16,6 +17,8 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
     {
         _database = database;
     }
+
+    public NoteRecord SaveNote(NoteRecord entry) => SaveRecord(entry);
 
     public Result<NoteRecord> GetByReference(Guid reference)
     {
