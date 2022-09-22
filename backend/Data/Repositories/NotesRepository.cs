@@ -1,5 +1,6 @@
 ﻿using Data.Records;
 using NetApiLibs.Type;
+using System.Net;
 
 namespace Data.Repositories;
 
@@ -48,7 +49,7 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
         transaction.Commit();
 
         if (note == null)
-            return Result<NoteRecord>.Failure($"Unable to find note with given reference: {reference}.");
+            return Result<NoteRecord>.Failure($"Unable to find note with given reference: {reference}.", HttpStatusCode.NotFound);
 
         return note;
     }
