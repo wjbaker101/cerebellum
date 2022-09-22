@@ -1,11 +1,13 @@
 import dayjs, { Dayjs } from 'dayjs';
 
 import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.model';
+import { INote } from '@/model/Note.model';
 
 import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 
 import { ISearchCalendarEntriesResponse } from '@/use/api/type/SearchCalendarEntries.type';
 import { IAddCalendarEntryResponse } from '@/use/api/type/AddCalendarEntry.type';
+import { ISearchNotes } from '@/use/api/type/SearchNotes.type';
 
 const baseUrl = '/api';
 
@@ -64,6 +66,21 @@ export const useApi = function () {
                     endAt: dayjs(entry.endAt),
                     recurringPeriod: mapRecurringPeriod(entry.recurringPeriod),
                 };
+            },
+        },
+
+        notes: {
+            async search(): Promise<Array<INote>> {
+                const response = await fetch(`${baseUrl}/notes`);
+                const json = await response.json() as IApiResponse<ISearchNotes>;
+
+                const notes = json.result.notes;
+
+                return notes.map(x => ({
+                    reference: x.reference,
+                    createdAt: dayjs(x.createdAt),
+                    content: x.content,
+                }));
             },
         },
     };
