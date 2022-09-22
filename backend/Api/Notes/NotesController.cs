@@ -40,4 +40,13 @@ public sealed class NotesController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpDelete]
+    [Route("note/{reference:guid}")]
+    public IActionResult DeleteNote([FromRoute] Guid reference)
+    {
+        var result = _notesService.DeleteNote(reference);
+
+        return ToApiResponse(result);
+    }
 }
