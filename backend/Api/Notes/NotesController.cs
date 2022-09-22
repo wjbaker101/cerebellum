@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Notes.Types;
+using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
 namespace Api.Notes;
@@ -18,6 +19,15 @@ public sealed class NotesController : ApiController
     public IActionResult SearchNotes()
     {
         var result = _notesService.SearchNotes();
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPost]
+    [Route("note")]
+    public IActionResult CreateNote([FromBody] CreateNoteRequest request)
+    {
+        var result = _notesService.CreateNote(request);
 
         return ToApiResponse(result);
     }
