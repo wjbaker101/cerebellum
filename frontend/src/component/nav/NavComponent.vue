@@ -17,6 +17,12 @@
                     <div>Calendar</div>
                 </GradientBorderComponent>
             </router-link>
+            <router-link to="/notes" class="tab">
+                <GradientBorderComponent :on-hover="!route.path.startsWith('/notes')">
+                    <IconComponent icon="bin" />
+                    <div>Notes</div>
+                </GradientBorderComponent>
+            </router-link>
         </ul>
     </nav>
     <nav class="nav-placeholder" aria-hidden="true"></nav>

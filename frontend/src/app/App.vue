@@ -13,6 +13,7 @@ import NavComponent from '@/component/nav/NavComponent.vue';
 
 <style lang="scss">
 @use '@/styling/main' as *;
+@use '@wjb/styling/variables' as *;
 
 *,
 *::before,
@@ -38,5 +39,20 @@ body {
     background-color: var(--wjb-background-colour);
     color: var(--wjb-text-colour);
     transition: none;
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+    transition: none;
+    background-color: var(--wjb-background-colour-dark);
+    color: inherit;
+    border: none;
+    font: inherit;
+    letter-spacing: inherit;
+    border-radius: var(--wjb-border-radius);
+
+    @include shadow-small();
 }
 </style>

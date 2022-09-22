@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 import CalendarView from '@/view/calendar/CalendarView.vue';
 import DashboardView from '@/view/dashboard/DashboardView.vue';
+import NotesView from '@/view/notes/NotesView.vue';
+import NoteView from '@/view/notes/NoteView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -11,6 +13,14 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/calendar',
         component: CalendarView,
+    },
+    {
+        path: '/notes/:noteReference',
+        component: NoteView,
+    },
+    {
+        path: '/notes',
+        component: NotesView,
     },
 ];
 
