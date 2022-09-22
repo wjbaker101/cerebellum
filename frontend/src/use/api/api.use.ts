@@ -8,7 +8,8 @@ import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 import { ISearchCalendarEntriesResponse } from '@/use/api/type/SearchCalendarEntries.type';
 import { IAddCalendarEntryResponse } from '@/use/api/type/AddCalendarEntry.type';
 import { ISearchNotesResponse } from '@/use/api/type/SearchNotes.type';
-import { IGetNoteResponse } from './type/GetNote.type';
+import { IGetNoteResponse } from '@/use/api/type/GetNote.type';
+import { ICreateNoteResponse } from '@/use/api/type/CreateNote.type';
 
 const baseUrl = '/api';
 
@@ -95,7 +96,30 @@ export const useApi = function () {
                     createdAt: dayjs(note.createdAt),
                     content: note.content,
                 };
-            }
+            },
+
+            async createNote(request: {
+                content: string;
+            }): Promise<INote> {
+                const response = await fetch(`${baseUrl}/note`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        content: request.content,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<ICreateNoteResponse>;
+
+                const note = json.result.note;
+
+                return {
+                    reference: note.reference,
+                    createdAt: dayjs(note.createdAt),
+                    content: note.content,
+                };
+            },
         },
     };
 };
