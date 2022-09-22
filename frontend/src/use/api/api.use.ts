@@ -8,6 +8,7 @@ import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 import { ISearchCalendarEntriesResponse } from '@/use/api/type/SearchCalendarEntries.type';
 import { IAddCalendarEntryResponse } from '@/use/api/type/AddCalendarEntry.type';
 import { ISearchNotes } from '@/use/api/type/SearchNotes.type';
+import { IGetNoteResponse } from './type/GetNote.type';
 
 const baseUrl = '/api';
 
@@ -82,6 +83,19 @@ export const useApi = function () {
                     content: x.content,
                 }));
             },
+
+            async getNote(reference: string): Promise<INote> {
+                const response = await fetch(`${baseUrl}/note/${reference}`);
+                const json = await response.json() as IApiResponse<IGetNoteResponse>;
+
+                const note = json.result.note;
+
+                return {
+                    reference: note.reference,
+                    createdAt: dayjs(note.createdAt),
+                    content: note.content,
+                };
+            }
         },
     };
 };
