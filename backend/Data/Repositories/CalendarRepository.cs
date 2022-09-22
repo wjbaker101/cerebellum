@@ -28,7 +28,7 @@ public sealed class CalendarRepository : BaseRepository, ICalendarRepository
 
         var entry = session
             .Query<CalendarEntryRecord>()
-            .SingleOrDefault();
+            .SingleOrDefault(x => x.Reference == reference);
 
         transaction.Commit();
 
