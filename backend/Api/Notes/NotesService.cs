@@ -1,5 +1,4 @@
 ﻿using Api.Notes.Types;
-using Core.Model;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
@@ -28,12 +27,7 @@ public sealed class NotesService : INotesService
 
         return new SearchNotesResponse
         {
-            Notes = notes.ConvertAll(x => new NoteModel
-            {
-                Reference = x.Reference,
-                CreatedAt = x.CreatedAt,
-                Content = x.Content
-            })
+            Notes = notes.ConvertAll(NoteMapper.Map)
         };
     }
 
@@ -48,29 +42,19 @@ public sealed class NotesService : INotesService
 
         return new CreateNoteResponse
         {
-            Note = new NoteModel
-            {
-                Reference = note.Reference,
-                CreatedAt = note.CreatedAt,
-                Content = note.Content
-            }
+            Note = NoteMapper.Map(note)
         };
     }
     
     public Result<GetNoteResponse> GetNote(Guid reference)
     {
         var noteResult = _notesRepository.GetByReference(reference);
-        if (!noteResult.TrySuccess(out var note))
+        if (noteResult.IsFailure)
             return Result<GetNoteResponse>.FromFailure(noteResult);
 
         return new GetNoteResponse
         {
-            Note = new NoteModel
-            {
-                Reference = note.Reference,
-                CreatedAt = note.CreatedAt,
-                Content = note.Content
-            }
+            Note = NoteMapper.Map(noteResult.Value)
         };
     }
 }
