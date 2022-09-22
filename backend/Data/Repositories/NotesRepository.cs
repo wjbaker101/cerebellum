@@ -6,7 +6,9 @@ namespace Data.Repositories;
 public interface INotesRepository
 {
     NoteRecord SaveNote(NoteRecord entry);
+    List<NoteRecord> SearchNotes();
     Result<NoteRecord> GetByReference(Guid reference);
+    void DeleteNote(NoteRecord note);
 }
 
 public sealed class NotesRepository : BaseRepository, INotesRepository
@@ -19,6 +21,20 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
     }
 
     public NoteRecord SaveNote(NoteRecord entry) => SaveRecord(entry);
+
+    public List<NoteRecord> SearchNotes()
+    {
+        using var session = _database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        var notes = session
+            .Query<NoteRecord>()
+            .ToList();
+
+        transaction.Commit();
+
+        return notes;
+    }
 
     public Result<NoteRecord> GetByReference(Guid reference)
     {
@@ -35,5 +51,15 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
             return Result<NoteRecord>.Failure($"Unable to find note with given reference: {reference}.");
 
         return note;
+    }
+
+    public void DeleteNote(NoteRecord note)
+    {
+        using var session = _database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        session.Delete(note);
+
+        transaction.Commit();
     }
 }
