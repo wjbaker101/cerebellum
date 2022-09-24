@@ -1,7 +1,9 @@
 <template>
     <div class="page-heading-component flex flex-auto align-items-center" v-if="!noHeader">
         <div>
-            <h1>{{ heading }}</h1>
+            <slot name="title">
+                <h1>{{ heading }}</h1>
+            </slot>
         </div>
         <div class="flex-auto">
             <slot></slot>

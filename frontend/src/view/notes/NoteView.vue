@@ -1,5 +1,15 @@
 <template>
-    <ViewComponent class="note-view flex flex-vertical gap" heading="Note">
+    <ViewComponent class="note-view flex flex-vertical gap" :heading="note?.title">
+        <template v-slot:header>
+            <div class="flex">
+                <div>
+                    <ButtonComponent class="primary" @click="onEditTitle">
+                        <IconComponent icon="pencil" gap="right" />
+                        <span>Edit Title</span>
+                    </ButtonComponent>
+                </div>
+            </div>
+        </template>
         <div class="text-container flex">
             <div class="line-numbers flex-auto text-right">
                 <div v-for="i in rowCount">{{ i }}</div>
@@ -49,6 +59,12 @@ const noteContent = computed<string>({
     },
 });
 const rowCount = computed<number>(() => noteContent.value.split('\n').length);
+
+const isEditingTitle = ref<boolean>(false);
+
+const onEditTitle = function () {
+    isEditingTitle.value = true;
+};
 
 onMounted(async () => {
     const result = await api.notes.getNote(noteReference);
