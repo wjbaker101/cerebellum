@@ -15,7 +15,7 @@ import PageHeadingComponent from '@/component/PageHeadingComponent.vue';
 
 defineProps<{
     heading: string;
-    noHeader: boolean;
+    noHeader?: boolean;
 }>();
 </script>
 
