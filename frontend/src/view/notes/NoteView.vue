@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { debounce } from 'ts-debounce';
 
 import { useApi } from '@/use/api/api.use';
 
@@ -24,6 +25,16 @@ const noteReference = route.params.noteReference as string;
 
 const note = ref<INote | null>(null);
 
+const onNoteUpdate = debounce(async () => {
+    if (note.value === null)
+        return;
+
+    await api.notes.updateNote(note.value.reference, {
+        title: note.value.title,
+        content: note.value.content,
+    });
+}, 200);
+
 const noteContent = computed<string>({
     get() {
         return note.value?.content ?? '';
@@ -33,6 +44,8 @@ const noteContent = computed<string>({
             return;
 
         note.value.content = value;
+
+        onNoteUpdate();
     },
 });
 const rowCount = computed<number>(() => noteContent.value.split('\n').length);
