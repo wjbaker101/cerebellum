@@ -9,7 +9,7 @@
 <script setup lang="ts">
 defineProps<{
     heading: string;
-    noHeader: boolean;
+    noHeader?: boolean;
 }>();
 </script>
 
