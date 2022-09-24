@@ -1,11 +1,22 @@
 <template>
     <ViewComponent class="note-view flex flex-vertical gap" :heading="note?.title">
+        <template v-slot:title v-if="isEditingTitle">
+            <h1>
+                <input ref="titleInput" type="text" v-model="noteTitle" @keypress.enter="onTitleConfirm">
+            </h1>
+        </template>
         <template v-slot:header>
             <div class="flex">
                 <div>
                     <ButtonComponent class="primary" @click="onEditTitle">
-                        <IconComponent icon="pencil" gap="right" />
-                        <span>Edit Title</span>
+                        <template v-if="isEditingTitle">
+                            <IconComponent icon="cross" gap="right" />
+                            <span>Cancel</span>
+                        </template>
+                        <template v-else>
+                            <IconComponent icon="pencil" gap="right" />
+                            <span>Edit Title</span>
+                        </template>
                     </ButtonComponent>
                 </div>
             </div>
@@ -20,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
@@ -33,6 +44,8 @@ const route = useRoute();
 
 const noteReference = route.params.noteReference as string;
 
+const titleInput = ref<HTMLInputElement | null>(null);
+
 const note = ref<INote | null>(null);
 
 const onNoteUpdate = debounce(async () => {
@@ -44,6 +57,8 @@ const onNoteUpdate = debounce(async () => {
         content: note.value.content,
     });
 }, 200);
+
+const noteTitle = ref<string>('');
 
 const noteContent = computed<string>({
     get() {
@@ -63,7 +78,27 @@ const rowCount = computed<number>(() => noteContent.value.split('\n').length);
 const isEditingTitle = ref<boolean>(false);
 
 const onEditTitle = function () {
+    if (isEditingTitle.value) {
+        isEditingTitle.value = false;
+        return;
+    }
+
     isEditingTitle.value = true;
+    noteTitle.value = note.value?.title ?? '';
+
+    nextTick(() => {
+        titleInput.value?.focus();
+    });
+};
+
+const onTitleConfirm = function () {
+    if (note.value === null)
+        return;
+
+    isEditingTitle.value = false;
+    note.value.title = noteTitle.value;
+
+    onNoteUpdate();
 };
 
 onMounted(async () => {
