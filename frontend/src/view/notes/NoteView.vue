@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="note-view flex flex-vertical gap" :heading="note?.title">
+    <ViewComponent class="note-view flex flex-vertical gap" :heading="note?.title ?? ''">
         <template v-slot:title v-if="isEditingTitle">
             <h1>
                 <input ref="titleInput" type="text" v-model="noteTitle" @keypress.enter="onTitleConfirm">
