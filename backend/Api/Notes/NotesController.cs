@@ -41,6 +41,15 @@ public sealed class NotesController : ApiController
         return ToApiResponse(result);
     }
 
+    [HttpPut]
+    [Route("note/{reference:guid}")]
+    public IActionResult UpdateNote([FromRoute] Guid reference, [FromBody] UpdateNoteRequest request)
+    {
+        var result = _notesService.UpdateNote(reference, request);
+
+        return ToApiResponse(result);
+    }
+
     [HttpDelete]
     [Route("note/{reference:guid}")]
     public IActionResult DeleteNote([FromRoute] Guid reference)

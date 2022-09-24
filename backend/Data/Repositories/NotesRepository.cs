@@ -7,6 +7,7 @@ namespace Data.Repositories;
 public interface INotesRepository
 {
     NoteRecord SaveNote(NoteRecord entry);
+    NoteRecord UpdateNote(NoteRecord note);
     List<NoteRecord> SearchNotes();
     Result<NoteRecord> GetByReference(Guid reference);
     void DeleteNote(NoteRecord note);
@@ -21,7 +22,8 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
         _database = database;
     }
 
-    public NoteRecord SaveNote(NoteRecord entry) => SaveRecord(entry);
+    public NoteRecord SaveNote(NoteRecord note) => SaveRecord(note);
+    public NoteRecord UpdateNote(NoteRecord note) => UpdateRecord(note);
 
     public List<NoteRecord> SearchNotes()
     {

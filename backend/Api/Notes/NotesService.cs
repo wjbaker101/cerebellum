@@ -10,6 +10,7 @@ public interface INotesService
     Result<SearchNotesResponse> SearchNotes();
     Result<CreateNoteResponse> CreateNote(CreateNoteRequest request);
     Result<GetNoteResponse> GetNote(Guid reference);
+    Result<UpdateNoteResponse> UpdateNote(Guid reference, UpdateNoteRequest request);
     Result DeleteNote(Guid reference);
 }
 
@@ -59,7 +60,24 @@ public sealed class NotesService : INotesService
             Note = NoteMapper.Map(noteResult.Value)
         };
     }
-    
+
+    public Result<UpdateNoteResponse> UpdateNote(Guid reference, UpdateNoteRequest request)
+    {
+        var noteResult = _notesRepository.GetByReference(reference);
+        if (!noteResult.TrySuccess(out var note))
+            return Result<UpdateNoteResponse>.FromFailure(noteResult);
+
+        note.Title = request.Title;
+        note.Content = request.Content;
+
+        _notesRepository.UpdateNote(note);
+
+        return new UpdateNoteResponse
+        {
+            Note = NoteMapper.Map(note)
+        };
+    }
+
     public Result DeleteNote(Guid reference)
     {
         var noteResult = _notesRepository.GetByReference(reference);

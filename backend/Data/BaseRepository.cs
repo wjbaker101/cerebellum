@@ -20,4 +20,16 @@ public abstract class BaseRepository
 
         return record;
     }
+
+    protected T UpdateRecord<T>(T record)
+    {
+        using var session = _database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        session.Update(record);
+
+        transaction.Commit();
+
+        return record;
+    }
 }
