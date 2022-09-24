@@ -2,11 +2,13 @@
     <ViewComponent class="dashboard-view flex" heading="Dashboard" no-header>
         <div class="clock text-centered">
             <div class="time">{{ now.format('HH:mm') }}<small class="seconds">{{ now.format(':ss') }}</small></div>
-            <div class="date">
-                <img width="32" height="32" v-if="weather !== null" :src="`/static/icon/weather/${weather.icon}.svg`">
-                <span>
+            <div class="date flex align-items-center gap-small">
+                <div class="flex-auto">
+                    <img width="32" height="32" v-if="weather !== null" :src="`/static/icon/weather/${weather.icon}.svg`">
+                </div>
+                <div class="flex-auto">
                     {{ now.format('dddd Do YYYY') }}
-                </span>
+                </div>
             </div>
         </div>
     </ViewComponent>
@@ -55,6 +57,7 @@ onMounted(async () => {
         }
 
         .date {
+            justify-content: center;
             margin-top: 2rem;
             font-size: 1.25rem;
             color: #aaa;
