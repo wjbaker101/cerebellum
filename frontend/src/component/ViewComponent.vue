@@ -1,6 +1,8 @@
 <template>
     <div class="app-view">
-        <PageHeadingComponent :heading="heading" :no-header="noHeader"></PageHeadingComponent>
+        <PageHeadingComponent :heading="heading" :no-header="noHeader">
+            <slot name="header"></slot>
+        </PageHeadingComponent>
         <slot></slot>
     </div>
 </template>
