@@ -7,19 +7,19 @@
         <ul class="tabs">
             <router-link to="/" class="tab">
                 <GradientBorderComponent :on-hover="!isDashboard">
-                    <IconComponent icon="bin" />
+                    <IconComponent icon="home" />
                     <div>Dashboard</div>
                 </GradientBorderComponent>
             </router-link>
             <router-link to="/calendar" class="tab">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/calendar')">
-                    <IconComponent icon="bin" />
+                    <IconComponent icon="calendar" />
                     <div>Calendar</div>
                 </GradientBorderComponent>
             </router-link>
             <router-link to="/notes" class="tab">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/notes')">
-                    <IconComponent icon="bin" />
+                    <IconComponent icon="page-text" />
                     <div>Notes</div>
                 </GradientBorderComponent>
             </router-link>
