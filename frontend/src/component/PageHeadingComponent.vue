@@ -1,5 +1,5 @@
 <template>
-    <div class="page-heading-component flex flex-auto align-items-center" v-if="!noHeader">
+    <div class="page-heading-component flex flex-auto align-items-center gap" v-if="!noHeader">
         <div>
             <slot name="title">
                 <h1>{{ heading }}</h1>
