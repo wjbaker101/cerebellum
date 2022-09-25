@@ -102,6 +102,7 @@ export const useApi = function () {
             },
 
             async createNote(request: {
+                title: string;
                 content: string;
             }): Promise<INote> {
                 const response = await fetch(`${baseUrl}/note`, {
@@ -110,6 +111,7 @@ export const useApi = function () {
                         'Content-Type': 'application/json',
                     }),
                     body: JSON.stringify({
+                        title: request.title,
                         content: request.content,
                     }),
                 });
