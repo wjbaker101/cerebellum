@@ -22,14 +22,12 @@ defineProps<{
 
     & > .border {
         position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        inset: 0;
+        padding: $border;
         border-radius: var(--wjb-border-radius);
         background: linear-gradient(135deg, var(--wjb-primary), var(--wjb-secondary));
-        clip-path: polygon(0% 0%, 0% 100%, $border 100%, $border $border, $border-100 $border, $border-100 $border-100, 0 $border-100, 0 100%, 100% 100%, 100% 0%);
-        opacity: 1;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
     }
 
     &.is-disabled,
