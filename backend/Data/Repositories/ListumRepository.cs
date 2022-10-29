@@ -7,6 +7,7 @@ namespace Data.Repositories;
 
 public interface IListumRepository
 {
+    List<ListumRecord> GetLists();
     Result<ListumRecord> GetByReference(Guid reference);
 }
 
@@ -14,6 +15,20 @@ public sealed class ListumRepository : BaseRepository, IListumRepository
 {
     public ListumRepository(IApiDatabase database) : base(database)
     {
+    }
+
+    public List<ListumRecord> GetLists()
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        var lists = session
+            .Query<ListumRecord>()
+            .ToList();
+
+        transaction.Commit();
+
+        return lists;
     }
 
     public Result<ListumRecord> GetByReference(Guid reference)

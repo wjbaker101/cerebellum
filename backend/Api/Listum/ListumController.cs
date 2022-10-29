@@ -14,6 +14,15 @@ public sealed class ListumController : ApiController
     }
 
     [HttpGet]
+    [Route("lists")]
+    public IActionResult GetLists()
+    {
+        var result = _listumService.GetLists();
+
+        return ToApiResponse(result);
+    }
+
+    [HttpGet]
     [Route("list/{reference:guid}")]
     public IActionResult GetListByReference([FromRoute] Guid reference)
     {

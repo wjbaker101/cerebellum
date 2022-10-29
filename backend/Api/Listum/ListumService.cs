@@ -8,6 +8,7 @@ namespace Api.Listum;
 
 public interface IListumService
 {
+    Result<GetListsResponse> GetLists();
     Result<GetListByReferenceResponse> GetListByReference(Guid reference);
 }
 
@@ -18,6 +19,22 @@ public sealed class ListumService : IListumService
     public ListumService(IListumRepository listumRepository)
     {
         _listumRepository = listumRepository;
+    }
+
+    public Result<GetListsResponse> GetLists()
+    {
+        var lists = _listumRepository.GetLists();
+
+        return new GetListsResponse
+        {
+            Lists = lists.ConvertAll(x => new ListumModel
+            {
+                Reference = x.Reference,
+                CreatedAt = x.CreatedAt,
+                Title = x.Title,
+                Items = new List<ListumItemModel>()
+            })
+        };
     }
 
     public Result<GetListByReferenceResponse> GetListByReference(Guid reference)
