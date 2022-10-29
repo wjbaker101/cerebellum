@@ -26,9 +26,9 @@ public sealed class CalendarEntryRecordMap : ClassMap<CalendarEntryRecord>
 {
     public CalendarEntryRecordMap()
     {
-        Schema("calendar");
-        Table("entry");
-        Id(x => x.Id, "id").GeneratedBy.SequenceIdentity("entry_id_seq");
+        Schema("cerebellum");
+        Table("calendar_entry");
+        Id(x => x.Id, "id").GeneratedBy.SequenceIdentity("calendar_entry_id_seq");
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Description, "description");

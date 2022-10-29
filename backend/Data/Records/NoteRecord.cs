@@ -15,7 +15,7 @@ public sealed class NoteRecordMap : ClassMap<NoteRecord>
 {
     public NoteRecordMap()
     {
-        Schema("notes");
+        Schema("cerebellum");
         Table("note");
         Id(x => x.Id, "id").GeneratedBy.SequenceIdentity("note_id_seq");
         Map(x => x.Reference, "reference");
