@@ -16,6 +16,8 @@ services.AddSingleton<ICalendarRepository, CalendarRepository>();
 services.AddSingleton<INotesService, NotesService>();
 services.AddSingleton<INotesRepository, NotesRepository>();
 
+services.AddSingleton<IListumRepository, ListumRepository>();
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
