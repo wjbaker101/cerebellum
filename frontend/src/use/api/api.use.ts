@@ -11,6 +11,8 @@ import { ISearchNotesResponse } from '@/use/api/type/SearchNotes.type';
 import { IGetNoteResponse } from '@/use/api/type/GetNote.type';
 import { ICreateNoteResponse } from '@/use/api/type/CreateNote.type';
 import { IUpdateNoteResponse } from '@/use/api/type/UpdateNote.type';
+import { IGetListByReference } from './type/GetListByReference.type';
+import { IListum } from '@/model/Listum.model';
 
 const baseUrl = '/api';
 
@@ -157,6 +159,28 @@ export const useApi = function () {
                 await fetch(`${baseUrl}/note/${reference}`, {
                     method: 'delete',
                 });
+            },
+        },
+
+        listum: {
+            async getListByReference(reference: string): Promise<IListum> {
+                const response = await fetch(`${baseUrl}/listum/list/${reference}`);
+
+                const json = await response.json() as IApiResponse<IGetListByReference>;
+
+                const list = json.result.list;
+
+                return {
+                    reference: list.reference,
+                    createdAt: dayjs(list.createdAt),
+                    title: list.title,
+                    items: list.items.map(x => ({
+                        reference: x.reference,
+                        createdAt: dayjs(x.createdAt),
+                        content: x.content,
+                        listOrder: x.listOrder,
+                    })),
+                };
             },
         },
     };
