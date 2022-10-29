@@ -6,8 +6,8 @@
             </h1>
         </template>
         <template v-slot:header>
-            <div class="flex">
-                <div>
+            <div class="flex gap-small">
+                <div class="flex-auto">
                     <ButtonComponent class="primary" @click="onEditTitle">
                         <template v-if="isEditingTitle">
                             <IconComponent icon="cross" gap="right" />
@@ -18,6 +18,9 @@
                             <span>Edit Title</span>
                         </template>
                     </ButtonComponent>
+                </div>
+                <div class="flex-auto">
+                    <DeleteButtonComponent @delete="onDelete" />
                 </div>
             </div>
         </template>
@@ -32,7 +35,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
 import { useApi } from '@/use/api/api.use';
@@ -41,6 +44,7 @@ import { INote } from '@/model/Note.model';
 
 const api = useApi();
 const route = useRoute();
+const router = useRouter();
 
 const noteReference = route.params.noteReference as string;
 
@@ -99,6 +103,15 @@ const onTitleConfirm = function () {
     note.value.title = noteTitle.value;
 
     onNoteUpdate();
+};
+
+const onDelete = function () {
+    if (note.value === null)
+        return;
+
+    api.notes.deleteNote(note.value.reference);
+
+    router.push({ path: '/notes' });
 };
 
 onMounted(async () => {
