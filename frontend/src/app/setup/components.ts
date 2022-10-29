@@ -1,6 +1,7 @@
 import { App, Plugin } from 'vue';
 
 import ButtonComponent from '@wjb/vue/component/ButtonComponent.vue';
+import DeleteButtonComponent from '@wjb/vue/component/DeleteButtonComponent.vue';
 import FormComponent from '@wjb/vue/component/form/FormComponent.vue';
 import FormInputComponent from '@wjb/vue/component/form/FormInputComponent.vue';
 import FormSectionComponent from '@wjb/vue/component/form/FormSectionComponent.vue';
@@ -10,6 +11,7 @@ import ViewComponent from '@/component/ViewComponent.vue';
 export const components: Plugin = {
     install(app: App) {
         app.component('ButtonComponent', ButtonComponent);
+        app.component('DeleteButtonComponent', DeleteButtonComponent);
         app.component('FormComponent', FormComponent);
         app.component('FormInputComponent', FormInputComponent);
         app.component('FormSectionComponent', FormSectionComponent);
