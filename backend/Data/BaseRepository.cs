@@ -2,16 +2,16 @@
 
 public abstract class BaseRepository
 {
-    private readonly IApiDatabase _database;
+    protected readonly IApiDatabase Database;
 
     protected BaseRepository(IApiDatabase database)
     {
-        _database = database;
+        Database = database;
     }
 
     protected T SaveRecord<T>(T record)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         session.Save(record);
@@ -23,7 +23,7 @@ public abstract class BaseRepository
 
     protected T UpdateRecord<T>(T record)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         session.Update(record);

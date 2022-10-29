@@ -12,18 +12,15 @@ public interface ICalendarRepository
 
 public sealed class CalendarRepository : BaseRepository, ICalendarRepository
 {
-    private readonly IApiDatabase _database;
-
     public CalendarRepository(IApiDatabase database) : base(database)
     {
-        _database = database;
     }
 
     public CalendarEntryRecord SaveEntry(CalendarEntryRecord entry) => SaveRecord(entry);
 
     public Result<CalendarEntryRecord> GetEntryByReference(Guid reference)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         var entry = session
@@ -40,7 +37,7 @@ public sealed class CalendarRepository : BaseRepository, ICalendarRepository
 
     public List<CalendarEntryRecord> SearchEntries(DateTime startAt, DateTime endAt)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         var entries = session

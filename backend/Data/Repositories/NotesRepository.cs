@@ -15,11 +15,8 @@ public interface INotesRepository
 
 public sealed class NotesRepository : BaseRepository, INotesRepository
 {
-    private readonly IApiDatabase _database;
-
     public NotesRepository(IApiDatabase database) : base(database)
     {
-        _database = database;
     }
 
     public NoteRecord SaveNote(NoteRecord note) => SaveRecord(note);
@@ -27,7 +24,7 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
 
     public List<NoteRecord> SearchNotes()
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         var notes = session
@@ -41,7 +38,7 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
 
     public Result<NoteRecord> GetByReference(Guid reference)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         var note = session
@@ -58,7 +55,7 @@ public sealed class NotesRepository : BaseRepository, INotesRepository
 
     public void DeleteNote(NoteRecord note)
     {
-        using var session = _database.SessionFactory.OpenSession();
+        using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         session.Delete(note);
