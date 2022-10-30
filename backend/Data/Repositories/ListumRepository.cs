@@ -1,5 +1,6 @@
 ﻿using Data.Records;
 using NetApiLibs.Type;
+using NHibernate;
 using NHibernate.Linq;
 using System.Net;
 
@@ -9,6 +10,10 @@ public interface IListumRepository
 {
     ListumRecord SaveList(ListumRecord note);
     ListumRecord UpdateList(ListumRecord note);
+    ListumItemRecord SaveItem(ListumItemRecord item);
+    ListumItemRecord UpdateItem(ListumItemRecord item);
+    void UpdateItems(IEnumerable<ListumItemRecord> items);
+    void Query(Action<ISession> action);
     List<ListumRecord> GetLists();
     Result<ListumRecord> GetByReference(Guid reference);
 }
@@ -21,6 +26,20 @@ public sealed class ListumRepository : BaseRepository, IListumRepository
 
     public ListumRecord SaveList(ListumRecord note) => SaveRecord(note);
     public ListumRecord UpdateList(ListumRecord note) => UpdateRecord(note);
+
+    public ListumItemRecord SaveItem(ListumItemRecord item) => SaveRecord(item);
+    public ListumItemRecord UpdateItem(ListumItemRecord item) => UpdateRecord(item);
+    public void UpdateItems(IEnumerable<ListumItemRecord> items) => UpdateManyRecords(items);
+
+    public void Query(Action<ISession> action)
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        action(session);
+
+        transaction.Commit();
+    }
 
     public List<ListumRecord> GetLists()
     {

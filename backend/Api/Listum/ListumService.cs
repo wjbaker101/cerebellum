@@ -13,6 +13,7 @@ public interface IListumService
     Result<GetListByReferenceResponse> GetListByReference(Guid reference);
     Result<CreateListResponse> CreateList(CreateListRequest request);
     Result<UpdateListResponse> UpdateList(Guid reference, UpdateListRequest request);
+    Result ReorderList(Guid reference, ReorderListRequest request);
 }
 
 public sealed class ListumService : IListumService
@@ -111,5 +112,24 @@ public sealed class ListumService : IListumService
                 })
             }
         };
+    }
+
+    public Result ReorderList(Guid reference, ReorderListRequest request)
+    {
+        var listResult = _listumRepository.GetByReference(reference);
+        if (!listResult.TrySuccess(out var list))
+            return Result<UpdateListResponse>.FromFailure(listResult);
+
+        foreach (var item in list.Items)
+        {
+            if (!request.Order.TryGetValue(item.Reference, out var index))
+                return Result.Failure($"The item '{item.Reference}' in the list has not been given.");
+
+            item.ListOrder = index;
+        }
+
+        _listumRepository.UpdateItems(list.Items);
+
+        return Result.Success();
     }
 }

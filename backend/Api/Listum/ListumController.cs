@@ -49,4 +49,13 @@ public sealed class ListumController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpPost]
+    [Route("list/{reference:guid}/reorder")]
+    public IActionResult ReorderList([FromRoute] Guid reference, [FromBody] ReorderListRequest request)
+    {
+        var result = _listumService.ReorderList(reference, request);
+
+        return ToApiResponse(result);
+    }
 }

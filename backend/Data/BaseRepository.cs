@@ -32,4 +32,15 @@ public abstract class BaseRepository
 
         return record;
     }
+
+    protected void UpdateManyRecords<T>(IEnumerable<T> records)
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        foreach (var record in records)
+            session.Update(record);
+         
+        transaction.Commit();
+    }
 }
