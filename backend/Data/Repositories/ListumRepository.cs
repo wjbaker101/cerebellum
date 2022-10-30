@@ -7,6 +7,8 @@ namespace Data.Repositories;
 
 public interface IListumRepository
 {
+    ListumRecord SaveList(ListumRecord note);
+    ListumRecord UpdateList(ListumRecord note);
     List<ListumRecord> GetLists();
     Result<ListumRecord> GetByReference(Guid reference);
 }
@@ -16,6 +18,9 @@ public sealed class ListumRepository : BaseRepository, IListumRepository
     public ListumRepository(IApiDatabase database) : base(database)
     {
     }
+
+    public ListumRecord SaveList(ListumRecord note) => SaveRecord(note);
+    public ListumRecord UpdateList(ListumRecord note) => UpdateRecord(note);
 
     public List<ListumRecord> GetLists()
     {
