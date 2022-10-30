@@ -1,18 +1,18 @@
 <template>
-    <ViewComponent class="notes-view" heading="Notes" :no-header="false">
+    <ViewComponent class="listum-view" heading="Listum" :no-header="false">
         <template #header>
             <ButtonComponent class="primary" @click="onCreate">
                 <IconComponent icon="plus" gap="right" />
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <div v-if="notes === null">
+        <div v-if="lists === null">
             <p>Loading...</p>
         </div>
         <div v-else>
-            <router-link class="note" :to="`/notes/${note.reference}`" :key="note.reference" v-for="note in notes">
+            <router-link class="list" :to="`/listum/${list.reference}`" :key="list.reference" v-for="list in lists">
                 <div>
-                    {{ note.title }}
+                    {{ list.title }}
                 </div>
             </router-link>
         </div>
@@ -24,27 +24,26 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useApi } from '@/use/api/api.use';
-import { INote } from '@/model/Note.model';
+import { IListum } from '@/model/Listum.model';
 
 const api = useApi();
 const router = useRouter();
 
-const notes = ref<Array<INote> | null>(null);
+const lists = ref<Array<IListum> | null>(null);
 
 const onCreate = async function () {
-    const note = await api.notes.createNote({
-        title: 'New Note',
-        content: '',
+    const list = await api.listum.createList({
+        title: 'New List',
     });
 
-    notes.value?.push(note);
-    router.push({ path: `/notes/${note.reference}`, });
+    lists.value?.push(list);
+    router.push({ path: `/listum/${list.reference}`, });
 };
 
 onMounted(async () => {
-    const response = await api.notes.search();
+    const response = await api.listum.search();
 
-    notes.value = response;
+    lists.value = response;
 });
 </script>
 

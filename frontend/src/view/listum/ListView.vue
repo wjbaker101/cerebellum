@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { debounce } from 'ts-debounce';
 
 import { useApi } from '@/use/api/api.use';
 
@@ -48,6 +49,15 @@ const listum = ref<IListum | null>(null);
 const listTitle = ref<string>('');
 
 const isEditingTitle = ref<boolean>(false);
+
+const onListUpdate = debounce(async () => {
+    if (listum.value === null)
+        return;
+
+    await api.listum.updateList(listum.value.reference, {
+        title: listum.value.title,
+    });
+}, 200);
 
 const onEditTitle = function () {
     if (isEditingTitle.value) {
@@ -69,6 +79,8 @@ const onTitleConfirm = function () {
 
     isEditingTitle.value = false;
     listum.value.title = listTitle.value;
+
+    onListUpdate();
 };
 
 const onDelete = function () {
