@@ -12,7 +12,10 @@ import { IGetNoteResponse } from '@/use/api/type/GetNote.type';
 import { ICreateNoteResponse } from '@/use/api/type/CreateNote.type';
 import { IUpdateNoteResponse } from '@/use/api/type/UpdateNote.type';
 import { IGetListByReference } from './type/GetListByReference.type';
-import { IListum } from '@/model/Listum.model';
+import { IListum, IListumItem } from '@/model/Listum.model';
+import { GetListsResponse } from './type/GetLists.type';
+import { ICreateListResponse } from './type/CreateList.type';
+import { IUpdateListResponse } from './type/UpdateList.type';
 
 const baseUrl = '/api';
 
@@ -163,6 +166,26 @@ export const useApi = function () {
         },
 
         listum: {
+            async search(): Promise<Array<IListum>> {
+                const response = await fetch(`${baseUrl}/listum/lists`);
+
+                const json = await response.json() as IApiResponse<GetListsResponse>;
+
+                const lists = json.result.lists;
+
+                return lists.map(list => ({
+                    reference: list.reference,
+                    createdAt: dayjs(list.createdAt),
+                    title: list.title,
+                    items: list.items.map(item => ({
+                        reference: item.reference,
+                        createdAt: dayjs(item.createdAt),
+                        content: item.content,
+                        listOrder: item.listOrder,
+                    })),
+                }));
+            },
+
             async getListByReference(reference: string): Promise<IListum> {
                 const response = await fetch(`${baseUrl}/listum/list/${reference}`);
 
@@ -181,6 +204,76 @@ export const useApi = function () {
                         listOrder: x.listOrder,
                     })),
                 };
+            },
+
+            async createList(request: {
+                title: string;
+            }): Promise<IListum> {
+                const response = await fetch(`${baseUrl}/listum/list`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        title: request.title,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<ICreateListResponse>;
+
+                const list = json.result.list;
+
+                return {
+                    reference: list.reference,
+                    createdAt: dayjs(list.createdAt),
+                    title: list.title,
+                    items: [],
+                };
+            },
+
+            async updateList(reference: string, request: {
+                title: string;
+            }): Promise<IListum> {
+                const response = await fetch(`${baseUrl}/listum/list/${reference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        title: request.title,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<IUpdateListResponse>;
+
+                const list = json.result.list;
+
+                return {
+                    reference: list.reference,
+                    createdAt: dayjs(list.createdAt),
+                    title: list.title,
+                    items: list.items.map(x => ({
+                        reference: x.reference,
+                        createdAt: dayjs(x.createdAt),
+                        content: x.content,
+                        listOrder: x.listOrder,
+                    })),
+                };
+            },
+
+            async reorderList(reference: string, items: Array<IListumItem>): Promise<void> {
+                const order: Record<string, number> = {};
+                for (let index = 0; index < items.length; ++index) {
+                    order[items[index].reference] = index;
+                }
+
+                await fetch(`${baseUrl}/listum/list/${reference}/reorder`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        order,
+                    }),
+                });
             },
         },
     };
