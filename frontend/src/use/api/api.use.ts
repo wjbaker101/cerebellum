@@ -16,6 +16,8 @@ import { IListum, IListumItem } from '@/model/Listum.model';
 import { GetListsResponse } from './type/GetLists.type';
 import { ICreateListResponse } from './type/CreateList.type';
 import { IUpdateListResponse } from './type/UpdateList.type';
+import { ICreateListItemResponse } from './type/CreateListItem.type';
+import { IUpdateListItemResponse } from './type/UpdateListItem.type';
 
 const baseUrl = '/api';
 
@@ -274,6 +276,54 @@ export const useApi = function () {
                         order,
                     }),
                 });
+            },
+
+            async addListItem(listReference: string, request: {
+                content: string;
+            }): Promise<IListumItem> {
+                const response = await fetch(`${baseUrl}/listum/list/${listReference}/item`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        content: request.content,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<ICreateListItemResponse>;
+
+                const listItem = json.result.listItem;
+
+                return {
+                    reference: listItem.reference,
+                    createdAt: dayjs(listItem.createdAt),
+                    content: listItem.content,
+                    listOrder: listItem.listOrder,
+                };
+            },
+
+            async updateListItem(listReference: string, itemReference: string, request: {
+                content: string;
+            }): Promise<IListumItem> {
+                const response = await fetch(`${baseUrl}/listum/list/${listReference}/item/${itemReference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        content: request.content,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<IUpdateListItemResponse>;
+
+                const listItem = json.result.listItem;
+
+                return {
+                    reference: listItem.reference,
+                    createdAt: dayjs(listItem.createdAt),
+                    content: listItem.content,
+                    listOrder: listItem.listOrder,
+                };
             },
         },
     };
