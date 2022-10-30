@@ -21,6 +21,6 @@ public sealed class ListumRecordMap : ClassMap<ListumRecord>
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Title, "title");
-        HasMany(x => x.Items);
+        HasMany(x => x.Items).KeyColumn("listum_id");
     }
 }

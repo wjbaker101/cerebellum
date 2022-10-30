@@ -16,7 +16,7 @@ public sealed class ListumItemRecordMap : ClassMap<ListumItemRecord>
     public ListumItemRecordMap()
     {
         Schema("cerebellum");
-        Table("listum");
+        Table("listum_item");
         Id(x => x.Id, "id").GeneratedBy.SequenceIdentity("listum_item_id_seq");
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
