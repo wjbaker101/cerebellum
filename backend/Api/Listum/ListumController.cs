@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Listum.Types;
+using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
 namespace Api.Listum;
@@ -27,6 +28,24 @@ public sealed class ListumController : ApiController
     public IActionResult GetListByReference([FromRoute] Guid reference)
     {
         var result = _listumService.GetListByReference(reference);
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPost]
+    [Route("list")]
+    public IActionResult CreateList([FromBody] CreateListRequest request)
+    {
+        var result = _listumService.CreateList(request);
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPut]
+    [Route("list/{reference:guid}")]
+    public IActionResult UpdateList([FromRoute] Guid reference, [FromBody] UpdateListRequest request)
+    {
+        var result = _listumService.UpdateList(reference, request);
 
         return ToApiResponse(result);
     }
