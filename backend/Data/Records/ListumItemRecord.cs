@@ -23,6 +23,6 @@ public sealed class ListumItemRecordMap : ClassMap<ListumItemRecord>
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Content, "content");
         Map(x => x.ListOrder, "list_order");
-        References(x => x.List);
+        References(x => x.List).Column("listum_id");
     }
 }
