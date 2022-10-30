@@ -24,6 +24,23 @@
                 </div>
             </div>
         </template>
+        <div class="list" v-if="listum">
+            <div class="add-item-container flex gap-small align-items-center">
+                <div>
+                    <input type="text" v-model="newItemContent" placeholder="Item contents...">
+                </div>
+                <div class="flex-auto">
+                    <ButtonComponent class="primary" title="New List Item" @click="onNewItem">
+                        <IconComponent icon="plus" />
+                    </ButtonComponent>
+                </div>
+            </div>
+            <ol>
+                <li v-for="item in listum.items">
+                    {{ item.content }}
+                </li>
+            </ol>
+        </div>
     </ViewComponent>
 </template>
 
@@ -43,12 +60,10 @@ const router = useRouter();
 const listumReference = route.params.listumReference as string;
 
 const titleInput = ref<HTMLInputElement | null>(null);
-
 const listum = ref<IListum | null>(null);
-
 const listTitle = ref<string>('');
-
 const isEditingTitle = ref<boolean>(false);
+const newItemContent = ref<string>('');
 
 const onListUpdate = debounce(async () => {
     if (listum.value === null)
@@ -90,6 +105,10 @@ const onDelete = function () {
     router.push({ path: '/listum' });
 };
 
+const onNewItem = async function (): Promise<void> {
+    console.log('New item...');
+};
+
 onMounted(async () => {
     const result = await api.listum.getListByReference(listumReference);
 
@@ -101,5 +120,17 @@ onMounted(async () => {
 @use '~@wjb/styling/variables.scss' as *;
 
 .list-view {
+    .list {
+        max-width: 720px;
+        margin: auto;
+    }
+
+    .add-item-container {
+        width: 720px;
+        max-width: 720px;
+        padding: 0.5rem;
+        border-radius: var(--wjb-border-radius);
+        border: 1px solid var(--wjb-tertiary);
+    }
 }
 </style>
