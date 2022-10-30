@@ -4,6 +4,7 @@ using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Extension;
 using NetApiLibs.Type;
+using System.Net;
 
 namespace Api.Listum;
 
@@ -14,6 +15,8 @@ public interface IListumService
     Result<CreateListResponse> CreateList(CreateListRequest request);
     Result<UpdateListResponse> UpdateList(Guid reference, UpdateListRequest request);
     Result ReorderList(Guid reference, ReorderListRequest request);
+    Result<CreateListItemResponse> CreateListItem(Guid listReference, CreateListItemRequest request);
+    Result<UpdateListItemResponse> UpdateListItem(Guid listReference, Guid itemReference, UpdateListItemRequest request);
 }
 
 public sealed class ListumService : IListumService
@@ -131,5 +134,58 @@ public sealed class ListumService : IListumService
         _listumRepository.UpdateItems(list.Items);
 
         return Result.Success();
+    }
+
+    public Result<CreateListItemResponse> CreateListItem(Guid listReference, CreateListItemRequest request)
+    {
+        var listResult = _listumRepository.GetByReference(listReference);
+        if (listResult.IsFailure)
+            return Result<CreateListItemResponse>.FromFailure(listResult);
+
+        var listItem = _listumRepository.SaveItem(new ListumItemRecord
+        {
+            Reference = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            Content = request.Content,
+            ListOrder = listResult.Value.Items.Max(x => x.ListOrder) + 1,
+            List = listResult.Value
+        });
+
+        return new CreateListItemResponse
+        {
+            ListItem = new ListumItemModel
+            {
+                Reference = listItem.Reference,
+                CreatedAt = listItem.CreatedAt,
+                Content = listItem.Content,
+                ListOrder = listItem.ListOrder
+            }
+        };
+    }
+
+    public Result<UpdateListItemResponse> UpdateListItem(Guid listReference, Guid itemReference, UpdateListItemRequest request)
+    {
+        var listResult = _listumRepository.GetByReference(listReference);
+        if (listResult.IsFailure)
+            return Result<UpdateListItemResponse>.FromFailure(listResult);
+
+        var listItem = listResult.Value.Items.SingleOrDefault(x => x.Reference == itemReference);
+        if (listItem == null)
+            return Result<UpdateListItemResponse>.Failure($"Unable to find list item with given reference: {itemReference}.", HttpStatusCode.NotFound);
+
+        listItem.Content = request.Content;
+
+        _listumRepository.UpdateItem(listItem);
+
+        return new UpdateListItemResponse
+        {
+            ListItem = new ListumItemModel
+            {
+                Reference = listItem.Reference,
+                CreatedAt = listItem.CreatedAt,
+                Content = listItem.Content,
+                ListOrder = listItem.ListOrder
+            }
+        };
     }
 }

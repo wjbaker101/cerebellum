@@ -58,4 +58,22 @@ public sealed class ListumController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpPost]
+    [Route("list/{reference:guid}/item")]
+    public IActionResult CreateListItem([FromRoute] Guid reference, [FromBody] CreateListItemRequest request)
+    {
+        var result = _listumService.CreateListItem(reference, request);
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPut]
+    [Route("list/{listReference:guid}/item/{itemReference:guid}")]
+    public IActionResult UpdateListItem([FromRoute] Guid listReference, [FromRoute] Guid itemReference, [FromBody] UpdateListItemRequest request)
+    {
+        var result = _listumService.UpdateListItem(listReference, itemReference, request);
+
+        return ToApiResponse(result);
+    }
 }

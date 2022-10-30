@@ -9,6 +9,7 @@ public class ListumItemRecord
     public virtual DateTime CreatedAt { get; init; }
     public virtual string Content { get; set; } = null!;
     public virtual int ListOrder { get; set; }
+    public virtual ListumRecord List { get; init; } = null!;
 }
 
 public sealed class ListumItemRecordMap : ClassMap<ListumItemRecord>
@@ -22,5 +23,6 @@ public sealed class ListumItemRecordMap : ClassMap<ListumItemRecord>
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Content, "content");
         Map(x => x.ListOrder, "list_order");
+        References(x => x.List);
     }
 }
