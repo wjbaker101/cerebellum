@@ -139,5 +139,13 @@ onMounted(async () => {
         border-radius: var(--wjb-border-radius);
         border: 1px solid var(--wjb-tertiary);
     }
+
+    ol {
+        li {
+            & + li {
+                margin-top: 0.25rem;
+            }
+        }
+    }
 }
 </style>
