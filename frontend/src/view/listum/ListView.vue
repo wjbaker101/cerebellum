@@ -106,7 +106,14 @@ const onDelete = function () {
 };
 
 const onNewItem = async function (): Promise<void> {
-    console.log('New item...');
+    if (listum.value === null)
+        return;
+
+    const listItem = await api.listum.addListItem(listum.value.reference, {
+        content: newItemContent.value,
+    });
+
+    listum.value.items.push(listItem);
 };
 
 onMounted(async () => {
