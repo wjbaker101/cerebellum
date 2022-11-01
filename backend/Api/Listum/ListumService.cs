@@ -147,7 +147,7 @@ public sealed class ListumService : IListumService
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             Content = request.Content,
-            ListOrder = listResult.Value.Items.Max(x => x.ListOrder) + 1,
+            ListOrder = listResult.Value.Items.Any() ? listResult.Value.Items.Max(x => x.ListOrder) + 1 : 1,
             List = listResult.Value
         });
 
