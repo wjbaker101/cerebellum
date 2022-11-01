@@ -23,6 +23,12 @@
                     <div>Notes</div>
                 </GradientBorderComponent>
             </router-link>
+            <router-link to="/listum" class="tab">
+                <GradientBorderComponent :on-hover="!route.path.startsWith('/listum')">
+                    <IconComponent icon="menu" />
+                    <div>Listum</div>
+                </GradientBorderComponent>
+            </router-link>
         </ul>
     </nav>
     <nav class="nav-placeholder" aria-hidden="true"></nav>
