@@ -36,8 +36,15 @@
                 </div>
             </div>
             <ol>
-                <li v-for="item in listum.items">
-                    {{ item.content }}
+                <li v-for="item in listum.items" class="flex align-items-center gap">
+                    <div>
+                        {{ item.content }}
+                    </div>
+                    <div class="flex-auto">
+                        <ButtonComponent class="mini" @click="onItemClick(item)">
+                            <IconComponent icon="menu" />
+                        </ButtonComponent>
+                    </div>
                 </li>
             </ol>
         </div>
@@ -49,13 +56,17 @@ import { nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
+import ListItemModalComponent from '@/view/listum/modal/ListItemModal.component.vue';
+
+import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
-import { IListum } from '@/model/Listum.model';
+import { IListum, IListumItem } from '@/model/Listum.model';
 
 const api = useApi();
 const route = useRoute();
 const router = useRouter();
+const modal = useModal();
 
 const listumReference = route.params.listumReference as string;
 
@@ -116,6 +127,19 @@ const onNewItem = async function (): Promise<void> {
     listum.value.items.push(listItem);
 };
 
+const onItemClick = function(listItem: IListumItem): void {
+    if (listum.value === null)
+        return;
+
+    modal.show({
+        component: ListItemModalComponent,
+        componentProps: {
+            listReference: listum.value.reference,
+            listItem,
+        },
+    });
+};
+
 onMounted(async () => {
     const result = await api.listum.getListByReference(listumReference);
 
@@ -141,7 +165,23 @@ onMounted(async () => {
     }
 
     ol {
+        counter-reset: count;
+        list-style: none;
+        padding-left: 0;
+
         li {
+            padding: 0.25rem;
+            counter-increment: count;
+
+            @include shadow-small();
+
+            &::before {
+                content: counter(count);
+                width: 2rem;
+                display: inline-block;
+                text-align: right;
+            }
+
             & + li {
                 margin-top: 0.25rem;
             }
