@@ -57,13 +57,15 @@ public sealed class ListumService : IListumService
                 Reference = list.Reference,
                 CreatedAt = list.CreatedAt,
                 Title = list.Title,
-                Items = list.Items.ConvertAll(x => new ListumItemModel
-                {
-                    Reference = x.Reference,
-                    CreatedAt = x.CreatedAt,
-                    Content = x.Content,
-                    ListOrder = x.ListOrder
-                })
+                Items = list.Items
+                    .OrderBy(x => x.ListOrder)
+                    .ConvertAll(x => new ListumItemModel
+                    {
+                        Reference = x.Reference,
+                        CreatedAt = x.CreatedAt,
+                        Content = x.Content,
+                        ListOrder = x.ListOrder
+                    })
             }
         };
     }
