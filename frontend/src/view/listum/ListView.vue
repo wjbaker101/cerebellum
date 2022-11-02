@@ -176,7 +176,7 @@ onMounted(async () => {
             @include shadow-small();
 
             &::before {
-                content: counter(count);
+                content: counter(count) ".";
                 width: 2rem;
                 display: inline-block;
                 text-align: right;
