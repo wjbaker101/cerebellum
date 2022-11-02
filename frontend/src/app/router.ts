@@ -6,6 +6,7 @@ import ListumView from '@/view/listum/ListumView.vue';
 import ListView from '@/view/listum/ListView.vue';
 import NotesView from '@/view/notes/NotesView.vue';
 import NoteView from '@/view/notes/NoteView.vue';
+import WorkoutDiaryView from '@/view/workout-diary/WorkoutDiaryView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -31,6 +32,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/listum',
         component: ListumView,
+    },
+    {
+        path: '/workout-diary',
+        component: WorkoutDiaryView,
     },
 ];
 
