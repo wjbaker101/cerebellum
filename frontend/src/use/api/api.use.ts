@@ -18,11 +18,11 @@ import { ICreateListResponse } from '@/use/api/type/CreateList.type';
 import { IUpdateListResponse } from '@/use/api/type/UpdateList.type';
 import { ICreateListItemResponse } from '@/use/api/type/CreateListItem.type';
 import { IUpdateListItemResponse } from '@/use/api/type/UpdateListItem.type';
-import { IWorkoutDiaryEntry, IWorkoutDiaryExercise, IWorkoutDiarySet } from '@/model/WorkoutDiary.model';
 import { ISearchWorkoutDiaryEntriesResponse } from './type/SearchWorkoutDiaryEntries.type';
 import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiaryEntryByReference.type';
 import { ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
 import { IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
+import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const baseUrl = '/api';
 
@@ -334,7 +334,7 @@ export const useApi = function () {
         },
 
         workoutDiary: {
-            async search(): Promise<Array<IWorkoutDiaryEntry>> {
+            async search(): Promise<Array<IWorkoutEntry>> {
                 const response = await fetch(`${baseUrl}/workout-diary/entries`);
 
                 const json = await response.json() as IApiResponse<ISearchWorkoutDiaryEntriesResponse>;
@@ -348,11 +348,11 @@ export const useApi = function () {
                     startTime: dayjs(entry.startTime),
                     endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
                     weight: entry.weight,
-                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                    exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
                         createdAt: dayjs(exercise.createdAt),
                         name: exercise.name,
-                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                        sets: exercise.sets.map(set => (<IWorkoutExerciseSet>{
                             reference: set.reference,
                             createdAt: dayjs(set.createdAt),
                             repetitions: set.repetitions,
@@ -362,7 +362,7 @@ export const useApi = function () {
                 }));
             },
 
-            async getEntryByReference(reference: string): Promise<IWorkoutDiaryEntry> {
+            async getEntryByReference(reference: string): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`);
 
                 const json = await response.json() as IApiResponse<IGetWorkoutDiaryEntryByReferenceResponse>;
@@ -376,11 +376,11 @@ export const useApi = function () {
                     startTime: dayjs(entry.startTime),
                     endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
                     weight: entry.weight,
-                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                    exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
                         createdAt: dayjs(exercise.createdAt),
                         name: exercise.name,
-                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                        sets: exercise.sets.map(set => (<IWorkoutExerciseSet>{
                             reference: set.reference,
                             createdAt: dayjs(set.createdAt),
                             repetitions: set.repetitions,
@@ -395,7 +395,7 @@ export const useApi = function () {
                 startTime: string;
                 endTime: string | null;
                 weight: number | null;
-            }): Promise<IWorkoutDiaryEntry> {
+            }): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry`, {
                     method: 'post',
                     headers: new Headers({
@@ -419,11 +419,11 @@ export const useApi = function () {
                     startTime: dayjs(entry.startTime),
                     endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
                     weight: entry.weight,
-                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                    exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
                         createdAt: dayjs(exercise.createdAt),
                         name: exercise.name,
-                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                        sets: exercise.sets.map(set => (<IWorkoutExerciseSet>{
                             reference: set.reference,
                             createdAt: dayjs(set.createdAt),
                             repetitions: set.repetitions,
@@ -438,7 +438,7 @@ export const useApi = function () {
                 startTime: string;
                 endTime: string | null;
                 weight: number | null;
-            }): Promise<IWorkoutDiaryEntry> {
+            }): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`, {
                     method: 'put',
                     headers: new Headers({
@@ -462,11 +462,11 @@ export const useApi = function () {
                     startTime: dayjs(entry.startTime),
                     endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
                     weight: entry.weight,
-                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                    exercises: entry.exercises.map(exercise => ({
                         reference: exercise.reference,
                         createdAt: dayjs(exercise.createdAt),
                         name: exercise.name,
-                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                        sets: exercise.sets.map(set => ({
                             reference: set.reference,
                             createdAt: dayjs(set.createdAt),
                             repetitions: set.repetitions,
