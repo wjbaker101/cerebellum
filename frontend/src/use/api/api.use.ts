@@ -2,6 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.model';
 import { INote } from '@/model/Note.model';
+import { IListum, IListumItem } from '@/model/Listum.model';
 
 import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 
@@ -11,18 +12,23 @@ import { ISearchNotesResponse } from '@/use/api/type/SearchNotes.type';
 import { IGetNoteResponse } from '@/use/api/type/GetNote.type';
 import { ICreateNoteResponse } from '@/use/api/type/CreateNote.type';
 import { IUpdateNoteResponse } from '@/use/api/type/UpdateNote.type';
-import { IGetListByReference } from './type/GetListByReference.type';
-import { IListum, IListumItem } from '@/model/Listum.model';
-import { GetListsResponse } from './type/GetLists.type';
-import { ICreateListResponse } from './type/CreateList.type';
-import { IUpdateListResponse } from './type/UpdateList.type';
-import { ICreateListItemResponse } from './type/CreateListItem.type';
-import { IUpdateListItemResponse } from './type/UpdateListItem.type';
+import { IGetListByReference } from '@/use/api/type/GetListByReference.type';
+import { GetListsResponse } from '@/use/api/type/GetLists.type';
+import { ICreateListResponse } from '@/use/api/type/CreateList.type';
+import { IUpdateListResponse } from '@/use/api/type/UpdateList.type';
+import { ICreateListItemResponse } from '@/use/api/type/CreateListItem.type';
+import { IUpdateListItemResponse } from '@/use/api/type/UpdateListItem.type';
+import { IWorkoutDiaryEntry, IWorkoutDiaryExercise, IWorkoutDiarySet } from '@/model/WorkoutDiary.model';
+import { ISearchWorkoutDiaryEntriesResponse } from './type/SearchWorkoutDiaryEntries.type';
+import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiaryEntryByReference.type';
+import { ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
+import { IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
 
 const baseUrl = '/api';
 
 export const useApi = function () {
     return {
+
         calendar: {
             async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<Array<ICalendarEntry>> {
                 const params = new URLSearchParams({
@@ -326,6 +332,151 @@ export const useApi = function () {
                 };
             },
         },
+
+        workoutDiary: {
+            async search(): Promise<Array<IWorkoutDiaryEntry>> {
+                const response = await fetch(`${baseUrl}/workout-diary/entries`);
+
+                const json = await response.json() as IApiResponse<ISearchWorkoutDiaryEntriesResponse>;
+
+                const entries = json.result.entries;
+
+                return entries.map(entry => ({
+                    reference: entry.reference,
+                    createdAt: dayjs(entry.createdAt),
+                    date: dayjs(entry.date),
+                    startTime: dayjs(entry.startTime),
+                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    weight: entry.weight,
+                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                        reference: exercise.reference,
+                        createdAt: dayjs(exercise.createdAt),
+                        name: exercise.name,
+                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                            reference: set.reference,
+                            createdAt: dayjs(set.createdAt),
+                            repetitions: set.repetitions,
+                            weight: set.weight,
+                        })),
+                    })),
+                }));
+            },
+
+            async getEntryByReference(reference: string): Promise<IWorkoutDiaryEntry> {
+                const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`);
+
+                const json = await response.json() as IApiResponse<IGetWorkoutDiaryEntryByReferenceResponse>;
+
+                const entry = json.result.entry;
+
+                return {
+                    reference: entry.reference,
+                    createdAt: dayjs(entry.createdAt),
+                    date: dayjs(entry.date),
+                    startTime: dayjs(entry.startTime),
+                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    weight: entry.weight,
+                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                        reference: exercise.reference,
+                        createdAt: dayjs(exercise.createdAt),
+                        name: exercise.name,
+                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                            reference: set.reference,
+                            createdAt: dayjs(set.createdAt),
+                            repetitions: set.repetitions,
+                            weight: set.weight,
+                        })),
+                    })),
+                };
+            },
+
+            async createEntry(request: {
+                date: string;
+                startTime: string;
+                endTime: string | null;
+                weight: number | null;
+            }): Promise<IWorkoutDiaryEntry> {
+                const response = await fetch(`${baseUrl}/workout-diary/entry`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        date: request.date,
+                        startTime: request.startTime,
+                        endTime: request.endTime,
+                        weight: request.weight,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<ICreateWorkoutDiaryEntryResponse>;
+
+                const entry = json.result.entry;
+
+                return {
+                    reference: entry.reference,
+                    createdAt: dayjs(entry.createdAt),
+                    date: dayjs(entry.date),
+                    startTime: dayjs(entry.startTime),
+                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    weight: entry.weight,
+                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                        reference: exercise.reference,
+                        createdAt: dayjs(exercise.createdAt),
+                        name: exercise.name,
+                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                            reference: set.reference,
+                            createdAt: dayjs(set.createdAt),
+                            repetitions: set.repetitions,
+                            weight: set.weight,
+                        })),
+                    })),
+                };
+            },
+
+            async updateEntry(reference: string, request: {
+                date: string;
+                startTime: string;
+                endTime: string | null;
+                weight: number | null;
+            }): Promise<IWorkoutDiaryEntry> {
+                const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify({
+                        date: request.date,
+                        startTime: request.startTime,
+                        endTime: request.endTime,
+                        weight: request.weight,
+                    }),
+                });
+                const json = await response.json() as IApiResponse<IUpdateWorkoutDiaryEntryResponse>;
+
+                const entry = json.result.entry;
+
+                return {
+                    reference: entry.reference,
+                    createdAt: dayjs(entry.createdAt),
+                    date: dayjs(entry.date),
+                    startTime: dayjs(entry.startTime),
+                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    weight: entry.weight,
+                    exercises: entry.exercises.map(exercise => (<IWorkoutDiaryExercise>{
+                        reference: exercise.reference,
+                        createdAt: dayjs(exercise.createdAt),
+                        name: exercise.name,
+                        sets: exercise.sets.map(set => (<IWorkoutDiarySet>{
+                            reference: set.reference,
+                            createdAt: dayjs(set.createdAt),
+                            repetitions: set.repetitions,
+                            weight: set.weight,
+                        })),
+                    })),
+                };
+            },
+        },
+
     };
 };
 
