@@ -1,6 +1,7 @@
 export interface IApiWorkoutDiaryEntry {
     reference: string;
     createdAt: string;
+    date: string;
     startTime: string;
     endTime: string | null;
     weight: number | null;
