@@ -6,34 +6,30 @@
                 <span>New Entry</span>
             </ButtonComponent>
         </template>
-        <div class="entry-list-container">
+        <div class="entry-list-container" v-if="entries !== null">
             <WorkoutEntryComponent v-for="entry in entries" :workoutEntry="entry" />
         </div>
     </ViewComponent>
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
 import WorkoutEntryComponent from '@/view/workout-diary/component/WorkoutEntry.component.vue';
-import dayjs from 'dayjs';
+
+import { useApi } from '@/use/api/api.use';
 
 import { IWorkoutEntry } from './model/WorkoutEntry.model';
 
-const entries: Array<IWorkoutEntry> = [
-    {
-        date: dayjs('2022-11-09'),
-        startTime: dayjs('2022-11-09 15:00:00'),
-        endTime: dayjs('2022-11-09 16:00:00'),
-        weight: 78.0,
-        exercises: [],
-    },
-    {
-        date: dayjs('2022-11-08'),
-        startTime: dayjs('2022-11-08 15:00:00'),
-        endTime: dayjs('2022-11-08 16:00:00'),
-        weight: 78.0,
-        exercises: [],
-    },
-];
+const api = useApi();
+
+const entries = ref<Array<IWorkoutEntry> | null>(null);
+
+onMounted(async () => {
+    const result = await api.workoutDiary.search();
+
+    entries.value = result;
+});
 </script>
 
 <style lang="scss">
