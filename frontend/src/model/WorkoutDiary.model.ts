@@ -6,7 +6,7 @@ export interface IWorkoutDiaryEntry {
     date: Dayjs;
     startTime: Dayjs;
     endTime: Dayjs | null;
-    weight: number;
+    weight: number | null;
     exercises: Array<IWorkoutDiaryExercise>;
 }
 
