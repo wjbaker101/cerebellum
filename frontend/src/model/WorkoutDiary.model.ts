@@ -3,6 +3,7 @@ import { Dayjs } from 'dayjs';
 export interface IWorkoutDiaryEntry {
     reference: string;
     createdAt: Dayjs;
+    date: Dayjs;
     startTime: Dayjs;
     endTime: Dayjs | null;
     weight: number;
