@@ -11,7 +11,7 @@ public class WorkoutEntryRecord
     public virtual DateTime StartTime { get; set; }
     public virtual DateTime? EndTime { get; set; }
     public virtual decimal? Weight { get; set; }
-    public virtual IList<WorkoutEntryExerciseRecord> Exercises { get; set; } = new List<WorkoutEntryExerciseRecord>();
+    public virtual ICollection<WorkoutEntryExerciseRecord> Exercises { get; set; } = new HashSet<WorkoutEntryExerciseRecord>();
 }
 
 public sealed class WorkoutEntryRecordMap : ClassMap<WorkoutEntryRecord>
@@ -27,6 +27,6 @@ public sealed class WorkoutEntryRecordMap : ClassMap<WorkoutEntryRecord>
         Map(x => x.StartTime, "start_time");
         Map(x => x.EndTime, "end_time");
         Map(x => x.Weight, "weight");
-        HasMany(x => x.Exercises).KeyColumn("workout_entry_id");
+        HasMany(x => x.Exercises).KeyColumn("workout_entry_id").Inverse().AsSet();
     }
 }

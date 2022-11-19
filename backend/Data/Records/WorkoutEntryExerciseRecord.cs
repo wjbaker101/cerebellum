@@ -8,7 +8,8 @@ public class WorkoutEntryExerciseRecord
     public virtual Guid Reference { get; init; }
     public virtual DateTime CreatedAt { get; init; }
     public virtual string Name { get; set; } = null!;
-    public virtual IList<WorkoutEntrySetRecord> Sets { get; set; } = new List<WorkoutEntrySetRecord>();
+    public virtual ICollection<WorkoutEntrySetRecord> Sets { get; set; } = new HashSet<WorkoutEntrySetRecord>();
+    public virtual WorkoutEntryRecord Entry { get; init; } = null!;
 }
 
 public sealed class WorkoutEntryExerciseRecordMap : ClassMap<WorkoutEntryExerciseRecord>
@@ -21,6 +22,7 @@ public sealed class WorkoutEntryExerciseRecordMap : ClassMap<WorkoutEntryExercis
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Name, "name");
-        HasMany(x => x.Sets).KeyColumn("workout_entry_exercise_id");
+        HasMany(x => x.Sets).KeyColumn("workout_entry_exercise_id").Inverse().AsSet();
+        References(x => x.Entry, "workout_entry_id");
     }
 }

@@ -1,6 +1,7 @@
 using Api.Calendar;
 using Api.Listum;
 using Api.Notes;
+using Api.WorkoutDiary;
 using Data;
 using Data.Repositories;
 
@@ -19,6 +20,9 @@ services.AddSingleton<INotesRepository, NotesRepository>();
 
 services.AddSingleton<IListumService, ListumService>();
 services.AddSingleton<IListumRepository, ListumRepository>();
+
+services.AddSingleton<IWorkoutDiaryService, WorkoutDiaryService>();
+services.AddSingleton<IWorkoutDiaryRepository, WorkoutDiaryRepository>();
 
 var app = builder.Build();
 
