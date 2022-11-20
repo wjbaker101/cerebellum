@@ -31,7 +31,7 @@
             </router-link>
             <router-link to="/workout-diary" class="tab">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/workout-diary')">
-                    <IconComponent icon="menu" />
+                    <IconComponent icon="flex" />
                     <div>Workout Diary</div>
                 </GradientBorderComponent>
             </router-link>
