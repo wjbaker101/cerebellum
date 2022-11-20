@@ -32,12 +32,12 @@
             <FormSectionComponent class="flex gap">
                 <div>
                     <FormInputComponent label="Name">
-                        <input type="text" placeholder="Start Time">
+                        <input type="text" placeholder="Name">
                     </FormInputComponent>
                 </div>
                 <div class="flex-auto">
                     <FormInputComponent label="Reps">
-                        <input type="text" placeholder="End Time">
+                        <input type="text" placeholder="Reps">
                     </FormInputComponent>
                 </div>
                 <div class="flex-auto">
