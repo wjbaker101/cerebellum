@@ -23,13 +23,9 @@
             </p>
         </section>
         <section>
-            <p>
-                <strong>Decline DB: </strong>
-                <span>2x20kg 10x17.5kg 8x22.5kg</span>
-            </p>
-            <p>
-                <strong>Cable Lateral Raise: </strong>
-                <span>10x6.8kg 10x6.8kg 10x6.8kg</span>
+            <p v-for="exercise in workoutEntry.exercises">
+                <strong>{{ exercise.name }}: </strong>
+                <span v-for="set in exercise.sets">{{ set.repetitions }}x{{ set.weight }}kg </span>
             </p>
         </section>
     </div>
