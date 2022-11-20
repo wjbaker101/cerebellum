@@ -1660,18 +1660,17 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@wjb/styling@^1.0.12", "@wjb/styling@^1.0.3":
+"@wjb/styling@^1.0.12", "@wjb/styling@^1.0.13":
   version "1.0.13"
   resolved "https://wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com:443/npm/npm-libs/@wjb/styling/-/styling-1.0.13.tgz#cfb91285b1cc8611b859e72747200aa2f8cb4064"
   integrity sha512-b+nYkJT/a8sTLc+Ec0QwScEZASeC1MAmkdA2Gbz9r2x7f37dTovPAnka9w9mA8FnZ7sEEsnXIx7/ezmYg3gazQ==
 
-"@wjb/vue@^1.0.44":
-  version "1.0.44"
-  resolved "https://wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com:443/npm/npm-libs/@wjb/vue/-/vue-1.0.44.tgz#5b037d846d6cfe03f852d3468f532f96e1af3d9f"
-  integrity sha512-GXnTWJU3XUqYqsaYqbZ0MNZXdInUZq62GsvEc7+Im02ZFcZKWdeDR00f21Qg3aOqnmeyAufhy68ucFfM2EleDQ==
+"@wjb/vue@^1.0.51":
+  version "1.0.51"
+  resolved "https://wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com:443/npm/npm-libs/@wjb/vue/-/vue-1.0.51.tgz#b01498fca848d166bf0b36bdcbdb83e5607a5c51"
+  integrity sha512-zYGbpxBGC0zfC8HUrtrVKH1bufO/VvgswLqhSxGbDzW9i03HfEtyR9/f4hSR6ClOpJQ6Y1EGeg4Whe6e2ouoHw==
   dependencies:
-    "@wjb/styling" "^1.0.3"
-    vue "^3.2.36"
+    "@wjb/styling" "^1.0.13"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -5782,7 +5781,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^3.2.13, vue@^3.2.36:
+vue@^3.2.13:
   version "3.2.37"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.37.tgz#da220ccb618d78579d25b06c7c21498ca4e5452e"
   integrity sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==
