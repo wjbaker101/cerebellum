@@ -2,25 +2,22 @@
     <div class="workout-entry-modal-component">
         <h2>Edit List Items</h2>
         <FormComponent>
-            <FormSectionComponent>
-                <FormInputComponent label="Date">
-                    <input type="text">
-                </FormInputComponent>
+            <FormSectionComponent class="flex gap">
+                <div>
+                    <FormInputComponent label="Start">
+                        <input type="datetime-local" v-model="form.date">
+                    </FormInputComponent>
+                </div>
+                <div>
+                    <FormInputComponent label="End">
+                        <input type="time" placeholder="End Time" v-model="form.endTime">
+                    </FormInputComponent>
+                </div>
             </FormSectionComponent>
             <FormSectionComponent class="flex gap">
                 <div>
-                    <FormInputComponent label="Start Time">
-                        <input type="text" placeholder="Start Time">
-                    </FormInputComponent>
-                </div>
-                <div>
-                    <FormInputComponent label="End Time">
-                        <input type="text" placeholder="End Time">
-                    </FormInputComponent>
-                </div>
-                <div>
                     <FormInputComponent label="Weight (kg)">
-                        <input type="text" placeholder="Weight (kg)">
+                        <input type="text" placeholder="Weight (kg)" v-model="form.weight">
                     </FormInputComponent>
                 </div>
             </FormSectionComponent>
@@ -74,6 +71,41 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue';
+
+import { IWorkoutEntry } from '../model/WorkoutEntry.model';
+
+const props = defineProps<{
+    workoutEntry: IWorkoutEntry;
+}>();
+
+interface IWorkoutDiaryForm {
+    date: string;
+    startTime: string;
+    endTime: string | null;
+    weight: number | null;
+    exercises: Array<{
+        name: string;
+        sets: Array<{
+            repetitions: number;
+            weight: number;
+        }>;
+    }>;
+}
+
+const form = reactive<IWorkoutDiaryForm>({
+    date: props.workoutEntry.date.format('YYYY-MM-DDTHH:mm'),
+    startTime: props.workoutEntry.startTime.format('HH:mm'),
+    endTime: props.workoutEntry.endTime?.format('HH:mm') ?? null,
+    weight: props.workoutEntry.weight,
+    exercises: props.workoutEntry.exercises.map(exercise => ({
+        name: exercise.name,
+        sets: exercise.sets.map(set => ({
+            repetitions: set.repetitions,
+            weight: set.weight,
+        })),
+    })),
+});
 </script>
 
 <style lang="scss">
