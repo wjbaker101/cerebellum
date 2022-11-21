@@ -4,9 +4,9 @@ namespace Api.WorkoutDiary.Types;
 
 public sealed class UpdateEntryRequest
 {
-    public DateOnly Date { get; init; }
-    public TimeOnly StartTime { get; init; }
-    public TimeOnly? EndTime { get; init; }
+    public DateTime Date { get; init; }
+    public DateTime StartTime { get; init; }
+    public DateTime? EndTime { get; init; }
     public decimal? Weight { get; init; }
 }
 

@@ -120,9 +120,9 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
         if (!entryResult.TrySuccess(out var entry))
             return Result<UpdateEntryResponse>.FromFailure(entryResult);
 
-        entry.Date = request.Date.ToDateTime(TimeOnly.MinValue);
-        entry.StartTime = request.Date.ToDateTime(request.StartTime);
-        entry.EndTime = request.EndTime.HasValue ? request.Date.ToDateTime(request.EndTime.Value) : null;
+        entry.Date = request.Date;
+        entry.StartTime = request.StartTime;
+        entry.EndTime = request.EndTime;
         entry.Weight = request.Weight;
 
         _workoutDiaryRepository.UpdateEntry(entry);
