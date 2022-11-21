@@ -32,7 +32,7 @@
             <FormSectionComponent class="flex gap" v-for="exercise in form.exercises">
                 <div>
                     <div class="flex gap-small align-items-center">
-                        <div class="flex-auto">
+                        <div class="flex-auto flex-align-self-end">
                             <DeleteButtonComponent class="mini" only-icon />
                         </div>
                         <FormInputComponent label="Name">
@@ -57,7 +57,7 @@
                                 <input class="set-input" type="text" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
-                        <div class="flex-auto" v-if="index === exercise.sets.length - 1">
+                        <div class="flex-auto flex-align-self-end" v-if="index === exercise.sets.length - 1">
                             <FormInputComponent>
                                 <ButtonComponent class="primary mini" @click="onAddSet(exercise)">
                                     <IconComponent icon="plus" />
@@ -154,6 +154,10 @@ const onAddSet = function (exercise: IFormWorkoutExercise): void {
 
     .set-input {
         width: 150px;
+    }
+
+    .flex-align-self-end {
+        align-self: flex-end;
     }
 }
 </style>
