@@ -31,15 +31,20 @@
             </div>
             <FormSectionComponent class="flex gap" v-for="exercise in form.exercises">
                 <div>
-                    <FormInputComponent label="Name">
-                        <input type="text" placeholder="Name">
-                    </FormInputComponent>
+                    <div class="flex gap-small align-items-center">
+                        <div class="flex-auto">
+                            <DeleteButtonComponent class="mini" only-icon />
+                        </div>
+                        <FormInputComponent label="Name">
+                            <input type="text" placeholder="Name" v-model="exercise.name">
+                        </FormInputComponent>
+                    </div>
                 </div>
                 <div class="flex-auto">
                     <div class="flex gap-small align-items-center" v-for="(set, index) in exercise.sets">
                         <div class="flex-auto">
                             <FormInputComponent :label="index === 0 ? 'Reps' : ''">
-                                <input class="set-input" type="text" placeholder="99">
+                                <input class="set-input" type="text" placeholder="99" v-model="set.repetitions">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
@@ -49,7 +54,7 @@
                         </div>
                         <div class="flex-auto">
                             <FormInputComponent :label="index === 0 ? 'Weight (kg)' : ''">
-                                <input class="set-input" type="text" placeholder="99.9">
+                                <input class="set-input" type="text" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto" v-if="index === exercise.sets.length - 1">
