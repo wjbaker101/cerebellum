@@ -1,5 +1,4 @@
 ﻿using Data.Records;
-using Data.Types;
 using NetApiLibs.Type;
 using NHibernate.Linq;
 
@@ -7,9 +6,15 @@ namespace Data.Repositories;
 
 public interface IWorkoutDiaryRepository
 {
-    Result<WorkoutEntryRecord> GetEntryByReference(Guid reference);
     WorkoutEntryRecord SaveEntry(WorkoutEntryRecord entry);
     WorkoutEntryRecord UpdateEntry(WorkoutEntryRecord entry);
+    WorkoutEntryExerciseRecord SaveExercise(WorkoutEntryExerciseRecord exercise);
+    WorkoutEntryExerciseRecord UpdateExercise(WorkoutEntryExerciseRecord exercise);
+    void DeleteExercise(WorkoutEntryExerciseRecord exercise);
+    WorkoutEntrySetRecord SaveSet(WorkoutEntrySetRecord exercise);
+    WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord exercise);
+    void DeleteSet(WorkoutEntrySetRecord exercise);
+    Result<WorkoutEntryRecord> GetEntryByReference(Guid reference);
     List<WorkoutEntryRecord> GetEntries();
 }
 
@@ -21,6 +26,14 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
 
     public WorkoutEntryRecord SaveEntry(WorkoutEntryRecord entry) => SaveRecord(entry);
     public WorkoutEntryRecord UpdateEntry(WorkoutEntryRecord entry) => UpdateRecord(entry);
+
+    public WorkoutEntryExerciseRecord SaveExercise(WorkoutEntryExerciseRecord exercise) => SaveRecord(exercise);
+    public WorkoutEntryExerciseRecord UpdateExercise(WorkoutEntryExerciseRecord exercise) => UpdateRecord(exercise);
+    public void DeleteExercise(WorkoutEntryExerciseRecord exercise) => DeleteRecord(exercise);
+
+    public WorkoutEntrySetRecord SaveSet(WorkoutEntrySetRecord set) => SaveRecord(set);
+    public WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord set) => UpdateRecord(set);
+    public void DeleteSet(WorkoutEntrySetRecord set) => DeleteRecord(set);
 
     public Result<WorkoutEntryRecord> GetEntryByReference(Guid reference)
     {

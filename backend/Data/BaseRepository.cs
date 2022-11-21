@@ -43,4 +43,14 @@ public abstract class BaseRepository
          
         transaction.Commit();
     }
+
+    protected void DeleteRecord<T>(T record)
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        session.Delete(record);
+         
+        transaction.Commit();
+    }
 }

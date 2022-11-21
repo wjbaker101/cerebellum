@@ -127,6 +127,9 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
 
         _workoutDiaryRepository.UpdateEntry(entry);
 
+        UpdateEntryExercises(entry, request);
+        UpdateEntrySets(entry, request);
+
         return new UpdateEntryResponse
         {
             Entry = new WorkoutEntry
@@ -139,5 +142,66 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 Weight = entry.Weight
             }
         };
+    }
+
+    public void UpdateEntryExercises(WorkoutEntryRecord entry, UpdateEntryRequest request)
+    {
+        foreach (var exercise in entry.Exercises)
+        {
+            var requestExercise = request.Exercises.SingleOrDefault(x => x.Reference == exercise.Reference);
+            if (requestExercise == null)
+            {
+                _workoutDiaryRepository.DeleteExercise(exercise);
+            }
+            else
+            {
+                exercise.Name = requestExercise.Name;
+
+                _workoutDiaryRepository.UpdateExercise(exercise);
+            }
+        }
+
+        foreach (var newExercises in request.Exercises.Where(x => !x.Reference.HasValue))
+        {
+            _workoutDiaryRepository.SaveExercise(new WorkoutEntryExerciseRecord
+            {
+                Reference = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+                Name = newExercises.Name
+            });
+        }
+    }
+
+    private void UpdateEntrySets(WorkoutEntryRecord entry, UpdateEntryRequest request)
+    {
+        var sets = entry.Exercises.SelectMany(x => x.Sets);
+        var requestSets = request.Exercises.SelectMany(x => x.Sets).ToList();
+
+        foreach (var set in sets)
+        {
+            var requestSet = requestSets.SingleOrDefault(x => x.Reference == set.Reference);
+            if (requestSet == null)
+            {
+                _workoutDiaryRepository.DeleteSet(set);
+            }
+            else
+            {
+                set.Repetitions = requestSet.Repetitions;
+                set.Weight = requestSet.Weight;
+
+                _workoutDiaryRepository.UpdateSet(set);
+            }
+        }
+
+        foreach (var newSet in requestSets.Where(x => !x.Reference.HasValue))
+        {
+            _workoutDiaryRepository.SaveSet(new WorkoutEntrySetRecord
+            {
+                Reference = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+                Repetitions = newSet.Repetitions,
+                Weight = newSet.Weight
+            });
+        }
     }
 }
