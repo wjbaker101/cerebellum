@@ -5,7 +5,7 @@
             <FormSectionComponent class="flex gap">
                 <div>
                     <FormInputComponent label="Start">
-                        <input type="datetime-local" v-model="form.date">
+                        <input type="datetime-local" v-model="form.startTime">
                     </FormInputComponent>
                 </div>
                 <div>
@@ -88,7 +88,9 @@
 import { reactive, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { IWorkoutEntry } from '../model/WorkoutEntry.model';
+import { useApi } from '@/use/api/api.use';
+
+import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const props = defineProps<{
     workoutEntry: IWorkoutEntry;
@@ -116,9 +118,11 @@ interface IFormWorkoutSet {
     weight: number | null;
 }
 
+const api = useApi();
+
 const form = reactive<IWorkoutDiaryForm>({
     date: props.workoutEntry.date.format('YYYY-MM-DDTHH:mm'),
-    startTime: props.workoutEntry.startTime.format('HH:mm'),
+    startTime: props.workoutEntry.startTime.format('YYYY-MM-DDTHH:mm'),
     endTime: props.workoutEntry.endTime?.format('HH:mm') ?? null,
     weight: props.workoutEntry.weight,
     exercises: props.workoutEntry.exercises.map(exercise => ({
@@ -169,13 +173,28 @@ const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): vo
     exercise.sets.splice(index, 1);
 };
 
-const onConfirm = function (): void {
+const onConfirm = async function (): Promise<void> {
     const errors = validate();
 
     if (errors.length > 0) {
         userMessageErrors.value = errors;
         return;
     }
+
+    const date = dayjs(form.startTime);
+
+    await api.workoutDiary.updateEntry(props.workoutEntry.reference, {
+        date: date.toISOString(),
+        startTime: date.toISOString(),
+        endTime: form.endTime === null || form.endTime.length === 0 ? null : timeToDayjs(date, form.endTime).toISOString(),
+        weight: form.weight,
+    });
+};
+
+const timeToDayjs = function (baseDayjs: Dayjs, time: string): Dayjs {
+    const split = time.split(':');
+
+    return baseDayjs.hour(Number(split[0])).minute(Number(split[1]));
 };
 
 const validate = function(): Array<string> {
