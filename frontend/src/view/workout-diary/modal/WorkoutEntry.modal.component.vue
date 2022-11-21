@@ -29,11 +29,11 @@
                     </ButtonComponent>
                 </div>
             </div>
-            <FormSectionComponent class="flex gap" v-for="exercise in form.exercises">
+            <FormSectionComponent class="flex gap" :key="`exercise-${exercise.createdAt.toISOString()}`" v-for="(exercise, exerciseIndex) in form.exercises">
                 <div>
                     <div class="flex gap-small align-items-center">
                         <div class="flex-auto flex-align-self-end">
-                            <DeleteButtonComponent class="mini" only-icon />
+                            <DeleteButtonComponent v-if="exerciseIndex > 0" class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
                         </div>
                         <FormInputComponent label="Name">
                             <input type="text" placeholder="Name" v-model="exercise.name">
@@ -41,9 +41,9 @@
                     </div>
                 </div>
                 <div class="flex-auto">
-                    <div class="flex gap-small align-items-center" v-for="(set, index) in exercise.sets">
+                    <div class="flex gap-small align-items-center" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
                         <div class="flex-auto">
-                            <FormInputComponent :label="index === 0 ? 'Reps' : ''">
+                            <FormInputComponent :label="setIndex === 0 ? 'Reps' : ''">
                                 <input class="set-input" type="text" placeholder="99" v-model="set.repetitions">
                             </FormInputComponent>
                         </div>
@@ -53,16 +53,15 @@
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
-                            <FormInputComponent :label="index === 0 ? 'Weight (kg)' : ''">
+                            <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
                                 <input class="set-input" type="text" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
-                        <div class="flex-auto flex-align-self-end" v-if="index === exercise.sets.length - 1">
-                            <FormInputComponent>
-                                <ButtonComponent class="primary mini" @click="onAddSet(exercise)">
-                                    <IconComponent icon="plus" />
-                                </ButtonComponent>
-                            </FormInputComponent>
+                        <div class="flex-auto flex-align-self-end">
+                            <ButtonComponent v-if="setIndex === 0" class="primary mini" @click="onAddSet(exercise)">
+                                <IconComponent icon="plus" />
+                            </ButtonComponent>
+                            <DeleteButtonComponent v-else class="mini" only-icon @delete="onDeleteSet(exercise, setIndex)" />
                         </div>
                     </div>
                 </div>
@@ -80,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import dayjs, { Dayjs } from 'dayjs';
 import { reactive } from 'vue';
 
 import { IWorkoutEntry } from '../model/WorkoutEntry.model';
@@ -98,12 +98,14 @@ interface IWorkoutDiaryForm {
 
 interface IFormWorkoutExercise {
     reference: string | null;
+    createdAt: Dayjs;
     name: string | null;
     sets: Array<IFormWorkoutSet>;
 }
 
 interface IFormWorkoutSet {
     reference: string | null;
+    createdAt: Dayjs;
     repetitions: number | null;
     weight: number | null;
 }
@@ -115,9 +117,11 @@ const form = reactive<IWorkoutDiaryForm>({
     weight: props.workoutEntry.weight,
     exercises: props.workoutEntry.exercises.map(exercise => ({
         reference: exercise.reference,
+        createdAt: dayjs(),
         name: exercise.name,
         sets: exercise.sets.map(set => ({
             reference: set.reference,
+            createdAt: dayjs(),
             repetitions: set.repetitions,
             weight: set.weight,
         })),
@@ -127,10 +131,12 @@ const form = reactive<IWorkoutDiaryForm>({
 const onAddExercise = function (): void {
     form.exercises.push({
         reference: null,
+        createdAt: dayjs(),
         name: null,
         sets: [
             {
                 reference: null,
+                createdAt: dayjs(),
                 repetitions: null,
                 weight: null,
             },
@@ -138,12 +144,21 @@ const onAddExercise = function (): void {
     });
 };
 
+const onDeleteExercise = function (index: number): void {
+    form.exercises.splice(index, 1);
+};
+
 const onAddSet = function (exercise: IFormWorkoutExercise): void {
     exercise.sets.push({
         reference: null,
+        createdAt: dayjs(),
         repetitions: null,
         weight: null,
     });
+};
+
+const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): void {
+    exercise.sets.splice(index, 1);
 };
 </script>
 
