@@ -91,6 +91,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useApi } from '@/use/api/api.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
+import { startOfMinute } from 'date-fns';
 
 const props = defineProps<{
     workoutEntry: IWorkoutEntry;
@@ -174,19 +175,24 @@ const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): vo
 };
 
 const onConfirm = async function (): Promise<void> {
-    const errors = validate();
+    const startTime = dayjs(form.startTime);
+    const endTime = form.endTime === null || form.endTime.length === 0 ? null : timeToDayjs(startTime, form.endTime);
 
+    userMessageErrors.value = [];
+
+    const errors = validate({
+        startTime,
+        endTime,
+    });
     if (errors.length > 0) {
         userMessageErrors.value = errors;
         return;
     }
 
-    const date = dayjs(form.startTime);
-
     await api.workoutDiary.updateEntry(props.workoutEntry.reference, {
-        date: date.toISOString(),
-        startTime: date.toISOString(),
-        endTime: form.endTime === null || form.endTime.length === 0 ? null : timeToDayjs(date, form.endTime).toISOString(),
+        date: startTime.toISOString(),
+        startTime: startTime.toISOString(),
+        endTime: endTime?.toISOString() ?? null,
         weight: form.weight,
     });
 };
@@ -197,11 +203,17 @@ const timeToDayjs = function (baseDayjs: Dayjs, time: string): Dayjs {
     return baseDayjs.hour(Number(split[0])).minute(Number(split[1]));
 };
 
-const validate = function(): Array<string> {
+const validate = function(values: {
+    startTime: Dayjs;
+    endTime: Dayjs | null;
+}): Array<string> {
     const errors: Array<string> = [];
 
     if (form.date.length === 0)
         errors.push('Invalid start time');
+
+    if (values.endTime !== null && values.startTime.isAfter(values.endTime))
+        errors.push('Start time is after end time');
 
     if (form.exercises.some(x => x.name.length === 0))
         errors.push('Exercise(s) with an invalid name');
