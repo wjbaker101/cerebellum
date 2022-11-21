@@ -68,19 +68,25 @@
             </FormSectionComponent>
             <FormSectionComponent>
                 <FormInputComponent>
-                    <ButtonComponent class="primary">
+                    <ButtonComponent class="primary" @click="onConfirm">
                         <IconComponent icon="tick" gap="right" />
                         <span>Confirm</span>
                     </ButtonComponent>
                 </FormInputComponent>
+                <div v-if="userMessageErrors.length > 0">
+                    <p><strong>There were one or more errors preventing confirmation:</strong></p>
+                    <ul>
+                        <li v-for="error in userMessageErrors">{{ error }}</li>
+                    </ul>
+                </div>
             </FormSectionComponent>
         </FormComponent>
     </div>
 </template>
 
 <script setup lang="ts">
+import { reactive, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
-import { reactive } from 'vue';
 
 import { IWorkoutEntry } from '../model/WorkoutEntry.model';
 
@@ -99,7 +105,7 @@ interface IWorkoutDiaryForm {
 interface IFormWorkoutExercise {
     reference: string | null;
     createdAt: Dayjs;
-    name: string | null;
+    name: string;
     sets: Array<IFormWorkoutSet>;
 }
 
@@ -128,11 +134,13 @@ const form = reactive<IWorkoutDiaryForm>({
     })),
 });
 
+const userMessageErrors = ref<Array<string>>([]);
+
 const onAddExercise = function (): void {
     form.exercises.push({
         reference: null,
         createdAt: dayjs(),
-        name: null,
+        name: '',
         sets: [
             {
                 reference: null,
@@ -159,6 +167,30 @@ const onAddSet = function (exercise: IFormWorkoutExercise): void {
 
 const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): void {
     exercise.sets.splice(index, 1);
+};
+
+const onConfirm = function (): void {
+    const errors = validate();
+
+    if (errors.length > 0) {
+        userMessageErrors.value = errors;
+        return;
+    }
+};
+
+const validate = function(): Array<string> {
+    const errors: Array<string> = [];
+
+    if (form.exercises.some(x => x.name.length === 0))
+        errors.push('Exercise(s) with an invalid name');
+
+    if (form.exercises.flatMap(x => x.sets).some(x => x.repetitions === null))
+        errors.push('Set(s) with an invalid repetition');
+
+    if (form.exercises.flatMap(x => x.sets).some(x => x.weight === null))
+        errors.push('Set(s) with an invalid weight');
+
+    return errors;
 };
 </script>
 
