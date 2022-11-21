@@ -16,46 +16,50 @@
             </FormSectionComponent>
             <FormSectionComponent class="flex gap">
                 <div>
-                    <FormInputComponent label="Weight (kg)">
-                        <input type="text" placeholder="Weight (kg)" v-model="form.weight">
+                    <FormInputComponent label="Body Weight (kg)">
+                        <input type="text" placeholder="99.9" v-model="form.weight">
                     </FormInputComponent>
                 </div>
             </FormSectionComponent>
             <div class="flex gap align-items-center">
-                <h3>Sets:</h3>
+                <h3>Exercises:</h3>
                 <div class="flex-auto">
-                    <ButtonComponent class="primary mini">
+                    <ButtonComponent class="primary mini" @click="onAddExercise">
                         <IconComponent icon="plus" />
                     </ButtonComponent>
                 </div>
             </div>
-            <FormSectionComponent class="flex gap">
+            <FormSectionComponent class="flex gap" v-for="exercise in form.exercises">
                 <div>
                     <FormInputComponent label="Name">
                         <input type="text" placeholder="Name">
                     </FormInputComponent>
                 </div>
                 <div class="flex-auto">
-                    <FormInputComponent label="Reps">
-                        <input type="text" placeholder="Reps">
-                    </FormInputComponent>
-                </div>
-                <div class="flex-auto">
-                    <FormInputComponent>
-                        &times;
-                    </FormInputComponent>
-                </div>
-                <div class="flex-auto">
-                    <FormInputComponent label="Weight (kg)">
-                        <input type="text" placeholder="Weight (kg)">
-                    </FormInputComponent>
-                </div>
-                <div class="flex-auto">
-                    <FormInputComponent>
-                        <ButtonComponent class="primary mini">
-                            <IconComponent icon="plus" />
-                        </ButtonComponent>
-                    </FormInputComponent>
+                    <div class="flex gap-small align-items-center" v-for="(set, index) in exercise.sets">
+                        <div class="flex-auto">
+                            <FormInputComponent :label="index === 0 ? 'Reps' : ''">
+                                <input class="set-input" type="text" placeholder="99">
+                            </FormInputComponent>
+                        </div>
+                        <div class="flex-auto">
+                            <FormInputComponent>
+                                &times;
+                            </FormInputComponent>
+                        </div>
+                        <div class="flex-auto">
+                            <FormInputComponent :label="index === 0 ? 'Weight (kg)' : ''">
+                                <input class="set-input" type="text" placeholder="99.9">
+                            </FormInputComponent>
+                        </div>
+                        <div class="flex-auto" v-if="index === exercise.sets.length - 1">
+                            <FormInputComponent>
+                                <ButtonComponent class="primary mini" @click="onAddSet(exercise)">
+                                    <IconComponent icon="plus" />
+                                </ButtonComponent>
+                            </FormInputComponent>
+                        </div>
+                    </div>
                 </div>
             </FormSectionComponent>
             <FormSectionComponent>
@@ -84,13 +88,19 @@ interface IWorkoutDiaryForm {
     startTime: string;
     endTime: string | null;
     weight: number | null;
-    exercises: Array<{
-        name: string;
-        sets: Array<{
-            repetitions: number;
-            weight: number;
-        }>;
-    }>;
+    exercises: Array<IFormWorkoutExercise>;
+}
+
+interface IFormWorkoutExercise {
+    reference: string | null;
+    name: string | null;
+    sets: Array<IFormWorkoutSet>;
+}
+
+interface IFormWorkoutSet {
+    reference: string | null;
+    repetitions: number | null;
+    weight: number | null;
 }
 
 const form = reactive<IWorkoutDiaryForm>({
@@ -99,18 +109,46 @@ const form = reactive<IWorkoutDiaryForm>({
     endTime: props.workoutEntry.endTime?.format('HH:mm') ?? null,
     weight: props.workoutEntry.weight,
     exercises: props.workoutEntry.exercises.map(exercise => ({
+        reference: exercise.reference,
         name: exercise.name,
         sets: exercise.sets.map(set => ({
+            reference: set.reference,
             repetitions: set.repetitions,
             weight: set.weight,
         })),
     })),
 });
+
+const onAddExercise = function (): void {
+    form.exercises.push({
+        reference: null,
+        name: null,
+        sets: [
+            {
+                reference: null,
+                repetitions: null,
+                weight: null,
+            },
+        ],
+    });
+};
+
+const onAddSet = function (exercise: IFormWorkoutExercise): void {
+    exercise.sets.push({
+        reference: null,
+        repetitions: null,
+        weight: null,
+    });
+};
 </script>
 
 <style lang="scss">
 .workout-entry-modal-component {
     width: 650px;
     max-width: 100%;
+
+    .set-input {
+        width: 150px;
+    }
 }
 </style>
