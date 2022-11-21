@@ -181,11 +181,14 @@ const onConfirm = function (): void {
 const validate = function(): Array<string> {
     const errors: Array<string> = [];
 
+    if (form.date.length === 0)
+        errors.push('Invalid start time');
+
     if (form.exercises.some(x => x.name.length === 0))
         errors.push('Exercise(s) with an invalid name');
 
     if (form.exercises.flatMap(x => x.sets).some(x => x.repetitions === null))
-        errors.push('Set(s) with an invalid repetition');
+        errors.push('Set(s) with an invalid number of repetitions');
 
     if (form.exercises.flatMap(x => x.sets).some(x => x.weight === null))
         errors.push('Set(s) with an invalid weight');
