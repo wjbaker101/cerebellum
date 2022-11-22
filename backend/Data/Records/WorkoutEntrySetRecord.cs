@@ -9,6 +9,7 @@ public class WorkoutEntrySetRecord
     public virtual DateTime CreatedAt { get; init; }
     public virtual int Repetitions { get; set; }
     public virtual decimal Weight { get; set; }
+    public virtual WorkoutEntryExerciseRecord Exercise { get; init; } = null!;
 }
 
 public sealed class WorkoutEntrySetRecordMap : ClassMap<WorkoutEntrySetRecord>
@@ -22,5 +23,6 @@ public sealed class WorkoutEntrySetRecordMap : ClassMap<WorkoutEntrySetRecord>
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Repetitions, "repetitions");
         Map(x => x.Weight, "weight");
+        References(x => x.Exercise, "workout_entry_exercise_id");
     }
 }
