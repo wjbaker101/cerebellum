@@ -194,6 +194,15 @@ const onConfirm = async function (): Promise<void> {
         startTime: startTime.toISOString(),
         endTime: endTime?.toISOString() ?? null,
         weight: form.weight,
+        exercises: form.exercises.map(exercise => ({
+            reference: exercise.reference,
+            name: exercise.name,
+            sets: exercise.sets.map(set => ({
+                reference: set.reference,
+                repetitions: set.repetitions ?? 0,
+                weight: set.weight ?? 0,
+            })),
+        })),
     });
 };
 
