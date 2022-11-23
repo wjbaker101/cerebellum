@@ -15,11 +15,13 @@
             </p>
             <p>
                 <strong>Duration: </strong>
-                <span>{{ workoutEntry.endTime?.diff(workoutEntry.startTime, 'minutes') }}m</span>
+                <span v-if="workoutEntry.endTime">{{ workoutEntry.endTime.diff(workoutEntry.startTime, 'minutes') }}m</span>
+                <span v-else>not started</span>
             </p>
             <p>
                 <strong>Weight: </strong>
-                <span>{{ workoutEntry.weight?.toFixed(1) }}kg</span>
+                <span v-if="workoutEntry.weight">{{ workoutEntry.weight.toFixed(1) }}kg</span>
+                <span v-else>no data</span>
             </p>
         </section>
         <section>
