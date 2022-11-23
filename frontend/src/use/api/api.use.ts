@@ -493,6 +493,10 @@ export const useApi = function () {
                     })),
                 };
             },
+
+            async deleteEntry(reference: string): Promise<void> {
+                await fetch(`${baseUrl}/workout-diary/entry/${reference}`, { method: 'delete' });
+            },
         },
 
     };
