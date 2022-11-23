@@ -10,7 +10,7 @@
     "dependencies": {
         "@vuepic/vue-datepicker": "^3.4.0",
         "@wjb/styling": "^1.0.12",
-        "@wjb/vue": "^1.0.51",
+        "@wjb/vue": "^1.0.52",
         "dayjs": "^1.11.4",
         "register-service-worker": "^1.7.2",
         "ts-debounce": "^4.0.0",
