@@ -38,7 +38,7 @@ onMounted(async () => {
 .workout-diary-view {
     .entry-list-container {
         width: 720px;
-        max-width: auto;
+        max-width: 100%;
         margin: auto;
     }
 }

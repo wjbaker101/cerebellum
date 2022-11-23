@@ -5,7 +5,7 @@
                 Cerebellum
                 <NavClockComponent :enabled="!isDashboard" />
             </h1>
-            <div class="flex-auto">
+            <div class="open-button-container flex-auto">
                 <ButtonComponent class="primary mini" @click="toggleOpen">
                     <IconComponent v-if="isOpen" icon="cross" />
                     <IconComponent v-else icon="menu" />
@@ -95,17 +95,14 @@ nav.nav-component {
         text-align: center;
     }
 
+    .open-button-container {
+        display: none;
+    }
+
     .tabs {
         list-style: none;
         padding-left: 0;
         margin: 0%;
-        opacity: 0;
-        pointer-events: none;
-
-        &.is-open {
-            opacity: 1;
-            pointer-events: all;
-        }
 
         .tab {
             display: block;
@@ -116,6 +113,8 @@ nav.nav-component {
             text-decoration: none;
             border-radius: var(--wjb-border-radius);
             border: 2px solid transparent;
+            opacity: 1;
+            pointer-events: all;
 
             & > * {
                 padding: 1rem 0;
@@ -148,9 +147,20 @@ nav.nav-component {
             right: 0;
             padding: 0 1rem 1rem 1rem;
             background-color: var(--wjb-background-colour);
+            opacity: 0;
+            pointer-events: none;
             z-index: 1;
 
             @include shadow-medium();
+
+            &.is-open {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+
+        .open-button-container {
+            display: unset;
         }
     }
 
