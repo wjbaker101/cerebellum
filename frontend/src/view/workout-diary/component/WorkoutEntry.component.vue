@@ -16,7 +16,7 @@
             <p>
                 <strong>Duration: </strong>
                 <span v-if="workoutEntry.endTime">{{ workoutEntry.endTime.diff(workoutEntry.startTime, 'minutes') }}m</span>
-                <span v-else>not started</span>
+                <span v-else>not finished</span>
             </p>
             <p>
                 <strong>Weight: </strong>
@@ -25,9 +25,12 @@
             </p>
         </section>
         <section>
-            <p v-for="exercise in workoutEntry.exercises">
-                <strong>{{ exercise.name }}: </strong>
-                <span v-for="set in exercise.sets">{{ set.repetitions }}x{{ set.weight }}kg </span>
+            <p v-if="workoutEntry.exercises.length === 0">No exercises added yet</p>
+            <p v-else>
+                <div v-for="exercise in workoutEntry.exercises">
+                    <strong>{{ exercise.name }}: </strong>
+                    <span v-for="set in exercise.sets">{{ set.repetitions }}x{{ set.weight }}kg </span>
+                </div>
             </p>
         </section>
     </div>
