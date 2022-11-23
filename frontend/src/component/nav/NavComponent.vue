@@ -103,6 +103,8 @@ nav.nav-component {
         list-style: none;
         padding-left: 0;
         margin: 0%;
+        opacity: 1;
+        pointer-events: all;
 
         .tab {
             display: block;
@@ -113,8 +115,6 @@ nav.nav-component {
             text-decoration: none;
             border-radius: var(--wjb-border-radius);
             border: 2px solid transparent;
-            opacity: 1;
-            pointer-events: all;
 
             & > * {
                 padding: 1rem 0;
