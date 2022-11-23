@@ -80,6 +80,11 @@
                     </ul>
                 </div>
             </FormSectionComponent>
+            <FormSectionComponent>
+                <FormInputComponent>
+                    <DeleteButtonComponent @delete="onDelete" />
+                </FormInputComponent>
+            </FormSectionComponent>
         </FormComponent>
     </div>
 </template>
@@ -88,14 +93,16 @@
 import { reactive, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
+import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
-import { startOfMinute } from 'date-fns';
 
 const props = defineProps<{
     workoutEntry: IWorkoutEntry;
 }>();
+
+const emit = defineEmits(['delete']);
 
 interface IWorkoutDiaryForm {
     date: string;
@@ -120,6 +127,7 @@ interface IFormWorkoutSet {
 }
 
 const api = useApi();
+const modal = useModal();
 
 const form = reactive<IWorkoutDiaryForm>({
     date: props.workoutEntry.date.format('YYYY-MM-DDTHH:mm'),
@@ -234,6 +242,13 @@ const validate = function(values: {
         errors.push('Set(s) with an invalid weight');
 
     return errors;
+};
+
+const onDelete = async function (): Promise<void> {
+    await api.workoutDiary.deleteEntry(props.workoutEntry.reference);
+    emit('delete');
+
+    modal.hide();
 };
 </script>
 
