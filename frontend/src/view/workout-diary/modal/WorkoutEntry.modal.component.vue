@@ -1,6 +1,6 @@
 <template>
     <div class="workout-entry-modal-component">
-        <h2>Edit List Items</h2>
+        <h2>{{ workoutEntry ? 'Edit' : 'Create' }} Workout Entry</h2>
         <FormComponent>
             <FormSectionComponent class="flex gap">
                 <div>
