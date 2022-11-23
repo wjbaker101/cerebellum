@@ -32,8 +32,8 @@
             <FormSectionComponent class="flex gap" :key="`exercise-${exercise.createdAt.toISOString()}`" v-for="(exercise, exerciseIndex) in form.exercises">
                 <div>
                     <div class="flex gap-small align-items-center">
-                        <div class="flex-auto flex-align-self-end">
-                            <DeleteButtonComponent v-if="exerciseIndex > 0" class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
+                        <div v-if="exerciseIndex > 0" class="flex-auto flex-align-self-end">
+                            <DeleteButtonComponent class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
                         </div>
                         <FormInputComponent label="Name">
                             <input type="text" placeholder="Name" v-model="exercise.name">
