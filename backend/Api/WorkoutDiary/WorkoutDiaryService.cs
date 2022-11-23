@@ -13,6 +13,7 @@ public interface IWorkoutDiaryService
     Result<GetEntriesResponse> GetEntries();
     Result<CreateEntryResponse> CreateEntry(CreateEntryRequest request);
     Result<UpdateEntryResponse> UpdateEntry(Guid reference, UpdateEntryRequest request);
+    Result DeleteEntry(Guid reference);
 }
 
 public sealed class WorkoutDiaryService : IWorkoutDiaryService
@@ -217,5 +218,25 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 });
             }
         }
+    }
+
+    public Result DeleteEntry(Guid reference)
+    {
+        var entryResult = _workoutDiaryRepository.GetEntryByReference(reference);
+        if (!entryResult.TrySuccess(out var entry))
+            return Result<UpdateEntryResponse>.FromFailure(entryResult);
+
+        var exercises = entry.Exercises;
+        var sets = exercises.SelectMany(x => x.Sets).ToList();
+
+        foreach (var set in sets)
+            _workoutDiaryRepository.DeleteSet(set);
+
+        foreach (var exercise in exercises)
+            _workoutDiaryRepository.DeleteExercise(exercise);
+
+        _workoutDiaryRepository.DeleteEntry(entry);
+
+        return Result.Success();
     }
 }

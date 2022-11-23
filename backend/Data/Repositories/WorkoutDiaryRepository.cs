@@ -8,6 +8,7 @@ public interface IWorkoutDiaryRepository
 {
     WorkoutEntryRecord SaveEntry(WorkoutEntryRecord entry);
     WorkoutEntryRecord UpdateEntry(WorkoutEntryRecord entry);
+    void DeleteEntry(WorkoutEntryRecord entry);
     WorkoutEntryExerciseRecord SaveExercise(WorkoutEntryExerciseRecord exercise);
     WorkoutEntryExerciseRecord UpdateExercise(WorkoutEntryExerciseRecord exercise);
     void DeleteExercise(WorkoutEntryExerciseRecord exercise);
@@ -26,6 +27,7 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
 
     public WorkoutEntryRecord SaveEntry(WorkoutEntryRecord entry) => SaveRecord(entry);
     public WorkoutEntryRecord UpdateEntry(WorkoutEntryRecord entry) => UpdateRecord(entry);
+    public void DeleteEntry(WorkoutEntryRecord entry) => DeleteRecord(entry);
 
     public WorkoutEntryExerciseRecord SaveExercise(WorkoutEntryExerciseRecord exercise) => SaveRecord(exercise);
     public WorkoutEntryExerciseRecord UpdateExercise(WorkoutEntryExerciseRecord exercise) => UpdateRecord(exercise);

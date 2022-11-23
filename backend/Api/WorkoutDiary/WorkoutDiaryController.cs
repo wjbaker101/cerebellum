@@ -49,4 +49,13 @@ public sealed class WorkoutDiaryController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpDelete]
+    [Route("entry/{reference:guid}")]
+    public IActionResult DeleteEntry([FromRoute] Guid reference)
+    {
+        var result = _workoutDiaryService.DeleteEntry(reference);
+
+        return ToApiResponse(result);
+    }
 }
