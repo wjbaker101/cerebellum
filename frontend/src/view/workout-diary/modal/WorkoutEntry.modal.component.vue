@@ -99,7 +99,7 @@ import { useApi } from '@/use/api/api.use';
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const props = defineProps<{
-    workoutEntry: IWorkoutEntry;
+    workoutEntry?: IWorkoutEntry;
 }>();
 
 const emit = defineEmits(['delete']);
@@ -130,11 +130,11 @@ const api = useApi();
 const modal = useModal();
 
 const form = reactive<IWorkoutDiaryForm>({
-    date: props.workoutEntry.date.format('YYYY-MM-DDTHH:mm'),
-    startTime: props.workoutEntry.startTime.format('YYYY-MM-DDTHH:mm'),
-    endTime: props.workoutEntry.endTime?.format('HH:mm') ?? null,
-    weight: props.workoutEntry.weight,
-    exercises: props.workoutEntry.exercises.map(exercise => ({
+    date: (props.workoutEntry?.date ?? dayjs()).format('YYYY-MM-DDTHH:mm'),
+    startTime: (props.workoutEntry?.startTime ?? dayjs()).format('YYYY-MM-DDTHH:mm'),
+    endTime: props.workoutEntry?.endTime?.format('HH:mm') ?? null,
+    weight: props.workoutEntry?.weight ?? null,
+    exercises: props.workoutEntry?.exercises.map(exercise => ({
         reference: exercise.reference,
         createdAt: dayjs(),
         name: exercise.name,
@@ -144,7 +144,7 @@ const form = reactive<IWorkoutDiaryForm>({
             repetitions: set.repetitions,
             weight: set.weight,
         })),
-    })),
+    })) ?? [],
 });
 
 const userMessageErrors = ref<Array<string>>([]);
@@ -197,21 +197,40 @@ const onConfirm = async function (): Promise<void> {
         return;
     }
 
-    await api.workoutDiary.updateEntry(props.workoutEntry.reference, {
-        date: startTime.toISOString(),
-        startTime: startTime.toISOString(),
-        endTime: endTime?.toISOString() ?? null,
-        weight: form.weight,
-        exercises: form.exercises.map(exercise => ({
-            reference: exercise.reference,
-            name: exercise.name,
-            sets: exercise.sets.map(set => ({
-                reference: set.reference,
-                repetitions: set.repetitions ?? 0,
-                weight: set.weight ?? 0,
+    if (props.workoutEntry) {
+        await api.workoutDiary.updateEntry(props.workoutEntry.reference, {
+            date: startTime.toISOString(),
+            startTime: startTime.toISOString(),
+            endTime: endTime?.toISOString() ?? null,
+            weight: form.weight,
+            exercises: form.exercises.map(exercise => ({
+                reference: exercise.reference,
+                name: exercise.name,
+                sets: exercise.sets.map(set => ({
+                    reference: set.reference,
+                    repetitions: set.repetitions ?? 0,
+                    weight: set.weight ?? 0,
+                })),
             })),
-        })),
-    });
+        });
+    }
+    else {
+        await api.workoutDiary.createEntry({
+            date: startTime.toISOString(),
+            startTime: startTime.toISOString(),
+            endTime: endTime?.toISOString() ?? null,
+            weight: form.weight,
+            // exercises: form.exercises.map(exercise => ({
+            //     reference: exercise.reference,
+            //     name: exercise.name,
+            //     sets: exercise.sets.map(set => ({
+            //         reference: set.reference,
+            //         repetitions: set.repetitions ?? 0,
+            //         weight: set.weight ?? 0,
+            //     })),
+            // })),
+        });
+    }
 };
 
 const timeToDayjs = function (baseDayjs: Dayjs, time: string): Dayjs {
@@ -245,6 +264,9 @@ const validate = function(values: {
 };
 
 const onDelete = async function (): Promise<void> {
+    if (!props.workoutEntry)
+        return;
+
     await api.workoutDiary.deleteEntry(props.workoutEntry.reference);
     emit('delete');
 
