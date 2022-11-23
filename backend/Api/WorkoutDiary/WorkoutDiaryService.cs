@@ -144,7 +144,7 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
         };
     }
 
-    public void UpdateExistingExercises(WorkoutEntryRecord entry, List<UpdateEntryRequest.Exercise> updatedExercises)
+    private void UpdateExistingExercises(WorkoutEntryRecord entry, List<UpdateEntryRequest.Exercise> updatedExercises)
     {
         foreach (var exercise in entry.Exercises)
         {
