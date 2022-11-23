@@ -1,5 +1,5 @@
 <template>
-    <div class="page flex">
+    <div class="page flex breakpoint">
         <NavComponent></NavComponent>
         <router-view></router-view>
         <ModalComponent />

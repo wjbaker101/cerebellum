@@ -1,35 +1,43 @@
 <template>
     <nav class="nav-component">
-        <h1 class="text-centered">
-            Cerebellum
-            <NavClockComponent :enabled="!isDashboard" />
-        </h1>
-        <ul class="tabs">
-            <router-link to="/" class="tab">
+        <div class="title-heading flex align-items-center">
+            <h1>
+                Cerebellum
+                <NavClockComponent :enabled="!isDashboard" />
+            </h1>
+            <div class="flex-auto">
+                <ButtonComponent class="primary mini" @click="toggleOpen">
+                    <IconComponent v-if="isOpen" icon="cross" />
+                    <IconComponent v-else icon="menu" />
+                </ButtonComponent>
+            </div>
+        </div>
+        <ul class="tabs" :class="{ 'is-open': isOpen }">
+            <router-link to="/" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!isDashboard">
                     <IconComponent icon="home" />
                     <div>Dashboard</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/calendar" class="tab">
+            <router-link to="/calendar" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/calendar')">
                     <IconComponent icon="calendar" />
                     <div>Calendar</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/notes" class="tab">
+            <router-link to="/notes" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/notes')">
                     <IconComponent icon="page-text" />
                     <div>Notes</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/listum" class="tab">
+            <router-link to="/listum" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/listum')">
                     <IconComponent icon="menu" />
                     <div>Listum</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/workout-diary" class="tab">
+            <router-link to="/workout-diary" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/workout-diary')">
                     <IconComponent icon="flex" />
                     <div>Workout Diary</div>
@@ -41,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import GradientBorderComponent from '@/component/GradientBorderComponent.vue';
@@ -50,6 +58,16 @@ import NavClockComponent from '@/component/nav/component/NavClockComponent.vue';
 const route = useRoute();
 
 const isDashboard = computed<boolean>(() => route.path === '/');
+
+const isOpen = ref<boolean>();
+
+const toggleOpen = function (): void {
+    isOpen.value = !isOpen.value;
+};
+
+const onNavigate = function (): void {
+    isOpen.value = false;
+};
 </script>
 
 <style lang="scss">
@@ -73,10 +91,21 @@ nav.nav-component {
 
     @include shadow-medium();
 
+    .title-heading {
+        text-align: center;
+    }
+
     .tabs {
         list-style: none;
         padding-left: 0;
         margin: 0%;
+        opacity: 0;
+        pointer-events: none;
+
+        &.is-open {
+            opacity: 1;
+            pointer-events: all;
+        }
 
         .tab {
             display: block;
@@ -96,6 +125,37 @@ nav.nav-component {
                 margin-top: 1rem;
             }
         }
+    }
+}
+
+@media screen and (max-width: $breakpoint) {
+    nav.nav-component {
+        position: relative;
+        flex: 0 0 auto;
+
+        .title-heading {
+            text-align: left;
+
+            h1 {
+                margin-bottom: 0;
+            }
+        }
+
+        .tabs {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            padding: 0 1rem 1rem 1rem;
+            background-color: var(--wjb-background-colour);
+            z-index: 1;
+
+            @include shadow-medium();
+        }
+    }
+
+    nav.nav-placeholder {
+        display: none;
     }
 }
 </style>

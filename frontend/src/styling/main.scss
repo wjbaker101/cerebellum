@@ -1,5 +1,6 @@
 @use '~@wjb/styling/setup-variables' as *;
 @use '~@wjb/styling/main' as *;
+@use './variables' as *;
 
 @use './element/input' as *;
 
@@ -26,5 +27,13 @@
 .modal-component {
     & > .content-container {
         border-top: 4px solid var(--wjb-secondary);
+    }
+}
+
+.flex {
+    &.breakpoint {
+        @media screen and (max-width: $breakpoint) {
+            flex-direction: column;
+        }
     }
 }
