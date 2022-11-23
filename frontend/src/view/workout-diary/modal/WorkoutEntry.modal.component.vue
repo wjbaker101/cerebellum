@@ -13,6 +13,11 @@
                         <input type="time" placeholder="End Time" v-model="form.endTime">
                     </FormInputComponent>
                 </div>
+                <div class="flex-auto flex-align-self-end">
+                    <ButtonComponent class="mini" @click="onSetEndTime">
+                        <IconComponent icon="clock" />
+                    </ButtonComponent>
+                </div>
             </FormSectionComponent>
             <FormSectionComponent class="flex gap">
                 <div>
@@ -96,6 +101,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
+import { helper } from '@/view/workout-diary/helper/helper';
+
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const props = defineProps<{
@@ -130,8 +137,8 @@ const api = useApi();
 const modal = useModal();
 
 const form = reactive<IWorkoutDiaryForm>({
-    date: (props.workoutEntry?.date ?? dayjs()).format('YYYY-MM-DDTHH:mm'),
-    startTime: (props.workoutEntry?.startTime ?? dayjs()).format('YYYY-MM-DDTHH:mm'),
+    date: (props.workoutEntry?.date ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
+    startTime: (props.workoutEntry?.startTime ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
     endTime: props.workoutEntry?.endTime?.format('HH:mm') ?? null,
     weight: props.workoutEntry?.weight ?? null,
     exercises: props.workoutEntry?.exercises.map(exercise => ({
@@ -148,6 +155,10 @@ const form = reactive<IWorkoutDiaryForm>({
 });
 
 const userMessageErrors = ref<Array<string>>([]);
+
+const onSetEndTime = function (): void {
+    form.endTime = helper.roundDayjs(dayjs(), 5).format('HH:mm');
+};
 
 const onAddExercise = function (): void {
     form.exercises.push({
