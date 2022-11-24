@@ -2,12 +2,12 @@
     <div class="workout-entry-modal-component">
         <h2>{{ workoutEntry ? 'Edit' : 'Create' }} Workout Entry</h2>
         <FormComponent>
+            <FormSectionComponent class="flex gap breakpoint">
+                <FormInputComponent label="Start">
+                    <input type="datetime-local" v-model="form.startTime">
+                </FormInputComponent>
+            </FormSectionComponent>
             <FormSectionComponent class="flex gap">
-                <div>
-                    <FormInputComponent label="Start">
-                        <input type="datetime-local" v-model="form.startTime">
-                    </FormInputComponent>
-                </div>
                 <div>
                     <FormInputComponent label="End">
                         <input type="time" placeholder="End Time" v-model="form.endTime">
@@ -18,8 +18,6 @@
                         <IconComponent icon="clock" />
                     </ButtonComponent>
                 </div>
-            </FormSectionComponent>
-            <FormSectionComponent class="flex gap">
                 <div>
                     <FormInputComponent label="Body Weight (kg)">
                         <input type="text" placeholder="99.9" v-model="form.weight">
@@ -34,8 +32,8 @@
                     </ButtonComponent>
                 </div>
             </div>
-            <FormSectionComponent class="flex gap" :key="`exercise-${exercise.createdAt.toISOString()}`" v-for="(exercise, exerciseIndex) in form.exercises">
-                <div>
+            <FormSectionComponent class="flex gap breakpoint" :key="`exercise-${exercise.createdAt.toISOString()}`" v-for="(exercise, exerciseIndex) in form.exercises">
+                <div class="flex-1">
                     <div class="flex gap-small align-items-center">
                         <div v-if="exerciseIndex > 0" class="flex-auto flex-align-self-end">
                             <DeleteButtonComponent class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
@@ -45,11 +43,11 @@
                         </FormInputComponent>
                     </div>
                 </div>
-                <div class="flex-auto">
+                <div class="flex-1">
                     <div class="flex gap-small align-items-center" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
-                        <div class="flex-auto">
+                        <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Reps' : ''">
-                                <input class="set-input" type="text" placeholder="99" v-model="set.repetitions">
+                                <input type="text" placeholder="99" v-model="set.repetitions">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
@@ -57,9 +55,9 @@
                                 &times;
                             </FormInputComponent>
                         </div>
-                        <div class="flex-auto">
+                        <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
-                                <input class="set-input" type="text" placeholder="99.9" v-model="set.weight">
+                                <input type="text" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto flex-align-self-end">
@@ -291,7 +289,7 @@ const onDelete = async function (): Promise<void> {
     max-width: 100%;
 
     .set-input {
-        width: 150px;
+        // width: 150px;
     }
 
     .flex-align-self-end {
