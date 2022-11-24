@@ -8,15 +8,17 @@
                 </FormInputComponent>
             </FormSectionComponent>
             <FormSectionComponent class="flex gap align-items-end">
-                <div>
-                    <FormInputComponent label="End">
-                        <input type="time" placeholder="End Time" v-model="form.endTime">
-                    </FormInputComponent>
-                </div>
-                <div class="flex-auto">
-                    <ButtonComponent class="mini" @click="onSetEndTime">
-                        <IconComponent icon="clock" />
-                    </ButtonComponent>
+                <div class="flex gap-small align-items-end">
+                    <div>
+                        <FormInputComponent label="End">
+                            <input type="time" placeholder="End Time" v-model="form.endTime">
+                        </FormInputComponent>
+                    </div>
+                    <div class="flex-auto">
+                        <ButtonComponent class="mini" @click="onSetEndTime">
+                            <IconComponent icon="clock" />
+                        </ButtonComponent>
+                    </div>
                 </div>
                 <div>
                     <FormInputComponent label="Body Weight (kg)">
