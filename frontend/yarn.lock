@@ -1660,10 +1660,15 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@wjb/styling@^1.0.12", "@wjb/styling@^1.0.13":
+"@wjb/styling@^1.0.13":
   version "1.0.13"
   resolved "https://wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com:443/npm/npm-libs/@wjb/styling/-/styling-1.0.13.tgz#cfb91285b1cc8611b859e72747200aa2f8cb4064"
   integrity sha512-b+nYkJT/a8sTLc+Ec0QwScEZASeC1MAmkdA2Gbz9r2x7f37dTovPAnka9w9mA8FnZ7sEEsnXIx7/ezmYg3gazQ==
+
+"@wjb/styling@^1.0.16":
+  version "1.0.16"
+  resolved "https://wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com:443/npm/npm-libs/@wjb/styling/-/styling-1.0.16.tgz#b9101966320cab905a91a2f11e4f763978bc8efc"
+  integrity sha512-jXhFttAU4GfJD5O4NkoNJ6dMF39ymPt2jvqE/7BbnR0efgZf37gcy0CakTAVEUZVeSCY2CozoHwaYG/Ewfa7/g==
 
 "@wjb/vue@^1.0.54":
   version "1.0.54"
