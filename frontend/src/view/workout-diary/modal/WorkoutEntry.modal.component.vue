@@ -109,8 +109,6 @@ const props = defineProps<{
     workoutEntry?: IWorkoutEntry;
 }>();
 
-const emit = defineEmits(['delete']);
-
 interface IWorkoutDiaryForm {
     date: string;
     startTime: string;
@@ -279,7 +277,6 @@ const onDelete = async function (): Promise<void> {
         return;
 
     await api.workoutDiary.deleteEntry(props.workoutEntry.reference);
-    emit('delete');
 
     modal.hide();
 };
