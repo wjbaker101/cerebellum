@@ -53,9 +53,7 @@
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
-                            <FormInputComponent>
-                                &times;
-                            </FormInputComponent>
+                            &times;
                         </div>
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
@@ -72,12 +70,12 @@
                 </div>
             </FormSectionComponent>
             <FormSectionComponent>
-                <FormInputComponent>
+                <div>
                     <ButtonComponent class="primary" @click="onConfirm">
                         <IconComponent icon="tick" gap="right" />
                         <span>Confirm</span>
                     </ButtonComponent>
-                </FormInputComponent>
+                </div>
                 <div v-if="userMessageErrors.length > 0">
                     <p><strong>There were one or more errors preventing confirmation:</strong></p>
                     <ul>
@@ -86,9 +84,7 @@
                 </div>
             </FormSectionComponent>
             <FormSectionComponent>
-                <FormInputComponent>
-                    <DeleteButtonComponent @delete="onDelete" />
-                </FormInputComponent>
+                <DeleteButtonComponent @delete="onDelete" />
             </FormSectionComponent>
         </FormComponent>
     </div>
