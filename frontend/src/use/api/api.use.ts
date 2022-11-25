@@ -395,6 +395,15 @@ export const useApi = function () {
                 startTime: string;
                 endTime: string | null;
                 weight: number | null;
+                exercises: Array<{
+                    reference: string | null;
+                    name: string;
+                    sets: Array<{
+                        reference: string | null;
+                        repetitions: number;
+                        weight: number;
+                    }>;
+                }>;
             }): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry`, {
                     method: 'post',
@@ -406,6 +415,15 @@ export const useApi = function () {
                         startTime: request.startTime,
                         endTime: request.endTime,
                         weight: request.weight,
+                        exercises: request.exercises.map(exercise => ({
+                            reference: exercise.reference,
+                            name: exercise.name,
+                            sets: exercise.sets.map(set => ({
+                                reference: set.reference,
+                                repetitions: set.repetitions,
+                                weight: set.weight,
+                            })),
+                        })),
                     }),
                 });
                 const json = await response.json() as IApiResponse<ICreateWorkoutDiaryEntryResponse>;

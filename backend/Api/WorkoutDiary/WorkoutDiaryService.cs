@@ -104,6 +104,35 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
             Weight = request.Weight
         });
 
+        var exercises = new List<WorkoutEntryExerciseRecord>();
+        foreach (var newExercise in request.Exercises)
+        {
+            var exercise = _workoutDiaryRepository.SaveExercise(new WorkoutEntryExerciseRecord
+            {
+                Reference = Guid.NewGuid(),
+                CreatedAt = DateTime.UtcNow,
+                Name = newExercise.Name,
+                Entry = entry
+            });
+
+            var sets = new List<WorkoutEntrySetRecord>();
+            foreach (var newSet in newExercise.Sets)
+            {
+                sets.Add(_workoutDiaryRepository.SaveSet(new WorkoutEntrySetRecord
+                {
+                    Reference = Guid.NewGuid(),
+                    CreatedAt = DateTime.UtcNow,
+                    Exercise = exercise,
+                    Repetitions = newSet.Repetitions,
+                    Weight = newSet.Weight
+                }));
+            }
+
+            exercise.Sets = sets;
+            exercises.Add(exercise);
+        }
+        entry.Exercises = exercises;
+
         return new CreateEntryResponse
         {
             Entry = new WorkoutEntry
@@ -113,7 +142,20 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 Date = entry.Date,
                 StartTime = entry.StartTime,
                 EndTime = entry.EndTime,
-                Weight = entry.Weight
+                Weight = entry.Weight,
+                Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
+                {
+                    Reference = exercise.Reference,
+                    CreatedAt = exercise.CreatedAt,
+                    Name = exercise.Name,
+                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
+                    {
+                        Reference = set.Reference,
+                        CreatedAt = set.CreatedAt,
+                        Repetitions = set.Repetitions,
+                        Weight = set.Weight
+                    })
+                })
             }
         };
     }
