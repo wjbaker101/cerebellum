@@ -4,14 +4,14 @@
         <FormComponent>
             <FormSectionComponent class="flex gap breakpoint">
                 <FormInputComponent label="Start">
-                    <input type="datetime-local" v-model="form.startTime">
+                    <input type="datetime-local" v-model="form.startAt">
                 </FormInputComponent>
             </FormSectionComponent>
             <FormSectionComponent class="flex gap align-items-end">
                 <div class="flex gap-small align-items-end">
                     <div>
                         <FormInputComponent label="End">
-                            <input type="time" placeholder="End Time" v-model="form.endTime">
+                            <input type="time" placeholder="End Time" v-model="form.endAt">
                         </FormInputComponent>
                     </div>
                     <div class="flex-auto">
@@ -112,9 +112,8 @@ const props = defineProps<{
 }>();
 
 interface IWorkoutDiaryForm {
-    date: string;
-    startTime: string;
-    endTime: string | null;
+    startAt: string;
+    endAt: string | null;
     weight: number | null;
     exercises: Array<IFormWorkoutExercise>;
 }
@@ -139,9 +138,8 @@ const popup = usePopup();
 const workoutDiary = useWorkoutDiary();
 
 const form = reactive<IWorkoutDiaryForm>({
-    date: (props.workoutEntry?.date ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
-    startTime: (props.workoutEntry?.startTime ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
-    endTime: props.workoutEntry?.endTime?.format('HH:mm') ?? null,
+    startAt: (props.workoutEntry?.startAt ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
+    endAt: props.workoutEntry?.endAt?.format('HH:mm') ?? null,
     weight: props.workoutEntry?.weight ?? null,
     exercises: props.workoutEntry?.exercises.map(exercise => ({
         reference: exercise.reference,
@@ -159,7 +157,7 @@ const form = reactive<IWorkoutDiaryForm>({
 const userMessageErrors = ref<Array<string>>([]);
 
 const onSetEndTime = function (): void {
-    form.endTime = helper.roundDayjs(dayjs(), 5).format('HH:mm');
+    form.endAt = helper.roundDayjs(dayjs(), 5).format('HH:mm');
 };
 
 const onAddExercise = function (): void {
@@ -196,14 +194,14 @@ const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): vo
 };
 
 const onConfirm = async function (): Promise<void> {
-    const startTime = dayjs(form.startTime);
-    const endTime = form.endTime === null || form.endTime.length === 0 ? null : timeToDayjs(startTime, form.endTime);
+    const startAt = dayjs(form.startAt);
+    const endAt = form.endAt === null || form.endAt.length === 0 ? null : timeToDayjs(startAt, form.endAt);
 
     userMessageErrors.value = [];
 
     const errors = validate({
-        startTime,
-        endTime,
+        startAt: startAt,
+        endAt: endAt,
     });
     if (errors.length > 0) {
         userMessageErrors.value = errors;
@@ -212,9 +210,8 @@ const onConfirm = async function (): Promise<void> {
 
     if (props.workoutEntry) {
         await workoutDiary.updateEntry(props.workoutEntry.reference, {
-            date: startTime.toISOString(),
-            startTime: startTime.toISOString(),
-            endTime: endTime?.toISOString() ?? null,
+            startAt: startAt.toISOString(),
+            endAt: endAt?.toISOString() ?? null,
             weight: form.weight,
             exercises: form.exercises.map(exercise => ({
                 reference: exercise.reference,
@@ -234,9 +231,8 @@ const onConfirm = async function (): Promise<void> {
     }
     else {
         await workoutDiary.createEntry({
-            date: startTime.toISOString(),
-            startTime: startTime.toISOString(),
-            endTime: endTime?.toISOString() ?? null,
+            startAt: startAt.toISOString(),
+            endAt: endAt?.toISOString() ?? null,
             weight: form.weight,
             exercises: form.exercises.map(exercise => ({
                 reference: exercise.reference,
@@ -263,15 +259,15 @@ const timeToDayjs = function (baseDayjs: Dayjs, time: string): Dayjs {
 };
 
 const validate = function(values: {
-    startTime: Dayjs;
-    endTime: Dayjs | null;
+    startAt: Dayjs;
+    endAt: Dayjs | null;
 }): Array<string> {
     const errors: Array<string> = [];
 
-    if (form.date.length === 0)
+    if (form.startAt.length === 0)
         errors.push('Invalid start time');
 
-    if (values.endTime !== null && values.startTime.isAfter(values.endTime))
+    if (values.endAt !== null && values.startAt.isAfter(values.endAt))
         errors.push('Start time is after end time');
 
     if (form.exercises.some(x => x.name.length === 0))

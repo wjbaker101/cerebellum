@@ -1,7 +1,7 @@
 <template>
     <div class="workout-entry-component">
         <section class="flex gap align-items-center">
-            <h3>{{ workoutEntry.date.format('ddd Do MMM') }}</h3>
+            <h3>{{ workoutEntry.startAt.format('ddd Do MMM') }}</h3>
             <div class="flex-auto">
                 <ButtonComponent class="mini" @click="onEntryClick">
                     <IconComponent icon="menu" />
@@ -11,11 +11,11 @@
         <section class="flex gap align-items-center">
             <p>
                 <strong>Time: </strong>
-                <span>{{ workoutEntry.startTime.format('ha') }}</span>
+                <span>{{ workoutEntry.startAt.format('ha') }}</span>
             </p>
             <p>
                 <strong>Duration: </strong>
-                <span v-if="workoutEntry.endTime">{{ workoutEntry.endTime.diff(workoutEntry.startTime, 'minutes') }}m</span>
+                <span v-if="workoutEntry.endAt">{{ workoutEntry.endAt.diff(workoutEntry.startAt, 'minutes') }}m</span>
                 <span v-else>not finished</span>
             </p>
             <p>

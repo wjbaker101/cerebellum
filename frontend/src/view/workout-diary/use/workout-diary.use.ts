@@ -31,9 +31,8 @@ export const useWorkoutDiary = function () {
 
             const entry = entries.value?.find(x => x.reference === reference);
             if (entry) {
-                entry.date = result.date;
-                entry.startTime = result.startTime;
-                entry.endTime = result.endTime;
+                entry.startAt = result.startAt;
+                entry.endAt = result.endAt;
                 entry.weight = result.weight;
                 entry.exercises = result.exercises;
             }

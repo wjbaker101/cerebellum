@@ -344,9 +344,8 @@ export const useApi = function () {
                 return entries.map(entry => ({
                     reference: entry.reference,
                     createdAt: dayjs(entry.createdAt),
-                    date: dayjs(entry.date),
-                    startTime: dayjs(entry.startTime),
-                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    startAt: dayjs(entry.startAt),
+                    endAt: entry.endAt !== null ? dayjs(entry.endAt) : null,
                     weight: entry.weight,
                     exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
@@ -372,9 +371,8 @@ export const useApi = function () {
                 return {
                     reference: entry.reference,
                     createdAt: dayjs(entry.createdAt),
-                    date: dayjs(entry.date),
-                    startTime: dayjs(entry.startTime),
-                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    startAt: dayjs(entry.startAt),
+                    endAt: entry.endAt !== null ? dayjs(entry.endAt) : null,
                     weight: entry.weight,
                     exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
@@ -397,9 +395,8 @@ export const useApi = function () {
                         'Content-Type': 'application/json',
                     }),
                     body: JSON.stringify({
-                        date: request.date,
-                        startTime: request.startTime,
-                        endTime: request.endTime,
+                        startAt: request.startAt,
+                        endAt: request.endAt,
                         weight: request.weight,
                         exercises: request.exercises.map(exercise => ({
                             reference: exercise.reference,
@@ -419,9 +416,8 @@ export const useApi = function () {
                 return {
                     reference: entry.reference,
                     createdAt: dayjs(entry.createdAt),
-                    date: dayjs(entry.date),
-                    startTime: dayjs(entry.startTime),
-                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    startAt: dayjs(entry.startAt),
+                    endAt: entry.endAt !== null ? dayjs(entry.endAt) : null,
                     weight: entry.weight,
                     exercises: entry.exercises.map(exercise => (<IWorkoutExercise>{
                         reference: exercise.reference,
@@ -444,9 +440,8 @@ export const useApi = function () {
                         'Content-Type': 'application/json',
                     }),
                     body: JSON.stringify({
-                        date: request.date,
-                        startTime: request.startTime,
-                        endTime: request.endTime,
+                        startAt: request.startAt,
+                        endAt: request.endAt,
                         weight: request.weight,
                         exercises: request.exercises.map(exercise => ({
                             reference: exercise.reference,
@@ -466,9 +461,8 @@ export const useApi = function () {
                 return {
                     reference: entry.reference,
                     createdAt: dayjs(entry.createdAt),
-                    date: dayjs(entry.date),
-                    startTime: dayjs(entry.startTime),
-                    endTime: entry.endTime !== null ? dayjs(entry.endTime) : null,
+                    startAt: dayjs(entry.startAt),
+                    endAt: entry.endAt !== null ? dayjs(entry.endAt) : null,
                     weight: entry.weight,
                     exercises: entry.exercises.map(exercise => ({
                         reference: exercise.reference,

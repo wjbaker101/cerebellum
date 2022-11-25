@@ -40,9 +40,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
             {
                 Reference = entry.Reference,
                 CreatedAt = entry.CreatedAt,
-                Date = entry.Date,
-                StartTime = entry.StartTime,
-                EndTime = entry.EndTime,
+                StartAt = entry.StartAt,
+                EndAt = entry.EndAt,
                 Weight = entry.Weight,
                 Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
                 {
@@ -71,9 +70,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
             {
                 Reference = entry.Reference,
                 CreatedAt = entry.CreatedAt,
-                Date = entry.Date,
-                StartTime = entry.StartTime,
-                EndTime = entry.EndTime,
+                StartAt = entry.StartAt,
+                EndAt = entry.EndAt,
                 Weight = entry.Weight,
                 Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
                 {
@@ -98,9 +96,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
         {
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
-            Date = request.Date.Date,
-            StartTime = request.StartTime,
-            EndTime = request.EndTime,
+            StartAt = request.StartAt,
+            EndAt = request.EndAt,
             Weight = request.Weight
         });
 
@@ -139,9 +136,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
             {
                 Reference = entry.Reference,
                 CreatedAt = entry.CreatedAt,
-                Date = entry.Date,
-                StartTime = entry.StartTime,
-                EndTime = entry.EndTime,
+                StartAt = entry.StartAt,
+                EndAt = entry.EndAt,
                 Weight = entry.Weight,
                 Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
                 {

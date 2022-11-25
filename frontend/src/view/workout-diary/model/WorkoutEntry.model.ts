@@ -3,9 +3,8 @@ import { Dayjs } from 'dayjs';
 export interface IWorkoutEntry {
     reference: string;
     createdAt: Dayjs;
-    date: Dayjs;
-    startTime: Dayjs;
-    endTime: Dayjs | null;
+    startAt: Dayjs;
+    endAt: Dayjs | null;
     weight: number | null;
     exercises: Array<IWorkoutExercise>;
 }

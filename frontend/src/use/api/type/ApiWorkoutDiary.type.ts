@@ -1,9 +1,8 @@
 export interface IApiWorkoutDiaryEntry {
     reference: string;
     createdAt: string;
-    date: string;
-    startTime: string;
-    endTime: string | null;
+    startAt: string;
+    endAt: string | null;
     weight: number | null;
     exercises: Array<IApiWorkoutDiaryExercise>;
 }

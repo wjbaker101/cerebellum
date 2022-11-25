@@ -4,9 +4,8 @@ public sealed class WorkoutEntry
 {
     public Guid Reference { get; init; }
     public DateTime CreatedAt { get; init; }
-    public DateTime Date { get; init; }
-    public DateTime StartTime { get; init; }
-    public DateTime? EndTime { get; init; }
+    public DateTime StartAt { get; init; }
+    public DateTime? EndAt { get; init; }
     public decimal? Weight { get; init; }
     public List<WorkoutEntryExercise> Exercises { get; init; } = new();
 }

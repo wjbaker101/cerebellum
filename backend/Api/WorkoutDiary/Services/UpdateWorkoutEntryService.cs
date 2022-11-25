@@ -22,9 +22,8 @@ public sealed class UpdateWorkoutEntryService
         if (!entryResult.TrySuccess(out var entry))
             return Result<UpdateEntryResponse>.FromFailure(entryResult);
 
-        entry.Date = request.Date;
-        entry.StartTime = request.StartTime;
-        entry.EndTime = request.EndTime;
+        entry.StartAt = request.StartAt;
+        entry.EndAt = request.EndAt;
         entry.Weight = request.Weight;
 
         _workoutDiaryRepository.UpdateEntry(entry);
@@ -42,9 +41,8 @@ public sealed class UpdateWorkoutEntryService
             {
                 Reference = updatedEntry.Reference,
                 CreatedAt = updatedEntry.CreatedAt,
-                Date = updatedEntry.Date,
-                StartTime = updatedEntry.StartTime,
-                EndTime = updatedEntry.EndTime,
+                StartAt = updatedEntry.StartAt,
+                EndAt = updatedEntry.EndAt,
                 Weight = updatedEntry.Weight,
                 Exercises = updatedEntry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
                 {
