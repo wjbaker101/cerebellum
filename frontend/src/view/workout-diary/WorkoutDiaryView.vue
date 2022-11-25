@@ -19,19 +19,15 @@ import WorkoutEntryComponent from '@/view/workout-diary/component/WorkoutEntry.c
 import WorkoutEntryModalComponent from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
-import { useApi } from '@/use/api/api.use';
+import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
-import { IWorkoutEntry } from './model/WorkoutEntry.model';
-
-const api = useApi();
 const modal = useModal();
+const workoutDiary = useWorkoutDiary();
 
-const entries = ref<Array<IWorkoutEntry> | null>(null);
+const entries = workoutDiary.entries;
 
 onMounted(async () => {
-    const result = await api.workoutDiary.search();
-
-    entries.value = result;
+    workoutDiary.search();
 });
 
 const onAddEntry = function (): void {

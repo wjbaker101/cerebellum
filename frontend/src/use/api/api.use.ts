@@ -20,8 +20,8 @@ import { ICreateListItemResponse } from '@/use/api/type/CreateListItem.type';
 import { IUpdateListItemResponse } from '@/use/api/type/UpdateListItem.type';
 import { ISearchWorkoutDiaryEntriesResponse } from './type/SearchWorkoutDiaryEntries.type';
 import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiaryEntryByReference.type';
-import { ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
-import { IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
+import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
+import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
 import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const baseUrl = '/api';
@@ -390,21 +390,7 @@ export const useApi = function () {
                 };
             },
 
-            async createEntry(request: {
-                date: string;
-                startTime: string;
-                endTime: string | null;
-                weight: number | null;
-                exercises: Array<{
-                    reference: string | null;
-                    name: string;
-                    sets: Array<{
-                        reference: string | null;
-                        repetitions: number;
-                        weight: number;
-                    }>;
-                }>;
-            }): Promise<IWorkoutEntry> {
+            async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry`, {
                     method: 'post',
                     headers: new Headers({
@@ -451,21 +437,7 @@ export const useApi = function () {
                 };
             },
 
-            async updateEntry(reference: string, request: {
-                date: string;
-                startTime: string;
-                endTime: string | null;
-                weight: number | null;
-                exercises: Array<{
-                    reference: string | null;
-                    name: string;
-                    sets: Array<{
-                        reference: string | null;
-                        repetitions: number;
-                        weight: number;
-                    }>;
-                }>;
-            }): Promise<IWorkoutEntry> {
+            async updateEntry(reference: string, request: IUpdateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
                 const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`, {
                     method: 'put',
                     headers: new Headers({

@@ -102,6 +102,7 @@ import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
 import { helper } from '@/view/workout-diary/helper/helper';
+import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
@@ -133,6 +134,7 @@ interface IFormWorkoutSet {
 
 const api = useApi();
 const modal = useModal();
+const workoutDiary = useWorkoutDiary();
 
 const form = reactive<IWorkoutDiaryForm>({
     date: (props.workoutEntry?.date ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
@@ -207,7 +209,7 @@ const onConfirm = async function (): Promise<void> {
     }
 
     if (props.workoutEntry) {
-        await api.workoutDiary.updateEntry(props.workoutEntry.reference, {
+        await workoutDiary.updateEntry(props.workoutEntry.reference, {
             date: startTime.toISOString(),
             startTime: startTime.toISOString(),
             endTime: endTime?.toISOString() ?? null,
@@ -224,7 +226,7 @@ const onConfirm = async function (): Promise<void> {
         });
     }
     else {
-        await api.workoutDiary.createEntry({
+        await workoutDiary.createEntry({
             date: startTime.toISOString(),
             startTime: startTime.toISOString(),
             endTime: endTime?.toISOString() ?? null,
@@ -276,7 +278,7 @@ const onDelete = async function (): Promise<void> {
     if (!props.workoutEntry)
         return;
 
-    await api.workoutDiary.deleteEntry(props.workoutEntry.reference);
+    await workoutDiary.deleteEntry(props.workoutEntry.reference);
 
     modal.hide();
 };
