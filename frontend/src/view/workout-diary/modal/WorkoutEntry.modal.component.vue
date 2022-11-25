@@ -99,6 +99,7 @@ import { reactive, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useModal } from '@wjb/vue/use/modal.use';
+import { usePopup } from '@wjb/vue/use/popup.use';
 import { useApi } from '@/use/api/api.use';
 
 import { helper } from '@/view/workout-diary/helper/helper';
@@ -134,6 +135,7 @@ interface IFormWorkoutSet {
 
 const api = useApi();
 const modal = useModal();
+const popup = usePopup();
 const workoutDiary = useWorkoutDiary();
 
 const form = reactive<IWorkoutDiaryForm>({
@@ -224,6 +226,11 @@ const onConfirm = async function (): Promise<void> {
                 })),
             })),
         });
+
+        popup.trigger({
+            style: 'success',
+            message: 'Entry has been updated',
+        });
     }
     else {
         await workoutDiary.createEntry({
@@ -240,6 +247,11 @@ const onConfirm = async function (): Promise<void> {
                     weight: set.weight ?? 0,
                 })),
             })),
+        });
+
+        popup.trigger({
+            style: 'success',
+            message: 'Entry has been created',
         });
     }
 };
@@ -281,6 +293,11 @@ const onDelete = async function (): Promise<void> {
     await workoutDiary.deleteEntry(props.workoutEntry.reference);
 
     modal.hide();
+
+    popup.trigger({
+        style: 'success',
+        message: 'Entry has been deleted',
+    });
 };
 </script>
 
