@@ -2,6 +2,7 @@
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
+using NetApiLibs.Extension;
 using NetApiLibs.Type;
 
 namespace Api.WorkoutDiary.Services;
@@ -31,16 +32,33 @@ public sealed class UpdateWorkoutEntryService
         UpdateExistingExercises(entry, request.Exercises.Where(x => x.Reference.HasValue).ToList());
         SaveNewExercises(entry, request.Exercises.Where(x => !x.Reference.HasValue).ToList());
 
+        var updatedEntryResult = _workoutDiaryRepository.GetEntryByReference(reference);
+        if (!updatedEntryResult.TrySuccess(out var updatedEntry))
+            return Result<UpdateEntryResponse>.FromFailure(updatedEntryResult);
+
         return new UpdateEntryResponse
         {
             Entry = new WorkoutEntry
             {
-                Reference = entry.Reference,
-                CreatedAt = entry.CreatedAt,
-                Date = entry.Date,
-                StartTime = entry.StartTime,
-                EndTime = entry.EndTime,
-                Weight = entry.Weight
+                Reference = updatedEntry.Reference,
+                CreatedAt = updatedEntry.CreatedAt,
+                Date = updatedEntry.Date,
+                StartTime = updatedEntry.StartTime,
+                EndTime = updatedEntry.EndTime,
+                Weight = updatedEntry.Weight,
+                Exercises = updatedEntry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
+                {
+                    Reference = exercise.Reference,
+                    CreatedAt = exercise.CreatedAt,
+                    Name = exercise.Name,
+                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
+                    {
+                        Reference = set.Reference,
+                        CreatedAt = set.CreatedAt,
+                        Repetitions = set.Repetitions,
+                        Weight = set.Weight
+                    })
+                })
             }
         };
     }
