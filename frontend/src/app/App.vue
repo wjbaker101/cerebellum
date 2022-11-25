@@ -3,11 +3,13 @@
         <NavComponent></NavComponent>
         <router-view></router-view>
         <ModalComponent />
+        <PopupComponent />
     </div>
 </template>
 
 <script setup lang="ts">
 import ModalComponent from '@wjb/vue/component/ModalComponent.vue';
+import PopupComponent from '@wjb/vue/component/PopupComponent.vue';
 import NavComponent from '@/component/nav/NavComponent.vue';
 </script>
 
