@@ -110,7 +110,7 @@ const props = defineProps<{
 interface IWorkoutDiaryForm {
     startAt: string;
     endAt: string | null;
-    weight: number | null;
+    weight: string | null;
     exercises: Array<IFormWorkoutExercise>;
 }
 
@@ -124,8 +124,8 @@ interface IFormWorkoutExercise {
 interface IFormWorkoutSet {
     reference: string | null;
     createdAt: Dayjs;
-    repetitions: number | null;
-    weight: number | null;
+    repetitions: string | null;
+    weight: string | null;
 }
 
 const api = useApi();
@@ -136,7 +136,7 @@ const workoutDiary = useWorkoutDiary();
 const form = reactive<IWorkoutDiaryForm>({
     startAt: (props.workoutEntry?.startAt ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
     endAt: props.workoutEntry?.endAt?.format('HH:mm') ?? null,
-    weight: props.workoutEntry?.weight ?? null,
+    weight: props.workoutEntry?.weight?.toFixed(1) ?? null,
     exercises: props.workoutEntry?.exercises.map(exercise => ({
         reference: exercise.reference,
         createdAt: dayjs(),
@@ -144,8 +144,8 @@ const form = reactive<IWorkoutDiaryForm>({
         sets: exercise.sets.map(set => ({
             reference: set.reference,
             createdAt: dayjs(),
-            repetitions: set.repetitions,
-            weight: set.weight,
+            repetitions: String(set.repetitions),
+            weight: set.weight.toFixed(1),
         })),
     })) ?? [],
 });
@@ -208,14 +208,14 @@ const onConfirm = async function (): Promise<void> {
         await workoutDiary.updateEntry(props.workoutEntry.reference, {
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: form.weight,
+            weight: Number(form.weight ?? '0'),
             exercises: form.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
                 sets: exercise.sets.map(set => ({
                     reference: set.reference,
-                    repetitions: set.repetitions ?? 0,
-                    weight: set.weight ?? 0,
+                    repetitions: Number(set.repetitions ?? '0'),
+                    weight: Number(set.weight ?? '0'),
                 })),
             })),
         });
@@ -229,14 +229,14 @@ const onConfirm = async function (): Promise<void> {
         await workoutDiary.createEntry({
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: form.weight,
+            weight: Number(form.weight ?? '0'),
             exercises: form.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
                 sets: exercise.sets.map(set => ({
                     reference: set.reference,
-                    repetitions: set.repetitions ?? 0,
-                    weight: set.weight ?? 0,
+                    repetitions: Number(set.repetitions ?? '0'),
+                    weight: Number(set.weight ?? '0'),
                 })),
             })),
         });
@@ -263,16 +263,19 @@ const validate = function(values: {
     if (form.startAt.length === 0)
         errors.push('Invalid start time');
 
+    if (helper.isNaN(form.weight ?? '0'))
+        errors.push('Invalid body weight');
+
     if (values.endAt !== null && values.startAt.isAfter(values.endAt))
         errors.push('Start time is after end time');
 
     if (form.exercises.some(x => x.name.length === 0))
         errors.push('Exercise(s) with an invalid name');
 
-    if (form.exercises.flatMap(x => x.sets).some(x => x.repetitions === null))
+    if (form.exercises.flatMap(x => x.sets).some(x => x.repetitions === null || helper.isNaN(x.repetitions)))
         errors.push('Set(s) with an invalid number of repetitions');
 
-    if (form.exercises.flatMap(x => x.sets).some(x => x.weight === null))
+    if (form.exercises.flatMap(x => x.sets).some(x => x.weight === null || helper.isNaN(x.weight)))
         errors.push('Set(s) with an invalid weight');
 
     return errors;

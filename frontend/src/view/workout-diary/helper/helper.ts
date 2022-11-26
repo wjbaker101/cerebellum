@@ -7,4 +7,8 @@ export const helper = {
         return dayjs.minute(newMinutes);
     },
 
+    isNaN(value: string): boolean {
+        return Number.isNaN(Number(value));
+    },
+
 };
