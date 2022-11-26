@@ -24,10 +24,23 @@ services.AddSingleton<IListumRepository, ListumRepository>();
 services.AddSingleton<IWorkoutDiaryService, WorkoutDiaryService>();
 services.AddSingleton<IWorkoutDiaryRepository, WorkoutDiaryRepository>();
 
+services.AddSpaStaticFiles(spa =>
+{
+    spa.RootPath = "wwwroot";
+});
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "wwwroot";
+});
 
 app.Run();
