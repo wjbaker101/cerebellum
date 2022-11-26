@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
 
-    outputDir: '../cerebellum/Api/wwwroot',
+    outputDir: '../backend/Api/wwwroot',
 
     devServer: {
         proxy: {
