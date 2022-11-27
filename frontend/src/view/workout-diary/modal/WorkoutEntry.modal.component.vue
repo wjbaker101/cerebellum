@@ -131,31 +131,35 @@ const modal = useModal();
 const popup = usePopup();
 const workoutDiary = useWorkoutDiary();
 
-const form = reactive<IWorkoutDiaryForm>({
-    startAt: (props.workoutEntry?.startAt ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
-    endAt: props.workoutEntry?.endAt?.format('HH:mm') ?? null,
-    weight: props.workoutEntry?.weight?.toFixed(1) ?? null,
-    exercises: props.workoutEntry?.exercises.map(exercise => ({
-        reference: exercise.reference,
-        createdAt: dayjs(),
-        name: exercise.name,
-        sets: exercise.sets.map(set => ({
-            reference: set.reference,
+const mapWorkoutEntry = function (workoutEntry?: IWorkoutEntry): IWorkoutDiaryForm {
+    return {
+        startAt: (workoutEntry?.startAt ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
+        endAt: workoutEntry?.endAt?.format('HH:mm') ?? null,
+        weight: workoutEntry?.weight?.toFixed(1) ?? null,
+        exercises: workoutEntry?.exercises.map(exercise => ({
+            reference: exercise.reference,
             createdAt: dayjs(),
-            repetitions: String(set.repetitions),
-            weight: set.weight.toFixed(1),
-        })),
-    })) ?? [],
-});
+            name: exercise.name,
+            sets: exercise.sets.map(set => ({
+                reference: set.reference,
+                createdAt: dayjs(),
+                repetitions: String(set.repetitions),
+                weight: set.weight.toFixed(1),
+            })),
+        })) ?? [],
+    }
+};
+
+const form = ref<IWorkoutDiaryForm>(mapWorkoutEntry(props.workoutEntry));
 
 const userMessageErrors = ref<Array<string>>([]);
 
 const onSetEndTime = function (): void {
-    form.endAt = helper.roundDayjs(dayjs(), 5).format('HH:mm');
+    form.value.endAt = helper.roundDayjs(dayjs(), 5).format('HH:mm');
 };
 
 const onAddExercise = function (): void {
-    form.exercises.push({
+    form.value.exercises.push({
         reference: null,
         createdAt: dayjs(),
         name: '',
@@ -171,7 +175,7 @@ const onAddExercise = function (): void {
 };
 
 const onDeleteExercise = function (index: number): void {
-    form.exercises.splice(index, 1);
+    form.value.exercises.splice(index, 1);
 };
 
 const onAddSet = function (exercise: IFormWorkoutExercise): void {
@@ -188,8 +192,8 @@ const onDeleteSet = function (exercise: IFormWorkoutExercise, index: number): vo
 };
 
 const onConfirm = async function (): Promise<void> {
-    const startAt = dayjs(form.startAt);
-    const endAt = form.endAt === null || form.endAt.length === 0 ? null : timeToDayjs(startAt, form.endAt);
+    const startAt = dayjs(form.value.startAt);
+    const endAt = form.value.endAt === null || form.value.endAt.length === 0 ? null : timeToDayjs(startAt, form.value.endAt);
 
     userMessageErrors.value = [];
 
@@ -206,8 +210,8 @@ const onConfirm = async function (): Promise<void> {
         await workoutDiary.updateEntry(props.workoutEntry.reference, {
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: Number(form.weight ?? '0'),
-            exercises: form.exercises.map(exercise => ({
+            weight: Number(form.value.weight ?? '0'),
+            exercises: form.value.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
                 sets: exercise.sets.map(set => ({
@@ -227,8 +231,8 @@ const onConfirm = async function (): Promise<void> {
         await workoutDiary.createEntry({
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: Number(form.weight ?? '0'),
-            exercises: form.exercises.map(exercise => ({
+            weight: Number(form.value.weight ?? '0'),
+            exercises: form.value.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
                 sets: exercise.sets.map(set => ({
@@ -258,22 +262,22 @@ const validate = function(values: {
 }): Array<string> {
     const errors: Array<string> = [];
 
-    if (form.startAt.length === 0)
+    if (form.value.startAt.length === 0)
         errors.push('Invalid start time');
 
-    if (helper.isNaN(form.weight ?? '0'))
+    if (helper.isNaN(form.value.weight ?? '0'))
         errors.push('Invalid body weight');
 
     if (values.endAt !== null && values.startAt.isAfter(values.endAt))
         errors.push('Start time is after end time');
 
-    if (form.exercises.some(x => x.name.length === 0))
+    if (form.value.exercises.some(x => x.name.length === 0))
         errors.push('Exercise(s) with an invalid name');
 
-    if (form.exercises.flatMap(x => x.sets).some(x => x.repetitions === null || helper.isNaN(x.repetitions)))
+    if (form.value.exercises.flatMap(x => x.sets).some(x => x.repetitions === null || helper.isNaN(x.repetitions)))
         errors.push('Set(s) with an invalid number of repetitions');
 
-    if (form.exercises.flatMap(x => x.sets).some(x => x.weight === null || helper.isNaN(x.weight)))
+    if (form.value.exercises.flatMap(x => x.sets).some(x => x.weight === null || helper.isNaN(x.weight)))
         errors.push('Set(s) with an invalid weight');
 
     return errors;
