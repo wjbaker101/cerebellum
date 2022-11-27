@@ -20,13 +20,15 @@ export const useWorkoutDiary = function () {
             entries.value = result;
         },
 
-        async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<void> {
+        async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
             const result = await api.workoutDiary.createEntry(request);
 
             entries.value?.push(result);
+
+            return result;
         },
 
-        async updateEntry(reference: string, request: IUpdateWorkoutDiaryEntryRequest): Promise<void> {
+        async updateEntry(reference: string, request: IUpdateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
             const result = await api.workoutDiary.updateEntry(reference, request);
 
             const entry = entries.value?.find(x => x.reference === reference);
@@ -36,6 +38,8 @@ export const useWorkoutDiary = function () {
                 entry.weight = result.weight;
                 entry.exercises = result.exercises;
             }
+
+            return result;
         },
 
         async deleteEntry(reference: string): Promise<void> {
