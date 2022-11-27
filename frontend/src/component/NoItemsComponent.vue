@@ -1,6 +1,6 @@
 <template>
     <div class="no-items-component text-centered">
-        <IconComponent icon="bin" size="large" />
+        <IconComponent icon="search" size="large" />
         <p>No {{ displayItemName }} yet!</p>
     </div>
 </template>
