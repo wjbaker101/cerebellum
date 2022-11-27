@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useModal } from '@wjb/vue/use/modal.use';
@@ -107,6 +107,7 @@ const props = defineProps<{
 }>();
 
 interface IWorkoutDiaryForm {
+    reference: string | null;
     startAt: string;
     endAt: string | null;
     weight: string | null;
@@ -133,6 +134,7 @@ const workoutDiary = useWorkoutDiary();
 
 const mapWorkoutEntry = function (workoutEntry?: IWorkoutEntry): IWorkoutDiaryForm {
     return {
+        reference: workoutEntry?.reference ?? null,
         startAt: (workoutEntry?.startAt ?? helper.roundDayjs(dayjs(), 5)).format('YYYY-MM-DDTHH:mm'),
         endAt: workoutEntry?.endAt?.format('HH:mm') ?? null,
         weight: workoutEntry?.weight?.toFixed(1) ?? null,
@@ -206,8 +208,8 @@ const onConfirm = async function (): Promise<void> {
         return;
     }
 
-    if (props.workoutEntry) {
-        await workoutDiary.updateEntry(props.workoutEntry.reference, {
+    if (form.value.reference !== null) {
+        const result = await workoutDiary.updateEntry(form.value.reference, {
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
             weight: Number(form.value.weight ?? '0'),
@@ -222,13 +224,15 @@ const onConfirm = async function (): Promise<void> {
             })),
         });
 
+        form.value = mapWorkoutEntry(result);
+
         popup.trigger({
             style: 'success',
             message: 'Entry has been updated',
         });
     }
     else {
-        await workoutDiary.createEntry({
+        const result = await workoutDiary.createEntry({
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
             weight: Number(form.value.weight ?? '0'),
@@ -242,6 +246,8 @@ const onConfirm = async function (): Promise<void> {
                 })),
             })),
         });
+
+        form.value = mapWorkoutEntry(result);
 
         popup.trigger({
             style: 'success',
