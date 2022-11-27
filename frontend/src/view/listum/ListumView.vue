@@ -6,9 +6,8 @@
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <div v-if="lists === null">
-            <p>Loading...</p>
-        </div>
+        <LoadingComponent itemName="lists" v-if="lists === null" />
+        <NoItemsComponent itemName="lists" v-else-if="lists.length === 0" />
         <div v-else>
             <router-link class="list" :to="`/listum/${list.reference}`" :key="list.reference" v-for="list in lists">
                 <div>
@@ -23,7 +22,11 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import LoadingComponent from '@/component/LoadingComponent.vue';
+import NoItemsComponent from '@/component/NoItemsComponent.vue';
+
 import { useApi } from '@/use/api/api.use';
+
 import { IListum } from '@/model/Listum.model';
 
 const api = useApi();
