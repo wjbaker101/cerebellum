@@ -1,5 +1,5 @@
 <template>
-    <div class="no-items-component">
+    <div class="no-items-component text-centered">
         <IconComponent icon="bin" size="large" />
         <p>No {{ displayItemName }} yet!</p>
     </div>
@@ -14,4 +14,7 @@ const displayItemName = props.itemName ?? 'items';
 </script>
 
 <style lang="scss">
+.no-items-component {
+    margin: 2rem;
+}
 </style>
