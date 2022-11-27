@@ -212,7 +212,7 @@ const onConfirm = async function (): Promise<void> {
         const result = await workoutDiary.updateEntry(form.value.reference, {
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: Number(form.value.weight ?? '0'),
+            weight: form.value.weight ? Number(form.value.weight) : null,
             exercises: form.value.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
@@ -235,7 +235,7 @@ const onConfirm = async function (): Promise<void> {
         const result = await workoutDiary.createEntry({
             startAt: startAt.toISOString(),
             endAt: endAt?.toISOString() ?? null,
-            weight: Number(form.value.weight ?? '0'),
+            weight: form.value.weight ? Number(form.value.weight) : null,
             exercises: form.value.exercises.map(exercise => ({
                 reference: exercise.reference,
                 name: exercise.name,
