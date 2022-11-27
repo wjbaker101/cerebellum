@@ -41,6 +41,8 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
+@use '@/styling/variables.scss' as *;
+
 .dashboard-view {
 
     .clock {
@@ -61,6 +63,14 @@ onMounted(async () => {
             margin-top: 2rem;
             font-size: 1.25rem;
             color: #aaa;
+        }
+    }
+
+    @media screen and (max-width: $breakpoint) {
+        .clock {
+            .time {
+                font-size: 6rem;
+            }
         }
     }
 }
