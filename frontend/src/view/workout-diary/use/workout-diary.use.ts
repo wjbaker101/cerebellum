@@ -45,9 +45,7 @@ export const useWorkoutDiary = function () {
         async deleteEntry(reference: string): Promise<void> {
             await api.workoutDiary.deleteEntry(reference);
 
-            const index = entries.value?.findIndex(x => x.reference === reference);
-            if (index)
-                entries.value?.splice(index, 1);
+            entries.value = entries.value?.filter(x => x.reference !== reference) ?? null;
         },
     };
 };
