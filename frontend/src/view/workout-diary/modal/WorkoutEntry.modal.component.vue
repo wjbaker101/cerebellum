@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <FormInputComponent label="Body Weight (kg)">
-                        <input type="text" placeholder="99.9" v-model="form.weight">
+                        <input type="number" placeholder="99.9" v-model="form.weight">
                     </FormInputComponent>
                 </div>
             </FormSectionComponent>
@@ -49,7 +49,7 @@
                     <div class="flex gap-small align-items-end" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Reps' : ''">
-                                <input type="text" placeholder="99" v-model="set.repetitions">
+                                <input type="number" placeholder="99" v-model="set.repetitions">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
-                                <input type="text" placeholder="99.9" v-model="set.weight">
+                                <input type="number" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
