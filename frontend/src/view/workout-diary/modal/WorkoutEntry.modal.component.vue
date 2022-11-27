@@ -96,7 +96,6 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { useModal } from '@wjb/vue/use/modal.use';
 import { usePopup } from '@wjb/vue/use/popup.use';
-import { useApi } from '@/use/api/api.use';
 
 import { helper } from '@/view/workout-diary/helper/helper';
 import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
@@ -128,7 +127,6 @@ interface IFormWorkoutSet {
     weight: string | null;
 }
 
-const api = useApi();
 const modal = useModal();
 const popup = usePopup();
 const workoutDiary = useWorkoutDiary();
