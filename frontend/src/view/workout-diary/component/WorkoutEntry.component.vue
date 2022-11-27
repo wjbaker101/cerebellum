@@ -1,28 +1,30 @@
 <template>
     <div class="workout-entry-component">
-        <section class="flex gap align-items-center">
-            <h3>{{ workoutEntry.startAt.format('ddd Do MMM') }}</h3>
-            <div class="flex-auto">
-                <ButtonComponent class="mini" @click="onEntryClick">
-                    <IconComponent icon="menu" />
-                </ButtonComponent>
+        <section>
+            <div class="flex gap align-items-center">
+                <h3>{{ workoutEntry.startAt.format('ddd Do MMM') }}</h3>
+                <div class="flex-auto">
+                    <ButtonComponent class="mini" @click="onEntryClick">
+                        <IconComponent icon="menu" />
+                    </ButtonComponent>
+                </div>
             </div>
-        </section>
-        <section class="flex gap align-items-center">
-            <p>
-                <strong>Time: </strong>
-                <span>{{ workoutEntry.startAt.format('ha') }}</span>
-            </p>
-            <p>
-                <strong>Duration: </strong>
-                <span v-if="workoutEntry.endAt">{{ workoutEntry.endAt.diff(workoutEntry.startAt, 'minutes') }}m</span>
-                <span v-else>not finished</span>
-            </p>
-            <p>
-                <strong>Weight: </strong>
-                <span v-if="workoutEntry.weight">{{ workoutEntry.weight.toFixed(1) }}kg</span>
-                <span v-else>no data</span>
-            </p>
+            <div class="flex gap align-items-center">
+                <div>
+                    <strong>Time: </strong>
+                    <span>{{ workoutEntry.startAt.format('ha') }}</span>
+                </div>
+                <div>
+                    <strong>Duration: </strong>
+                    <span v-if="workoutEntry.endAt">{{ workoutEntry.endAt.diff(workoutEntry.startAt, 'minutes') }}m</span>
+                    <span v-else>not finished</span>
+                </div>
+                <div>
+                    <strong>Weight: </strong>
+                    <span v-if="workoutEntry.weight">{{ workoutEntry.weight.toFixed(1) }}kg</span>
+                    <span v-else>no data</span>
+                </div>
+            </div>
         </section>
         <section>
             <p v-if="workoutEntry.exercises.length === 0">No exercises added yet</p>
@@ -64,15 +66,13 @@ const onEntryClick = function (): void {
 
 .workout-entry-component {
     padding: 0.5rem;
+    border-top: 4px solid var(--wjb-secondary);
+    border-radius: var(--wjb-border-radius);
 
     @include shadow-small();
 
     & + .workout-entry-component {
         margin-top: 0.5rem;
-    }
-
-    & > section + section {
-        border-top: 1px solid var(--wjb-secondary)
     }
 }
 </style>
