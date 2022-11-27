@@ -1,14 +1,20 @@
+using Api;
 using Api.Calendar;
 using Api.Listum;
 using Api.Notes;
 using Api.WorkoutDiary;
+using Core.Settings;
 using Data;
 using Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+builder.SetupSettings();
+
 services.AddControllers();
+
+services.AddSingleton(builder.Configuration.Get<AppSecrets>());
 
 services.AddSingleton<IApiDatabase, ApiDatabase>();
 
