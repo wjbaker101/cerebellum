@@ -80,7 +80,9 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
             .FetchMany(x => x.Sets)
             .ToFuture();
 
-        var entries = query.ToList();
+        var entries = query
+            .OrderByDescending(x => x.StartAt)
+            .ToList();
 
         transaction.Commit();
 
