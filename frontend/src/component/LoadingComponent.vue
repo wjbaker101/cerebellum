@@ -30,6 +30,21 @@ defineProps<{
         width: $size;
         height: $size;
         color: var(--wjb-primary);
+        animation: loading-component-animation 5s alternate infinite;
+
+        @keyframes loading-component-animation {
+            0% {
+                color: var(--wjb-primary);
+            }
+
+            50% {
+                color: var(--wjb-secondary);
+            }
+
+            100% {
+                color: var(--wjb-tertiary);
+            }
+        }
     }
 }
 </style>
