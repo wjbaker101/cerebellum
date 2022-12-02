@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <FormInputComponent label="Body Weight (kg)">
-                        <input type="number" placeholder="99.9" v-model="form.weight">
+                        <input type="number" placeholder="99.9" v-model="form.weight" @keypress.enter="onConfirm">
                     </FormInputComponent>
                 </div>
             </FormSectionComponent>
@@ -174,8 +174,10 @@ const goTo = function (ref: string): void {
     element[0].focus();
 };
 
-const onSetEndTime = function (): void {
+const onSetEndTime = async function (): Promise<void> {
     form.value.endAt = helper.roundDayjs(dayjs(), 5).format('HH:mm');
+
+    await onConfirm();
 };
 
 const onAddExercise = function (): void {
