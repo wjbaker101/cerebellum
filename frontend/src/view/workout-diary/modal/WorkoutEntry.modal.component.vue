@@ -41,7 +41,7 @@
                             <DeleteButtonComponent class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
                         </div>
                         <FormInputComponent label="Name">
-                            <input type="text" placeholder="Name" v-model="exercise.name">
+                            <input :ref="refOfExercise(exerciseIndex, 'name')" type="text" placeholder="Name" v-model="exercise.name" @keypress.enter="goTo(refOfSet(exerciseIndex, 0, 'repetitions'))">
                         </FormInputComponent>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     <div class="flex gap-small align-items-end" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Reps' : ''">
-                                <input type="number" placeholder="99" v-model="set.repetitions">
+                                <input :ref="refOfSet(exerciseIndex, setIndex, 'repetitions')" type="number" placeholder="99" v-model="set.repetitions" @keypress.enter="goTo(refOfSet(exerciseIndex, setIndex, 'weight'))">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
-                                <input type="number" placeholder="99.9" v-model="set.weight">
+                                <input :ref="refOfSet(exerciseIndex, setIndex, 'weight')" type="number" placeholder="99.9" v-model="set.weight">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { useModal } from '@wjb/vue/use/modal.use';
@@ -105,6 +105,8 @@ import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 const props = defineProps<{
     workoutEntry?: IWorkoutEntry;
 }>();
+
+const instance = getCurrentInstance();
 
 interface IWorkoutDiaryForm {
     reference: string | null;
@@ -155,6 +157,22 @@ const mapWorkoutEntry = function (workoutEntry?: IWorkoutEntry): IWorkoutDiaryFo
 const form = ref<IWorkoutDiaryForm>(mapWorkoutEntry(props.workoutEntry));
 
 const userMessageErrors = ref<Array<string>>([]);
+
+const refOfExercise = function (index: number, element: string): string {
+    return `exercise-${index}/${element}`;
+};
+
+const refOfSet = function (exerciseIndex: number, setIndex: number, element: string): string {
+    return `exercise-${exerciseIndex}/set-${setIndex}/${element}`;
+};
+
+const goTo = function (ref: string): void {
+    const element = instance?.refs[ref] as HTMLElement[] | undefined;
+    if (!element)
+        return;
+
+    element[0].focus();
+};
 
 const onSetEndTime = function (): void {
     form.value.endAt = helper.roundDayjs(dayjs(), 5).format('HH:mm');
