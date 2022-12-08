@@ -57,7 +57,7 @@
                         </div>
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Weight (kg)' : ''">
-                                <input :ref="refOfSet(exerciseIndex, setIndex, 'weight')" type="number" placeholder="99.9" v-model="set.weight">
+                                <input :ref="refOfSet(exerciseIndex, setIndex, 'weight')" type="number" placeholder="99.9" v-model="set.weight" @keypress.enter="onConfirm">
                             </FormInputComponent>
                         </div>
                         <div class="flex-auto">
