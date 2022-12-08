@@ -73,19 +73,23 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 StartAt = entry.StartAt,
                 EndAt = entry.EndAt,
                 Weight = entry.Weight,
-                Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
-                {
-                    Reference = exercise.Reference,
-                    CreatedAt = exercise.CreatedAt,
-                    Name = exercise.Name,
-                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
+                Exercises = entry.Exercises
+                    .OrderByDescending(x => x.CreatedAt)
+                    .ConvertAll(exercise => new WorkoutEntryExercise
                     {
-                        Reference = set.Reference,
-                        CreatedAt = set.CreatedAt,
-                        Repetitions = set.Repetitions,
-                        Weight = set.Weight
+                        Reference = exercise.Reference,
+                        CreatedAt = exercise.CreatedAt,
+                        Name = exercise.Name,
+                        Sets = exercise.Sets
+                            .OrderByDescending(x => x.CreatedAt)
+                            .ConvertAll(set => new WorkoutEntrySet
+                            {
+                                Reference = set.Reference,
+                                CreatedAt = set.CreatedAt,
+                                Repetitions = set.Repetitions,
+                                Weight = set.Weight
+                            })
                     })
-                })
             })
         };
     }
