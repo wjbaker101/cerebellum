@@ -74,14 +74,14 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 EndAt = entry.EndAt,
                 Weight = entry.Weight,
                 Exercises = entry.Exercises
-                    .OrderByDescending(x => x.CreatedAt)
+                    .OrderBy(x => x.CreatedAt)
                     .ConvertAll(exercise => new WorkoutEntryExercise
                     {
                         Reference = exercise.Reference,
                         CreatedAt = exercise.CreatedAt,
                         Name = exercise.Name,
                         Sets = exercise.Sets
-                            .OrderByDescending(x => x.CreatedAt)
+                            .OrderBy(x => x.CreatedAt)
                             .ConvertAll(set => new WorkoutEntrySet
                             {
                                 Reference = set.Reference,
