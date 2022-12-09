@@ -6,19 +6,18 @@
                 <span>New Entry</span>
             </ButtonComponent>
         </template>
-        <LoadingComponent itemName="entries" v-if="entries === null" />
-        <NoItemsComponent itemName="entries" v-else-if="entries.length === 0" />
-        <div class="entry-list-container" v-else>
-            <WorkoutEntryComponent v-for="entry in entries" :workoutEntry="entry" />
-        </div>
+        <ListComponent :items="entries" itemName="entries" removeStyling>
+            <template #item="{ item }">
+                <WorkoutEntryComponent :workoutEntry="item" />
+            </template>
+        </ListComponent>
     </ViewComponent>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import LoadingComponent from '@/component/LoadingComponent.vue';
-import NoItemsComponent from '@/component/NoItemsComponent.vue';
+import ListComponent from '@/component/ListComponent.vue';
 import WorkoutEntryComponent from '@/view/workout-diary/component/WorkoutEntry.component.vue';
 import WorkoutEntryModalComponent from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
 

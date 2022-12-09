@@ -70,9 +70,5 @@ const onEntryClick = function (): void {
     border-radius: var(--wjb-border-radius);
 
     @include shadow-small();
-
-    & + .workout-entry-component {
-        margin-top: 0.5rem;
-    }
 }
 </style>
