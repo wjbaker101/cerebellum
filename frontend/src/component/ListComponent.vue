@@ -1,7 +1,7 @@
 <template>
     <LoadingComponent :itemName="itemName" v-if="items === null" />
     <NoItemsComponent :itemName="itemName" v-else-if="items.length === 0" />
-    <ul v-else class="list-component">
+    <ul v-else class="list-component" :class="{ 'remove-styling': removeStyling }">
         <template v-for="item in items">
             <router-link v-if="urlMapper" :to="urlMapper(item)">
                 <slot name="item" :item="item"></slot>
@@ -23,6 +23,7 @@ defineProps<{
     items: Array<ItemType> | null;
     itemName?: string;
     urlMapper?: (x: ItemType) => string;
+    removeStyling?: boolean;
 }>();
 </script>
 
@@ -46,6 +47,14 @@ defineProps<{
         & + a,
         & + li {
             margin-top: 0.5rem;
+        }
+    }
+
+    &.remove-styling {
+        & > a,
+        & > li {
+            padding: 0;
+            border: none;
         }
     }
 }
