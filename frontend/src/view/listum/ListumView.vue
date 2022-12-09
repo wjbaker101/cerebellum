@@ -6,15 +6,11 @@
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <LoadingComponent itemName="lists" v-if="lists === null" />
-        <NoItemsComponent itemName="lists" v-else-if="lists.length === 0" />
-        <div v-else>
-            <router-link class="list" :to="`/listum/${list.reference}`" :key="list.reference" v-for="list in lists">
-                <div>
-                    {{ list.title }}
-                </div>
-            </router-link>
-        </div>
+        <ListComponent :items="lists" itemName="lists" :urlMapper="(x: IListum) => `/listum/${x.reference}`">
+            <template #item="{ item }">
+                {{ item.title }}
+            </template>
+        </ListComponent>
     </ViewComponent>
 </template>
 
@@ -22,8 +18,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import LoadingComponent from '@/component/LoadingComponent.vue';
-import NoItemsComponent from '@/component/NoItemsComponent.vue';
+import ListComponent from '@/component/ListComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
 
