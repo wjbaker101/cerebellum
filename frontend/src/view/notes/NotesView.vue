@@ -6,15 +6,11 @@
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <LoadingComponent itemName="notes" v-if="notes === null" />
-        <NoItemsComponent itemName="notes" v-else-if="notes.length === 0" />
-        <div v-else>
-            <router-link class="note" :to="`/notes/${note.reference}`" :key="note.reference" v-for="note in notes">
-                <div>
-                    {{ note.title }}
-                </div>
-            </router-link>
-        </div>
+        <ListComponent :items="notes" itemName="notes" :urlMapper="(x: INote) => `/notes/${x.reference}`">
+            <template #item="{ item }">
+                {{ item.title }}
+            </template>
+        </ListComponent>
     </ViewComponent>
 </template>
 
@@ -22,8 +18,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import LoadingComponent from '@/component/LoadingComponent.vue';
-import NoItemsComponent from '@/component/NoItemsComponent.vue';
+import ListComponent from '@/component/ListComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
 
