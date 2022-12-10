@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 import CalendarView from '@/view/calendar/CalendarView.vue';
 import DashboardView from '@/view/dashboard/DashboardView.vue';
+import KanbanView from '@/view/kanban/KanbanView.vue';
 import ListumView from '@/view/listum/ListumView.vue';
 import ListView from '@/view/listum/ListView.vue';
 import NotesView from '@/view/notes/NotesView.vue';
@@ -36,6 +37,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/workout-diary',
         component: WorkoutDiaryView,
+    },
+    {
+        path: '/kanban/:kanbanReference',
+        component: KanbanView,
     },
 ];
 
