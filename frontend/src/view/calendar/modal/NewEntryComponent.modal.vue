@@ -27,6 +27,8 @@ import { ref } from 'vue';
 import dayjs from 'dayjs';
 import DatePicker from '@vuepic/vue-datepicker';
 
+import '@vuepic/vue-datepicker/dist/main.css';
+
 import { useApi } from '@/use/api/api.use';
 import { useCalendar } from '@/use/calendar.use';
 
@@ -68,8 +70,6 @@ const onCreate = async function () {
 </script>
 
 <style lang="scss">
-@import '~@vuepic/vue-datepicker/dist/main.css';
-
 .new-entry-modal-component {
     width: 520px;
 }

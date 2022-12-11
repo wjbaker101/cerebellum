@@ -8,7 +8,7 @@
         "build": "vue-cli-service build"
     },
     "dependencies": {
-        "@vuepic/vue-datepicker": "^3.4.0",
+        "@vuepic/vue-datepicker": "^3.6.1",
         "@wjb/styling": "^1.0.16",
         "@wjb/vue": "^1.0.57",
         "dayjs": "^1.11.4",
