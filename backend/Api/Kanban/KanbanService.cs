@@ -11,6 +11,7 @@ public interface IKanbanService
 {
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
+    Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
 }
 
 public sealed class KanbanService : IKanbanService
@@ -79,6 +80,38 @@ public sealed class KanbanService : IKanbanService
                         CreatedAt = item.CreatedAt,
                         Content = item.Content
                     })
+                })
+            }
+        };
+    }
+
+    public Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<AddKanbanColumnResponse>.FromFailure(kanbanBoardResult);
+
+        var kanbanColumn = _kanbanRepository.CreateColumn(new KanbanColumnRecord
+        {
+            Reference = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            Board = kanbanBoard,
+            Title = request.Title,
+            Items = new List<KanbanItemRecord>()
+        });
+
+        return new AddKanbanColumnResponse
+        {
+            KanbanColumn = new KanbanColumnModel
+            {
+                Reference = kanbanColumn.Reference,
+                CreatedAt = kanbanColumn.CreatedAt,
+                Title = kanbanColumn.Title,
+                Items = kanbanColumn.Items.ConvertAll(item => new KanbanItemModel
+                {
+                    Reference = item.Reference,
+                    CreatedAt = item.CreatedAt,
+                    Content = item.Content
                 })
             }
         };

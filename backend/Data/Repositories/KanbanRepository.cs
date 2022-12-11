@@ -7,6 +7,7 @@ namespace Data.Repositories;
 public interface IKanbanRepository
 {
     KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard);
+    KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn);
     Result<KanbanBoardRecord> GetBoard(Guid reference);
 }
 
@@ -17,6 +18,7 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
     }
 
     public KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard) => SaveRecord(kanbanBoard);
+    public KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn) => SaveRecord(kanbanColumn);
 
     public Result<KanbanBoardRecord> GetBoard(Guid reference)
     {
