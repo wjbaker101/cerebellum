@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent v-if="kanbanBoard" class="kanban-view flex flex-vertical gap" :heading="kanbanBoard.title">
+    <ViewComponent v-if="kanbanBoard" class="kanban-board-view flex flex-vertical gap" :heading="kanbanBoard.title">
         <template v-slot:title v-if="isEditingTitle">
             <h1>
                 <input ref="titleInput" type="text" v-model="kanbanTitle" @keypress.enter="onTitleConfirm">
@@ -100,7 +100,7 @@ onMounted(async () => {
 <style lang="scss">
 @use '~@wjb/styling/variables' as *;
 
-.kanban-view {
+.kanban-board-view {
 
     .kanban-board {
         margin: -1rem;
