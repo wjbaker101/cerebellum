@@ -30,6 +30,8 @@ services.AddSingleton<IListumRepository, ListumRepository>();
 services.AddSingleton<IWorkoutDiaryService, WorkoutDiaryService>();
 services.AddSingleton<IWorkoutDiaryRepository, WorkoutDiaryRepository>();
 
+services.AddSingleton<IKanbanRepository, KanbanRepository>();
+
 services.AddSpaStaticFiles(spa =>
 {
     spa.RootPath = "wwwroot";
