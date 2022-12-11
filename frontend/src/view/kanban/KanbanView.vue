@@ -22,11 +22,23 @@
                         </ButtonComponent>
                     </div>
                 </header>
-                <div class="items">
-                    <div class="kanban-item" v-for="item in column.items">
-                        {{ item.content }}
-                    </div>
-                </div>
+                <Sortable
+                    :list="column.items"
+                    tag="div"
+                    item-key="createdAt"
+                    :options="{
+                        draggable: '.draggable',
+                        animation: 150,
+                        ghostClass: 'ghost',
+                        dragClass: 'drag',
+                    }"
+                >
+                    <template #item="{ element }">
+                        <div class="kanban-item draggable" :key="element.createdAt">
+                            {{ element.content }}
+                        </div>
+                    </template>
+                </Sortable>
             </div>
         </div>
     </ViewComponent>
@@ -35,6 +47,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import dayjs from 'dayjs';
+import { Sortable } from 'sortablejs-vue3';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 
@@ -77,7 +90,7 @@ const onAddColumn = function (): void {
 const onAddItem = function (column: IKanbanColumn): void {
     column.items.push({
         createdAt: dayjs(),
-        content: 'New Item',
+        content: 'New Item ' + (Math.random() * 1000).toFixed(0),
     });
 };
 </script>
