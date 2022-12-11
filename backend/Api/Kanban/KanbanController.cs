@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Kanban.Types;
+using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
 namespace Api.Kanban;
@@ -18,6 +19,15 @@ public sealed class KanbanController : ApiController
     public IActionResult GetBoard([FromRoute] Guid reference)
     {
         var result = _kanbanService.GetBoard(reference);
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPost]
+    [Route("board")]
+    public IActionResult GetBoard([FromBody] CreateKanbanBoardRequest request)
+    {
+        var result = _kanbanService.CreateKanbanBoard(request);
 
         return ToApiResponse(result);
     }
