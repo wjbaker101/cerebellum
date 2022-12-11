@@ -25,16 +25,19 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
         using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
-        var kanbanBoard = session
+        var query = session
             .Query<KanbanBoardRecord>()
             .FetchMany(x => x.Columns)
-            .SingleOrDefault(x => x.Reference == reference);
+            .ToFuture();
 
         session
             .Query<KanbanColumnRecord>()
             .FetchMany(x => x.Items)
             .Where(x => x.Board.Reference == reference)
             .ToFuture();
+
+        var kanbanBoard = query
+            .SingleOrDefault(x => x.Reference == reference);
 
         transaction.Commit();
 
