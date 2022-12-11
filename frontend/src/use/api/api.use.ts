@@ -23,8 +23,9 @@ import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiary
 import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
 import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
 import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
-import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
+import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 import { IGetKanbanBoardResponse } from './type/GetKanbanBoard.type';
+import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from './type/AddKanbanColumn.type';
 
 const baseUrl = '/api';
 
@@ -506,6 +507,30 @@ export const useApi = function () {
                             createdAt: dayjs(item.createdAt),
                             content: item.content,
                         })),
+                    })),
+                };
+            },
+
+            async addColumn(reference: string, request: IAddKanbanColumnRequest): Promise<IKanbanColumn> {
+                const response = await fetch(`${baseUrl}/kanban/board/${reference}/column`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+                const json = await response.json() as IApiResponse<IAddKanbanColumnResponse>;
+
+                const kanbanColumn = json.result.kanbanColumn;
+
+                return {
+                    reference: kanbanColumn.reference,
+                    createdAt: dayjs(kanbanColumn.createdAt),
+                    title: kanbanColumn.title,
+                    items: kanbanColumn.items.map(item => ({
+                        reference: item.reference,
+                        createdAt: dayjs(item.createdAt),
+                        content: item.content,
                     })),
                 };
             },

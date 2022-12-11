@@ -70,13 +70,12 @@ const kanbanTitle = ref<string>(kanbanBoard.value?.title ?? '');
 
 const onTitleConfirm = function(): void {};
 
-const onAddColumn = function (): void {
-    kanbanBoard.value?.columns.push({
-        reference: '',
-        createdAt: dayjs(),
+const onAddColumn = async function (): Promise<void> {
+    const column = await api.kanban.addColumn(kanbanBoardReference, {
         title: 'New Column',
-        items: [],
     });
+
+    kanbanBoard.value?.columns.push(column);
 };
 
 const onAddItem = function (column: IKanbanColumn): void {
