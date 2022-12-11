@@ -15,6 +15,15 @@ public sealed class KanbanController : ApiController
     }
 
     [HttpGet]
+    [Route("search")]
+    public IActionResult GetBoards()
+    {
+        var result = _kanbanService.GetBoards();
+
+        return ToApiResponse(result);
+    }
+
+    [HttpGet]
     [Route("board/{reference:guid}")]
     public IActionResult GetBoard([FromRoute] Guid reference)
     {

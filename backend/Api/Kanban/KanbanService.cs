@@ -9,6 +9,7 @@ namespace Api.Kanban;
 
 public interface IKanbanService
 {
+    Result<GetKanbanBoardsResponse> GetBoards();
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
@@ -21,6 +22,21 @@ public sealed class KanbanService : IKanbanService
     public KanbanService(IKanbanRepository kanbanRepository)
     {
         _kanbanRepository = kanbanRepository;
+    }
+
+    public Result<GetKanbanBoardsResponse> GetBoards()
+    {
+        var kanbanBoards = _kanbanRepository.GetBoards();
+
+        return new GetKanbanBoardsResponse
+        {
+            KanbanBoards = kanbanBoards.ConvertAll(x => new KanbanBoardModel
+            {
+                Reference = x.Reference,
+                CreatedAt = x.CreatedAt,
+                Title = x.Title
+            })
+        };
     }
 
     public Result<GetKanbanBoardResponse> GetBoard(Guid reference)

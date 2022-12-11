@@ -8,6 +8,7 @@ public interface IKanbanRepository
 {
     KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard);
     KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn);
+    List<KanbanBoardRecord> GetBoards();
     Result<KanbanBoardRecord> GetBoard(Guid reference);
 }
 
@@ -19,6 +20,20 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
 
     public KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard) => SaveRecord(kanbanBoard);
     public KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn) => SaveRecord(kanbanColumn);
+
+    public List<KanbanBoardRecord> GetBoards()
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        var kanbanBoards = session
+            .Query<KanbanBoardRecord>()
+            .ToList();
+
+        transaction.Commit();
+
+        return kanbanBoards;
+    }
 
     public Result<KanbanBoardRecord> GetBoard(Guid reference)
     {
