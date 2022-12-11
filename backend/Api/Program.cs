@@ -1,5 +1,6 @@
 using Api;
 using Api.Calendar;
+using Api.Kanban;
 using Api.Listum;
 using Api.Notes;
 using Api.WorkoutDiary;
@@ -30,6 +31,7 @@ services.AddSingleton<IListumRepository, ListumRepository>();
 services.AddSingleton<IWorkoutDiaryService, WorkoutDiaryService>();
 services.AddSingleton<IWorkoutDiaryRepository, WorkoutDiaryRepository>();
 
+services.AddSingleton<IKanbanService, KanbanService>();
 services.AddSingleton<IKanbanRepository, KanbanRepository>();
 
 services.AddSpaStaticFiles(spa =>
