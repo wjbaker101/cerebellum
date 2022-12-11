@@ -23,6 +23,8 @@ import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiary
 import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
 import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
 import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
+import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
+import { IGetKanbanBoardResponse } from './type/GetKanbanBoard.type';
 
 const baseUrl = '/api';
 
@@ -480,6 +482,32 @@ export const useApi = function () {
 
             async deleteEntry(reference: string): Promise<void> {
                 await fetch(`${baseUrl}/workout-diary/entry/${reference}`, { method: 'delete' });
+            },
+        },
+
+        kanban: {
+            async getBoard(reference: string): Promise<IKanbanBoard> {
+                const response = await fetch(`${baseUrl}/kanban/board/${reference}`);
+
+                const json = await response.json() as IApiResponse<IGetKanbanBoardResponse>;
+
+                const kanbanBoard = json.result.kanbanBoard;
+
+                return {
+                    reference: kanbanBoard.reference,
+                    createdAt: dayjs(kanbanBoard.createdAt),
+                    title: kanbanBoard.title,
+                    columns: kanbanBoard.columns.map(column => ({
+                        reference: column.reference,
+                        createdAt: dayjs(column.createdAt),
+                        title: column.title,
+                        items: column.items.map(item => ({
+                            reference: item.reference,
+                            createdAt: dayjs(item.createdAt),
+                            content: item.content,
+                        })),
+                    })),
+                };
             },
         },
 
