@@ -13,6 +13,8 @@
         "@wjb/vue": "^1.0.57",
         "dayjs": "^1.11.4",
         "register-service-worker": "^1.7.2",
+        "sortablejs": "^1.15.0",
+        "sortablejs-vue3": "^1.2.3",
         "ts-debounce": "^4.0.0",
         "vue": "^3.2.13",
         "vue-router": "^4.0.3"
