@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="kanban-view flex flex-vertical gap" :heading="kanbanBoard.title">
+    <ViewComponent v-if="kanbanBoard" class="kanban-view flex flex-vertical gap" :heading="kanbanBoard.title">
         <template v-slot:title v-if="isEditingTitle">
             <h1>
                 <input ref="titleInput" type="text" v-model="kanbanTitle" @keypress.enter="onTitleConfirm">
@@ -46,44 +46,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import dayjs from 'dayjs';
 import { Sortable } from 'sortablejs-vue3';
 
 import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
 
+import { useApi } from '@/use/api/api.use';
+
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 
-const kanbanBoard = ref<IKanbanBoard>({
-    createdAt: dayjs(),
-    title: 'Test Kanban Board',
-    columns: [
-        {
-            createdAt: dayjs(),
-            title: 'Backlog',
-            items: [],
-        },
-        {
-            createdAt: dayjs(),
-            title: 'In Progress',
-            items: [],
-        },
-        {
-            createdAt: dayjs(),
-            title: 'Complete',
-            items: [],
-        },
-    ],
-});
+const api = useApi();
+const route = useRoute();
+
+const kanbanBoardReference = route.params.kanbanReference as string;
+
+const kanbanBoard = ref<IKanbanBoard | null>(null);
 
 const isEditingTitle = ref<boolean>(false);
 
-const kanbanTitle = ref<string>(kanbanBoard.value.title);
+const kanbanTitle = ref<string>(kanbanBoard.value?.title ?? '');
 
 const onTitleConfirm = function(): void {};
 
 const onAddColumn = function (): void {
-    kanbanBoard.value.columns.push({
+    kanbanBoard.value?.columns.push({
+        reference: '',
         createdAt: dayjs(),
         title: 'New Column',
         items: [],
@@ -92,6 +81,7 @@ const onAddColumn = function (): void {
 
 const onAddItem = function (column: IKanbanColumn): void {
     column.items.push({
+        reference: '',
         createdAt: dayjs(),
         content: 'New Item ' + (Math.random() * 1000).toFixed(0),
     });
@@ -100,6 +90,12 @@ const onAddItem = function (column: IKanbanColumn): void {
 const onAdd = function (event: any): void { console.log(event); };
 
 const onRemove = function (event: any): void { console.log(event); };
+
+onMounted(async () => {
+    const result = await api.kanban.getBoard(kanbanBoardReference);
+
+    kanbanBoard.value = result;
+});
 </script>
 
 <style lang="scss">
