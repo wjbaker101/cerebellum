@@ -131,7 +131,7 @@ const onAddItem = function (column: IKanbanColumn): void {
         @include shadow-small();
 
         & + .kanban-item {
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
         }
     }
 }
