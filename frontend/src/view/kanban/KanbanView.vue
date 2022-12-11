@@ -31,6 +31,7 @@
                         animation: 150,
                         ghostClass: 'ghost',
                         dragClass: 'drag',
+                        group: 'items',
                     }"
                 >
                     <template #item="{ element }">
