@@ -33,7 +33,7 @@ public sealed class KanbanController : ApiController
     }
 
     [HttpPost]
-    [Route("board/{reference:guid}/column")]
+    [Route("board/{boardReference:guid}/column")]
     public IActionResult AddKanbanColumn([FromRoute] Guid boardReference, [FromBody] AddKanbanColumnRequest request)
     {
         var result = _kanbanService.AddKanbanColumn(boardReference, request);
