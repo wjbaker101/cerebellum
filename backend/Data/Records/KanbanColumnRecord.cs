@@ -22,7 +22,7 @@ public sealed class KanbanColumnRecordMap : ClassMap<KanbanColumnRecord>
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Title, "title");
-        HasMany(x => x.Items).KeyColumn("kanban_item_id").Inverse().AsSet();
+        HasMany(x => x.Items).KeyColumn("kanban_column_id").Inverse().AsSet();
         References(x => x.Board, "kanban_board_id");
     }
 }
