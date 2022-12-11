@@ -26,6 +26,7 @@ import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/wor
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 import { IGetKanbanBoardResponse } from './type/GetKanbanBoard.type';
 import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from './type/AddKanbanColumn.type';
+import { ISearchKanbanBoardsResponse } from './type/SearchKanbanBoards.type';
 
 const baseUrl = '/api';
 
@@ -487,6 +488,21 @@ export const useApi = function () {
         },
 
         kanban: {
+            async search(): Promise<Array<IKanbanBoard>> {
+                const response = await fetch(`${baseUrl}/kanban/search`);
+
+                const json = await response.json() as IApiResponse<ISearchKanbanBoardsResponse>;
+
+                const kanbanBoards = json.result.kanbanBoards;
+
+                return kanbanBoards.map(x => ({
+                    reference: x.reference,
+                    createdAt: dayjs(x.createdAt),
+                    title: x.title,
+                    columns: [],
+                }));
+            },
+
             async getBoard(reference: string): Promise<IKanbanBoard> {
                 const response = await fetch(`${baseUrl}/kanban/board/${reference}`);
 
