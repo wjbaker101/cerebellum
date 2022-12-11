@@ -34,9 +34,7 @@
                     }"
                 >
                     <template #item="{ element }">
-                        <div class="kanban-item draggable" :key="element.createdAt">
-                            {{ element.content }}
-                        </div>
+                        <KanbanItemComponent :kanbanItem="element" :key="element.createdAt" />
                     </template>
                 </Sortable>
             </div>
@@ -48,6 +46,8 @@
 import { ref } from 'vue';
 import dayjs from 'dayjs';
 import { Sortable } from 'sortablejs-vue3';
+
+import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 
@@ -120,18 +120,6 @@ const onAddItem = function (column: IKanbanColumn): void {
             h2 {
                 margin: 0;
             }
-        }
-    }
-
-    .kanban-item {
-        padding: 0.5rem;
-        border-radius: var(--wjb-border-radius);
-        cursor: pointer;
-
-        @include shadow-small();
-
-        & + .kanban-item {
-            margin-top: 0.25rem;
         }
     }
 }
