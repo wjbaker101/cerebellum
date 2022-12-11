@@ -33,6 +33,8 @@
                         dragClass: 'drag',
                         group: 'items',
                     }"
+                    @add="onAdd"
+                    @remove="onRemove"
                 >
                     <template #item="{ element }">
                         <KanbanItemComponent :kanbanItem="element" :key="element.createdAt" />
@@ -94,6 +96,10 @@ const onAddItem = function (column: IKanbanColumn): void {
         content: 'New Item ' + (Math.random() * 1000).toFixed(0),
     });
 };
+
+const onAdd = function (event: any): void { console.log(event); };
+
+const onRemove = function (event: any): void { console.log(event); };
 </script>
 
 <style lang="scss">
