@@ -106,6 +106,7 @@ public sealed class KanbanService : IKanbanService
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             Content = request.Content,
+            Position = kanbanColumn.Items.Max(x => x.Position) + 1,
             Column = kanbanColumn
         });
 
