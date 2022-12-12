@@ -20,6 +20,7 @@
         "vue-router": "^4.0.3"
     },
     "devDependencies": {
+        "@types/sortablejs": "^1.15.0",
         "@vue/cli-plugin-pwa": "~5.0.0",
         "@vue/cli-plugin-router": "~5.0.0",
         "@vue/cli-plugin-typescript": "~5.0.0",
