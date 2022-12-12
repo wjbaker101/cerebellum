@@ -23,10 +23,12 @@ import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiary
 import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
 import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
 import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
-import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
+import { IKanbanBoard, IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 import { IGetKanbanBoardResponse } from './type/GetKanbanBoard.type';
 import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from './type/AddKanbanColumn.type';
 import { ISearchKanbanBoardsResponse } from './type/SearchKanbanBoards.type';
+import { IAddKanbanItemRequest, IAddKanbanItemResponse } from './type/AddKanbanItem.type';
+import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/UpdateKanbanItem.type';
 
 const baseUrl = '/api';
 
@@ -548,6 +550,44 @@ export const useApi = function () {
                         createdAt: dayjs(item.createdAt),
                         content: item.content,
                     })),
+                };
+            },
+
+            async addItem(boardReference: string, columnReference: string, request: IAddKanbanItemRequest): Promise<IKanbanItem> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+                const json = await response.json() as IApiResponse<IAddKanbanItemResponse>;
+
+                const kanbanItem = json.result.kanbanItem;
+
+                return {
+                    reference: kanbanItem.reference,
+                    createdAt: dayjs(kanbanItem.createdAt),
+                    content: kanbanItem.content,
+                };
+            },
+
+            async updateItem(boardReference: string, columnReference: string, itemReference: string, request: IUpdateKanbanItemRequest): Promise<IKanbanItem> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+                const json = await response.json() as IApiResponse<IUpdateKanbanItemResponse>;
+
+                const kanbanItem = json.result.kanbanItem;
+
+                return {
+                    reference: kanbanItem.reference,
+                    createdAt: dayjs(kanbanItem.createdAt),
+                    content: kanbanItem.content,
                 };
             },
         },
