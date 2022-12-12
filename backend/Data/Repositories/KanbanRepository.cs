@@ -8,6 +8,7 @@ public interface IKanbanRepository
 {
     KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard);
     KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn);
+    KanbanItemRecord UpdateItem(KanbanItemRecord kanbanItem);
     List<KanbanBoardRecord> GetBoards();
     Result<KanbanBoardRecord> GetBoard(Guid reference);
 }
@@ -20,6 +21,8 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
 
     public KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard) => SaveRecord(kanbanBoard);
     public KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn) => SaveRecord(kanbanColumn);
+
+    public KanbanItemRecord UpdateItem(KanbanItemRecord kanbanItem) => UpdateRecord(kanbanItem);
 
     public List<KanbanBoardRecord> GetBoards()
     {

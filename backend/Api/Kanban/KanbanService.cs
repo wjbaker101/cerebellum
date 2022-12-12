@@ -13,6 +13,7 @@ public interface IKanbanService
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
+    Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
 }
 
 public sealed class KanbanService : IKanbanService
@@ -129,6 +130,38 @@ public sealed class KanbanService : IKanbanService
                     CreatedAt = item.CreatedAt,
                     Content = item.Content
                 })
+            }
+        };
+    }
+
+    public Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateKanbanItemResponse>.FromFailure(kanbanBoardResult);
+
+        var previousKanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
+
+        var kanbanItem = previousKanbanColumn?.Items.SingleOrDefault(x => x.Reference == itemReference);
+        if (kanbanItem == null)
+            return Result<UpdateKanbanItemResponse>.Failure($"Kanban item '{itemReference}' in column '{columnReference}' could not be found.");
+
+        var newKanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == request.ColumnReference);
+        if (newKanbanColumn == null)
+            return Result<UpdateKanbanItemResponse>.Failure($"Kanban column '{request.ColumnReference}' could not be found.");
+
+        kanbanItem.Content = request.Content;
+        kanbanItem.Column = newKanbanColumn;
+
+        _kanbanRepository.UpdateItem(kanbanItem);
+
+        return new UpdateKanbanItemResponse
+        {
+            KanbanItem = new KanbanItemModel
+            {
+                Reference = kanbanItem.Reference,
+                CreatedAt = kanbanItem.CreatedAt,
+                Content = kanbanItem.Content
             }
         };
     }
