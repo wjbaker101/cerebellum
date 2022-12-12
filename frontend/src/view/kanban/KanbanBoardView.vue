@@ -25,7 +25,7 @@
                 <Sortable
                     :list="column.items"
                     tag="div"
-                    item-key="createdAt"
+                    item-key="reference"
                     :options="{
                         draggable: '.draggable',
                         animation: 150,
@@ -37,7 +37,7 @@
                     @remove="onRemove"
                 >
                     <template #item="{ element }">
-                        <KanbanItemComponent :kanbanItem="element" :key="element.createdAt" />
+                        <KanbanItemComponent :kanbanItem="element" :key="element.reference" />
                     </template>
                 </Sortable>
             </div>
