@@ -1,8 +1,8 @@
 ﻿using Api.Kanban.Types;
 using Core.Model;
+using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Extension;
 using NetApiLibs.Type;
 
 namespace Api.Kanban;
@@ -49,30 +49,7 @@ public sealed class KanbanService : IKanbanService
 
         return new GetKanbanBoardResponse
         {
-            KanbanBoard = new KanbanBoardModel
-            {
-                Reference = kanbanBoard.Reference,
-                CreatedAt = kanbanBoard.CreatedAt,
-                Title = kanbanBoard.Title,
-                Columns = kanbanBoard.Columns
-                    .OrderBy(x => x.Position)
-                    .ConvertAll(column => new KanbanColumnModel
-                    {
-                        Reference = column.Reference,
-                        CreatedAt = column.CreatedAt,
-                        Title = column.Title,
-                        Position = column.Position,
-                        Items = column.Items
-                            .OrderBy(x => x.Position)
-                            .ConvertAll(item => new KanbanItemModel
-                            {
-                                Reference = item.Reference,
-                                CreatedAt = item.CreatedAt,
-                                Content = item.Content,
-                                Position = item.Position
-                            })
-                    })
-            }
+            KanbanBoard = KanbanMapper.MapBoard(kanbanBoard)
         };
     }
 
@@ -88,26 +65,7 @@ public sealed class KanbanService : IKanbanService
 
         return new CreateKanbanBoardResponse
         {
-            KanbanBoard = new KanbanBoardModel
-            {
-                Reference = kanbanBoard.Reference,
-                CreatedAt = kanbanBoard.CreatedAt,
-                Title = kanbanBoard.Title,
-                Columns = kanbanBoard.Columns.ConvertAll(column => new KanbanColumnModel
-                {
-                    Reference = column.Reference,
-                    CreatedAt = column.CreatedAt,
-                    Title = column.Title,
-                    Position = column.Position,
-                    Items = column.Items.ConvertAll(item => new KanbanItemModel
-                    {
-                        Reference = item.Reference,
-                        CreatedAt = item.CreatedAt,
-                        Content = item.Content,
-                        Position = item.Position
-                    })
-                })
-            }
+            KanbanBoard = KanbanMapper.MapBoard(kanbanBoard)
         };
     }
 
@@ -129,20 +87,7 @@ public sealed class KanbanService : IKanbanService
 
         return new AddKanbanColumnResponse
         {
-            KanbanColumn = new KanbanColumnModel
-            {
-                Reference = kanbanColumn.Reference,
-                CreatedAt = kanbanColumn.CreatedAt,
-                Title = kanbanColumn.Title,
-                Position = kanbanColumn.Position,
-                Items = kanbanColumn.Items.ConvertAll(item => new KanbanItemModel
-                {
-                    Reference = item.Reference,
-                    CreatedAt = item.CreatedAt,
-                    Content = item.Content,
-                    Position = item.Position
-                })
-            }
+            KanbanColumn = KanbanMapper.MapColumn(kanbanColumn)
         };
     }
 
@@ -166,12 +111,7 @@ public sealed class KanbanService : IKanbanService
 
         return new AddKanbanItemResponse
         {
-            KanbanItem = new KanbanItemModel
-            {
-                Reference = kanbanItem.Reference,
-                CreatedAt = kanbanItem.CreatedAt,
-                Content = kanbanItem.Content
-            }
+            KanbanItem = KanbanMapper.MapItem(kanbanItem)
         };
     }
 
@@ -198,12 +138,7 @@ public sealed class KanbanService : IKanbanService
 
         return new UpdateKanbanItemResponse
         {
-            KanbanItem = new KanbanItemModel
-            {
-                Reference = kanbanItem.Reference,
-                CreatedAt = kanbanItem.CreatedAt,
-                Content = kanbanItem.Content
-            }
+            KanbanItem = KanbanMapper.MapItem(kanbanItem)
         };
     }
 }
