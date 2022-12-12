@@ -12,6 +12,7 @@ public interface IKanbanService
     Result<GetKanbanBoardsResponse> GetBoards();
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
+    Result<UpdateBoardPositionsResponse> UpdateBoardPositions(Guid boardReference, UpdateBoardPositionsRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
     Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request);
     Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
@@ -67,6 +68,31 @@ public sealed class KanbanService : IKanbanService
         {
             KanbanBoard = KanbanMapper.MapBoard(kanbanBoard)
         };
+    }
+
+    public Result<UpdateBoardPositionsResponse> UpdateBoardPositions(Guid boardReference, UpdateBoardPositionsRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateBoardPositionsResponse>.FromFailure(kanbanBoardResult);
+
+        foreach (var column in kanbanBoard.Columns)
+        {
+            var requestColumn = request.Columns[column.Reference];
+
+            column.Position = requestColumn.Position;
+
+            foreach (var item in column.Items)
+            {
+                item.Position = requestColumn.Items[item.Reference];
+
+                _kanbanRepository.UpdateItem(item);
+            }
+
+            _kanbanRepository.UpdateColumn(column);
+        }
+
+        return new UpdateBoardPositionsResponse();
     }
 
     public Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request)

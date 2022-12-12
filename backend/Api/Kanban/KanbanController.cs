@@ -50,6 +50,15 @@ public sealed class KanbanController : ApiController
         return ToApiResponse(result);
     }
 
+    [HttpPut]
+    [Route("board/{boardReference:guid}/positions")]
+    public IActionResult UpdateBoardPositions([FromRoute] Guid boardReference, [FromBody] UpdateBoardPositionsRequest request)
+    {
+        var result = _kanbanService.UpdateBoardPositions(boardReference, request);
+
+        return ToApiResponse(result);
+    }
+
     [HttpPost]
     [Route("board/{boardReference:guid}/column/{columnReference:guid}/item")]
     public IActionResult AddKanbanItem([FromRoute] Guid boardReference, [FromRoute] Guid columnReference, [FromBody] AddKanbanItemRequest request)
