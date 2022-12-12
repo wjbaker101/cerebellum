@@ -29,6 +29,7 @@ import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from './type/AddKan
 import { ISearchKanbanBoardsResponse } from './type/SearchKanbanBoards.type';
 import { IAddKanbanItemRequest, IAddKanbanItemResponse } from './type/AddKanbanItem.type';
 import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/UpdateKanbanItem.type';
+import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
 
 const baseUrl = '/api';
 
@@ -527,6 +528,18 @@ export const useApi = function () {
                         })),
                     })),
                 };
+            },
+
+            async updateBoardPositions(boardReference: string, request: IUpdateKanbanBoardPositionsRequest): Promise<void> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/positions`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+
+                await response.json() as IApiResponse<IUpdateKanbanBoardPositionsResponse>;
             },
 
             async addColumn(reference: string, request: IAddKanbanColumnRequest): Promise<IKanbanColumn> {
