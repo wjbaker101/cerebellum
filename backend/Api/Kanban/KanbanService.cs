@@ -54,18 +54,22 @@ public sealed class KanbanService : IKanbanService
                 Reference = kanbanBoard.Reference,
                 CreatedAt = kanbanBoard.CreatedAt,
                 Title = kanbanBoard.Title,
-                Columns = kanbanBoard.Columns.ConvertAll(column => new KanbanColumnModel
-                {
-                    Reference = column.Reference,
-                    CreatedAt = column.CreatedAt,
-                    Title = column.Title,
-                    Items = column.Items.ConvertAll(item => new KanbanItemModel
+                Columns = kanbanBoard.Columns
+                    .OrderBy(x => x.Position)
+                    .ConvertAll(column => new KanbanColumnModel
                     {
-                        Reference = item.Reference,
-                        CreatedAt = item.CreatedAt,
-                        Content = item.Content
+                        Reference = column.Reference,
+                        CreatedAt = column.CreatedAt,
+                        Title = column.Title,
+                        Items = column.Items
+                            .OrderBy(x => x.Position)
+                            .ConvertAll(item => new KanbanItemModel
+                            {
+                                Reference = item.Reference,
+                                CreatedAt = item.CreatedAt,
+                                Content = item.Content
+                            })
                     })
-                })
             }
         };
     }
@@ -115,6 +119,7 @@ public sealed class KanbanService : IKanbanService
             CreatedAt = DateTime.UtcNow,
             Board = kanbanBoard,
             Title = request.Title,
+            Position = kanbanBoard.Columns.Max(x => x.Position) + 1,
             Items = new List<KanbanItemRecord>()
         });
 

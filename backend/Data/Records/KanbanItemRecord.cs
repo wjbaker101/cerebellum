@@ -8,6 +8,7 @@ public class KanbanItemRecord
     public virtual Guid Reference { get; init; }
     public virtual DateTime CreatedAt { get; init; }
     public virtual string Content { get; set; } = null!;
+    public int Position { get; set; }
     public virtual KanbanColumnRecord Column { get; set; } = null!;
 }
 
@@ -21,6 +22,7 @@ public sealed class KanbanItemRecordMap : ClassMap<KanbanItemRecord>
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Content, "content");
+        Map(x => x.Position, "position");
         References(x => x.Column, "kanban_column_id");
     }
 }

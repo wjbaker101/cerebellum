@@ -8,6 +8,7 @@ public class KanbanColumnRecord
     public virtual Guid Reference { get; init; }
     public virtual DateTime CreatedAt { get; init; }
     public virtual string Title { get; set; } = null!;
+    public int Position { get; set; }
     public virtual ICollection<KanbanItemRecord> Items { get; set; } = new HashSet<KanbanItemRecord>();
     public virtual KanbanBoardRecord Board { get; init; } = null!;
 }
@@ -22,6 +23,7 @@ public sealed class KanbanColumnRecordMap : ClassMap<KanbanColumnRecord>
         Map(x => x.Reference, "reference");
         Map(x => x.CreatedAt, "created_at");
         Map(x => x.Title, "title");
+        Map(x => x.Position, "position");
         HasMany(x => x.Items).KeyColumn("kanban_column_id").Inverse().AsSet();
         References(x => x.Board, "kanban_board_id");
     }
