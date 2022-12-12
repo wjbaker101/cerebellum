@@ -8,7 +8,7 @@ public class KanbanColumnRecord
     public virtual Guid Reference { get; init; }
     public virtual DateTime CreatedAt { get; init; }
     public virtual string Title { get; set; } = null!;
-    public int Position { get; set; }
+    public virtual int Position { get; set; }
     public virtual ICollection<KanbanItemRecord> Items { get; set; } = new HashSet<KanbanItemRecord>();
     public virtual KanbanBoardRecord Board { get; init; } = null!;
 }
