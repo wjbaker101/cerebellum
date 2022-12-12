@@ -22,7 +22,7 @@
                         </ButtonComponent>
                     </div>
                 </header>
-                <Sortable
+                <VueSortable
                     :list="column.items"
                     tag="div"
                     item-key="reference"
@@ -33,13 +33,12 @@
                         dragClass: 'drag',
                         group: 'items',
                     }"
-                    @add="onAdd"
-                    @remove="onRemove"
+                    @end="onEnd"
                 >
                     <template #item="{ element }">
                         <KanbanItemComponent :kanbanItem="element" :key="element.reference" />
                     </template>
-                </Sortable>
+                </VueSortable>
             </div>
         </div>
     </ViewComponent>
@@ -48,8 +47,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import dayjs from 'dayjs';
-import { Sortable } from 'sortablejs-vue3';
+import { Sortable as VueSortable } from 'sortablejs-vue3';
+import Sortable from 'sortablejs';
 
 import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
 
@@ -89,9 +88,7 @@ const onAddItem = async function (column: IKanbanColumn): Promise<void> {
     column.items.push(result);
 };
 
-const onAdd = function (event: any): void { console.log(event); };
-
-const onRemove = function (event: any): void { console.log(event); };
+const onEnd = function (event: Sortable.SortableEvent): void { console.log(event); };
 
 onMounted(async () => {
     const result = await api.kanban.getBoard(kanbanBoardReference);
