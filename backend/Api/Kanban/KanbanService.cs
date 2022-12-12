@@ -13,6 +13,7 @@ public interface IKanbanService
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
+    Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request);
     Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
 }
 
@@ -130,6 +131,35 @@ public sealed class KanbanService : IKanbanService
                     CreatedAt = item.CreatedAt,
                     Content = item.Content
                 })
+            }
+        };
+    }
+
+    public Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<AddKanbanItemResponse>.FromFailure(kanbanBoardResult);
+
+        var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
+        if (kanbanColumn == null)
+            return Result<AddKanbanItemResponse>.Failure($"Kanban column '{columnReference}' could not be found.");
+
+        var kanbanItem = _kanbanRepository.CreateItem(new KanbanItemRecord
+        {
+            Reference = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            Content = request.Content,
+            Column = kanbanColumn
+        });
+
+        return new AddKanbanItemResponse
+        {
+            KanbanItem = new KanbanItemModel
+            {
+                Reference = kanbanItem.Reference,
+                CreatedAt = kanbanItem.CreatedAt,
+                Content = kanbanItem.Content
             }
         };
     }
