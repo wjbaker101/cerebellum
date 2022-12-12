@@ -61,13 +61,15 @@ public sealed class KanbanService : IKanbanService
                         Reference = column.Reference,
                         CreatedAt = column.CreatedAt,
                         Title = column.Title,
+                        Position = column.Position,
                         Items = column.Items
                             .OrderBy(x => x.Position)
                             .ConvertAll(item => new KanbanItemModel
                             {
                                 Reference = item.Reference,
                                 CreatedAt = item.CreatedAt,
-                                Content = item.Content
+                                Content = item.Content,
+                                Position = item.Position
                             })
                     })
             }
@@ -96,11 +98,13 @@ public sealed class KanbanService : IKanbanService
                     Reference = column.Reference,
                     CreatedAt = column.CreatedAt,
                     Title = column.Title,
+                    Position = column.Position,
                     Items = column.Items.ConvertAll(item => new KanbanItemModel
                     {
                         Reference = item.Reference,
                         CreatedAt = item.CreatedAt,
-                        Content = item.Content
+                        Content = item.Content,
+                        Position = item.Position
                     })
                 })
             }
@@ -130,11 +134,13 @@ public sealed class KanbanService : IKanbanService
                 Reference = kanbanColumn.Reference,
                 CreatedAt = kanbanColumn.CreatedAt,
                 Title = kanbanColumn.Title,
+                Position = kanbanColumn.Position,
                 Items = kanbanColumn.Items.ConvertAll(item => new KanbanItemModel
                 {
                     Reference = item.Reference,
                     CreatedAt = item.CreatedAt,
-                    Content = item.Content
+                    Content = item.Content,
+                    Position = item.Position
                 })
             }
         };
