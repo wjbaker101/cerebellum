@@ -78,12 +78,15 @@ const onAddColumn = async function (): Promise<void> {
     kanbanBoard.value?.columns.push(column);
 };
 
-const onAddItem = function (column: IKanbanColumn): void {
-    column.items.push({
-        reference: '',
-        createdAt: dayjs(),
-        content: 'New Item ' + (Math.random() * 1000).toFixed(0),
+const onAddItem = async function (column: IKanbanColumn): Promise<void> {
+    if (kanbanBoard.value === null)
+        return;
+
+    const result = await api.kanban.addItem(kanbanBoard.value.reference, column.reference, {
+        content: 'new item',
     });
+
+    column.items.push(result);
 };
 
 const onAdd = function (event: any): void { console.log(event); };
