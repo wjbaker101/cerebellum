@@ -76,21 +76,41 @@ public sealed class KanbanService : IKanbanService
         if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
             return Result<UpdateBoardPositionsResponse>.FromFailure(kanbanBoardResult);
 
+        var columnDictionary = kanbanBoard.Columns.ToDictionary(x => x.Reference, x => x);
+
         foreach (var column in kanbanBoard.Columns)
         {
-            var requestColumn = request.Columns[column.Reference];
-
-            column.Position = requestColumn.Position;
-
-            foreach (var item in column.Items)
-            {
-                item.Position = requestColumn.Items[item.Reference];
-
-                _kanbanRepository.UpdateItem(item);
-            }
+            column.Position = request.Columns[column.Reference].Position;
 
             _kanbanRepository.UpdateColumn(column);
         }
+
+        foreach (var item in kanbanBoard.Columns.SelectMany(x => x.Items))
+        {
+            var column = request.Columns.SingleOrDefault(col => col.Value.Items.ContainsKey(item.Reference));
+
+            item.Position = column.Value.Items[item.Reference];
+
+            item.Column = columnDictionary[column.Key];
+
+            _kanbanRepository.UpdateItem(item);
+        }
+
+        //foreach (var column in kanbanBoard.Columns)
+        //{
+        //    var requestColumn = request.Columns[column.Reference];
+
+        //    column.Position = requestColumn.Position;
+
+        //    foreach (var item in column.Items)
+        //    {
+        //        item.Position = requestColumn.Items[item.Reference];
+
+        //        _kanbanRepository.UpdateItem(item);
+        //    }
+
+        //    _kanbanRepository.UpdateColumn(column);
+        //}
 
         return new UpdateBoardPositionsResponse();
     }
