@@ -521,10 +521,12 @@ export const useApi = function () {
                         reference: column.reference,
                         createdAt: dayjs(column.createdAt),
                         title: column.title,
+                        position: column.position,
                         items: column.items.map(item => ({
                             reference: item.reference,
                             createdAt: dayjs(item.createdAt),
                             content: item.content,
+                            position: item.position,
                         })),
                     })),
                 };
@@ -558,10 +560,12 @@ export const useApi = function () {
                     reference: kanbanColumn.reference,
                     createdAt: dayjs(kanbanColumn.createdAt),
                     title: kanbanColumn.title,
+                    position: kanbanColumn.position,
                     items: kanbanColumn.items.map(item => ({
                         reference: item.reference,
                         createdAt: dayjs(item.createdAt),
                         content: item.content,
+                        position: item.position,
                     })),
                 };
             },
@@ -582,6 +586,7 @@ export const useApi = function () {
                     reference: kanbanItem.reference,
                     createdAt: dayjs(kanbanItem.createdAt),
                     content: kanbanItem.content,
+                    position: kanbanItem.position,
                 };
             },
 
@@ -601,6 +606,7 @@ export const useApi = function () {
                     reference: kanbanItem.reference,
                     createdAt: dayjs(kanbanItem.createdAt),
                     content: kanbanItem.content,
+                    position: kanbanItem.position,
                 };
             },
         },

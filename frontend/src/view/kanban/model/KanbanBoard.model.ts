@@ -11,6 +11,7 @@ export interface IKanbanColumn {
     reference: string;
     createdAt: Dayjs;
     title: string;
+    position: number;
     items: Array<IKanbanItem>;
 }
 
@@ -18,4 +19,5 @@ export interface IKanbanItem {
     reference: string;
     createdAt: Dayjs;
     content: string;
+    position: number;
 }
