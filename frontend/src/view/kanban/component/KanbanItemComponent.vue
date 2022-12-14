@@ -1,5 +1,5 @@
 <template>
-    <div class="kanban-item-component draggable" @click="onClick">
+    <div class="kanban-item-component draggable" @click="onClick" :data-reference="kanbanItem.reference">
         {{ kanbanItem.content }}
     </div>
 </template>

@@ -33,6 +33,7 @@
                         dragClass: 'drag',
                         group: 'items',
                     }"
+                    :data-reference="column.reference"
                     @end="onEnd"
                 >
                     <template #item="{ element }">
@@ -52,6 +53,7 @@ import Sortable from 'sortablejs';
 
 import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
 
+import { recordHelper } from '@/helper/record.helper';
 import { useApi } from '@/use/api/api.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
@@ -88,7 +90,34 @@ const onAddItem = async function (column: IKanbanColumn): Promise<void> {
     column.items.push(result);
 };
 
-const onEnd = function (event: Sortable.SortableEvent): void { console.log(event); };
+const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
+    if (kanbanBoard.value === null)
+        return;
+
+    const fromColumnReference = event.from.getAttribute('data-reference');
+    const toColumnReference = event.to.getAttribute('data-reference');
+
+    const fromColumn = kanbanBoard.value.columns.find(x => x.reference === fromColumnReference);
+    const toColumn = kanbanBoard.value.columns.find(x => x.reference === toColumnReference);
+    if (!fromColumn || !toColumn)
+        return;
+
+    if (event.oldIndex === undefined || event.newIndex === undefined)
+        return;
+
+    const item = fromColumn.items.splice(event.oldIndex, 1)[0];
+    toColumn.items.splice(event.newIndex, 0, item);
+
+    if (fromColumn.reference !== toColumn.reference)
+        event.item.remove();
+
+    await api.kanban.updateBoardPositions(kanbanBoard.value.reference, {
+        columns: recordHelper.toRecord(kanbanBoard.value.columns, x => x.reference, (x, columnIndex) => ({
+            position: columnIndex,
+            items: recordHelper.toRecord(x.items, x => x.reference, (x, itemIndex) => itemIndex),
+        })),
+    });
+};
 
 onMounted(async () => {
     const result = await api.kanban.getBoard(kanbanBoardReference);
