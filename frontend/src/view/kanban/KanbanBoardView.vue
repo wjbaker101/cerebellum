@@ -112,9 +112,9 @@ const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
         event.item.remove();
 
     await api.kanban.updateBoardPositions(kanbanBoard.value.reference, {
-        columns: recordHelper.toRecord(kanbanBoard.value.columns, x => x.reference, (x, columnIndex) => ({
+        columns: recordHelper.toRecord(kanbanBoard.value.columns, col => col.reference, (col, columnIndex) => ({
             position: columnIndex,
-            items: recordHelper.toRecord(x.items, x => x.reference, (x, itemIndex) => itemIndex),
+            items: recordHelper.toRecord(col.items, itm => itm.reference, (itm, itemIndex) => itemIndex),
         })),
     });
 };
