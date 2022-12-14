@@ -12,8 +12,8 @@
             </ButtonComponent>
         </template>
         <div class="kanban-board flex gap">
-            <div class="kanban-column" v-for="column in kanbanBoard.columns">
-                <header class="flex gap-small align-items-center">
+            <div class="kanban-column flex flex-vertical gap" v-for="column in kanbanBoard.columns">
+                <header class="flex gap-small align-items-center flex-auto">
                     <h2>{{ column.title }}</h2>
                     <div class="flex-auto">
                         <ButtonComponent class="primary mini" @click="onAddItem(column)">
@@ -23,6 +23,7 @@
                     </div>
                 </header>
                 <VueSortable
+                    class="items"
                     :list="column.items"
                     tag="div"
                     item-key="reference"
@@ -146,11 +147,15 @@ onMounted(async () => {
         @include shadow-large();
 
         & > header {
-            padding-bottom: 1rem;
-
             h2 {
                 margin: 0;
             }
+        }
+
+        .items {
+            margin: -1rem;
+            padding: 1rem;
+            overflow-y: auto;
         }
     }
 }
