@@ -16,6 +16,7 @@ public interface IKanbanService
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
     Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request);
     Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
+    Result DeleteKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference);
 }
 
 public sealed class KanbanService : IKanbanService
@@ -171,5 +172,24 @@ public sealed class KanbanService : IKanbanService
         {
             KanbanItem = KanbanMapper.MapItem(kanbanItem)
         };
+    }
+
+    public Result DeleteKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateKanbanItemResponse>.FromFailure(kanbanBoardResult);
+
+        var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
+        if (kanbanColumn == null)
+            return Result.Failure($"Kanban column '{columnReference}' could not be found.");
+
+        var kanbanItem = kanbanColumn.Items.SingleOrDefault(x => x.Reference == itemReference);
+        if (kanbanItem == null)
+            return Result.Failure($"Kanban item '{itemReference}' could not be found.");
+
+        _kanbanRepository.DeleteItem(kanbanItem);
+
+        return Result.Success();
     }
 }

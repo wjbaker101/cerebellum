@@ -76,4 +76,13 @@ public sealed class KanbanController : ApiController
 
         return ToApiResponse(result);
     }
+
+    [HttpDelete]
+    [Route("board/{boardReference:guid}/column/{columnReference:guid}/item/{itemReference:guid}")]
+    public IActionResult DeleteKanbanItem([FromRoute] Guid boardReference, [FromRoute] Guid columnReference, [FromRoute] Guid itemReference)
+    {
+        var result = _kanbanService.DeleteKanbanItem(boardReference, columnReference, itemReference);
+
+        return ToApiResponse(result);
+    }
 }
