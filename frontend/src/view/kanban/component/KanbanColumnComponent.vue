@@ -46,7 +46,7 @@ import { Sortable as VueSortable } from 'sortablejs-vue3';
 import Sortable from 'sortablejs';
 
 import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
-import KanbanColumnComponent, { IKanbanColumnModalProps } from '@/view/kanban/modal/KanbanColumn.modal.component.vue';
+import KanbanColumnModalComponent, { IKanbanColumnModalProps } from '@/view/kanban/modal/KanbanColumn.modal.component.vue';
 
 import { recordHelper } from '@/helper/record.helper';
 import { useApi } from '@/use/api/api.use';
@@ -98,7 +98,7 @@ const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
 
 const onOpenDetails = function (): void {
     modal.show<IKanbanColumnModalProps>({
-        component: KanbanColumnComponent,
+        component: KanbanColumnModalComponent,
         componentProps: {
             kanbanBoard: props.kanbanBoard,
             kanbanColumn: props.kanbanColumn,
