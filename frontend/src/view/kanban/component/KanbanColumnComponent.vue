@@ -1,5 +1,5 @@
 <template>
-    <div class="kanban-column flex flex-vertical gap">
+    <div class="kanban-column flex flex-vertical gap draggable">
         <header class="flex gap-small align-items-center flex-auto">
             <h2>{{ kanbanColumn.title }}</h2>
             <div class="flex-auto">

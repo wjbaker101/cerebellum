@@ -11,24 +11,37 @@
                 <span>New Column</span>
             </ButtonComponent>
         </template>
-        <div class="kanban-board flex gap">
-            <KanbanColumnComponent
-                :key="column.reference"
-                v-for="column in kanbanBoard.columns"
-                :kanbanBoard="kanbanBoard"
-                :kanbanColumn="column"
-            />
-        </div>
+        <VueSortable
+            class="kanban-board flex gap"
+            :list="kanbanBoard.columns"
+            tag="div"
+            item-key="reference"
+            :options="{
+                draggable: '.draggable',
+                animation: 150,
+                ghostClass: 'ghost',
+                dragClass: 'drag',
+                group: 'columns',
+            }"
+            @end="onEnd"
+        >
+            <template #item="{ element }">
+                <KanbanColumnComponent :key="element.reference" :kanbanBoard="kanbanBoard" :kanbanColumn="element" />
+            </template>
+        </VueSortable>
     </ViewComponent>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { Sortable as VueSortable } from 'sortablejs-vue3';
+import Sortable from 'sortablejs';
 
 import KanbanColumnComponent from './component/KanbanColumnComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
+import { recordHelper } from '@/helper/record.helper';
 
 import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
 
@@ -51,6 +64,24 @@ const onAddColumn = async function (): Promise<void> {
     });
 
     kanbanBoard.value?.columns.push(column);
+};
+
+const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
+    if (kanbanBoard.value === null)
+        return;
+
+    if (event.oldIndex === undefined || event.newIndex === undefined)
+        return;
+
+    const column = kanbanBoard.value.columns.splice(event.oldIndex, 1)[0];
+    kanbanBoard.value.columns.splice(event.newIndex, 0, column);
+
+    await api.kanban.updateBoardPositions(kanbanBoard.value.reference, {
+        columns: recordHelper.toRecord(kanbanBoard.value.columns, col => col.reference, (col, columnIndex) => ({
+            position: columnIndex,
+            items: recordHelper.toRecord(col.items, itm => itm.reference, (itm, itemIndex) => itemIndex),
+        })),
+    });
 };
 
 onMounted(async () => {
