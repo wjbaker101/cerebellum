@@ -8,6 +8,11 @@
                     <span>Add Item</span>
                 </ButtonComponent>
             </div>
+            <div class="flex-auto">
+                <ButtonComponent class="mini" @click="onOpenDetails">
+                    <IconComponent icon="menu" />
+                </ButtonComponent>
+            </div>
         </header>
         <VueSortable
             class="items"
@@ -41,9 +46,11 @@ import { Sortable as VueSortable } from 'sortablejs-vue3';
 import Sortable from 'sortablejs';
 
 import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
+import KanbanColumnComponent from '@/view/kanban/modal/KanbanColumn.modal.component.vue';
 
 import { recordHelper } from '@/helper/record.helper';
 import { useApi } from '@/use/api/api.use';
+import { useModal } from '@wjb/vue/use/modal.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 
@@ -53,6 +60,7 @@ const props = defineProps<{
 }>();
 
 const api = useApi();
+const modal = useModal();
 
 const onAddItem = async function (column: IKanbanColumn): Promise<void> {
     const result = await api.kanban.addItem(props.kanbanBoard.reference, column.reference, {
@@ -85,6 +93,16 @@ const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
             position: columnIndex,
             items: recordHelper.toRecord(col.items, itm => itm.reference, (itm, itemIndex) => itemIndex),
         })),
+    });
+};
+
+const onOpenDetails = function (): void {
+    modal.show({
+        component: KanbanColumnComponent,
+        componentProps: {
+            kanbanBoard: props.kanbanBoard,
+            kanbanColumn: props.kanbanColumn,
+        },
     });
 };
 </script>
