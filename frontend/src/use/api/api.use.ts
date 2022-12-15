@@ -609,6 +609,14 @@ export const useApi = function () {
                     position: kanbanItem.position,
                 };
             },
+
+            async deleteItem(boardReference: string, columnReference: string, itemReference: string): Promise<void> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`, {
+                    method: 'delete',
+                });
+
+                await response.json() as IApiResponse<void>;
+            },
         },
 
     };
