@@ -112,7 +112,7 @@ public sealed class KanbanService : IKanbanService
             CreatedAt = DateTime.UtcNow,
             Board = kanbanBoard,
             Title = request.Title,
-            Position = kanbanBoard.Columns.Max(x => x.Position) + 1,
+            Position = kanbanBoard.Columns.Any() ? kanbanBoard.Columns.Max(x => x.Position) + 1 : 1,
             Items = new List<KanbanItemRecord>()
         });
 
@@ -137,7 +137,7 @@ public sealed class KanbanService : IKanbanService
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             Content = request.Content,
-            Position = kanbanColumn.Items.Max(x => x.Position) + 1,
+            Position = kanbanColumn.Items.Any() ? kanbanColumn.Items.Max(x => x.Position) + 1 : 1,
             Column = kanbanColumn
         });
 
