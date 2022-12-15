@@ -96,22 +96,6 @@ public sealed class KanbanService : IKanbanService
             _kanbanRepository.UpdateItem(item);
         }
 
-        //foreach (var column in kanbanBoard.Columns)
-        //{
-        //    var requestColumn = request.Columns[column.Reference];
-
-        //    column.Position = requestColumn.Position;
-
-        //    foreach (var item in column.Items)
-        //    {
-        //        item.Position = requestColumn.Items[item.Reference];
-
-        //        _kanbanRepository.UpdateItem(item);
-        //    }
-
-        //    _kanbanRepository.UpdateColumn(column);
-        //}
-
         return new UpdateBoardPositionsResponse();
     }
 
