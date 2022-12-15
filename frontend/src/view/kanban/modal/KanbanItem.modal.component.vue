@@ -26,11 +26,12 @@ import { useModal } from '@wjb/vue/use/modal.use';
 
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 
-const props = defineProps<{
+export interface IKanbanItemModalProps {
     boardReference: string;
     kanbanColumn: IKanbanColumn;
     kanbanItem: IKanbanItem;
-}>();
+}
+const props = defineProps<IKanbanItemModalProps>();
 
 interface IKanbanItemForm {
     content: string;

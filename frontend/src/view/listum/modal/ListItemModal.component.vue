@@ -22,10 +22,11 @@ import { useApi } from '@/use/api/api.use';
 
 import { IListumItem } from '@/model/Listum.model';
 
-const props = defineProps<{
+export interface IListItemModalProps {
     listReference: string;
     listItem: IListumItem;
-}>();
+}
+const props = defineProps<IListItemModalProps>();
 
 const api = useApi();
 const modal = useModal();

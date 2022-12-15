@@ -30,7 +30,6 @@ export interface IKanbanColumnModalProps {
     kanbanBoard: IKanbanBoard;
     kanbanColumn: IKanbanColumn;
 }
-
 const props = defineProps<IKanbanColumnModalProps>();
 
 interface IKanbanColumnForm {

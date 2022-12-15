@@ -56,7 +56,7 @@ import { nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
-import ListItemModalComponent from '@/view/listum/modal/ListItemModal.component.vue';
+import ListItemModalComponent, { IListItemModalProps } from '@/view/listum/modal/ListItemModal.component.vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
@@ -131,7 +131,7 @@ const onItemClick = function(listItem: IListumItem): void {
     if (listum.value === null)
         return;
 
-    modal.show({
+    modal.show<IListItemModalProps>({
         component: ListItemModalComponent,
         componentProps: {
             listReference: listum.value.reference,

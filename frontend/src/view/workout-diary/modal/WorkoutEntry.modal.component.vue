@@ -102,9 +102,10 @@ import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
-const props = defineProps<{
+export interface IWorkoutEntryModalProps {
     workoutEntry?: IWorkoutEntry;
-}>();
+}
+const props = defineProps<IWorkoutEntryModalProps>();
 
 const instance = getCurrentInstance();
 

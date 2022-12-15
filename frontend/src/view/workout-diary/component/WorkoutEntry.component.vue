@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import WorkoutEntryModalComponent from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
+import WorkoutEntryModalComponent, { IWorkoutEntryModalProps } from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
 
@@ -52,7 +52,7 @@ const props = defineProps<{
 const modal = useModal();
 
 const onEntryClick = function (): void {
-    modal.show({
+    modal.show<IWorkoutEntryModalProps>({
         component: WorkoutEntryModalComponent,
         componentProps: {
             workoutEntry: props.workoutEntry,
