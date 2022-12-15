@@ -12,41 +12,12 @@
             </ButtonComponent>
         </template>
         <div class="kanban-board flex gap">
-            <div class="kanban-column flex flex-vertical gap" v-for="column in kanbanBoard.columns">
-                <header class="flex gap-small align-items-center flex-auto">
-                    <h2>{{ column.title }}</h2>
-                    <div class="flex-auto">
-                        <ButtonComponent class="primary mini" @click="onAddItem(column)">
-                            <IconComponent icon="plus" />
-                            <span>Add Item</span>
-                        </ButtonComponent>
-                    </div>
-                </header>
-                <VueSortable
-                    class="items"
-                    :list="column.items"
-                    tag="div"
-                    item-key="reference"
-                    :options="{
-                        draggable: '.draggable',
-                        animation: 150,
-                        ghostClass: 'ghost',
-                        dragClass: 'drag',
-                        group: 'items',
-                    }"
-                    :data-reference="column.reference"
-                    @end="onEnd"
-                >
-                    <template #item="{ element }">
-                        <KanbanItemComponent
-                            :boardReference="kanbanBoard.reference"
-                            :kanbanColumn="column"
-                            :kanbanItem="element"
-                            :key="element.reference"
-                        />
-                    </template>
-                </VueSortable>
-            </div>
+            <KanbanColumnComponent
+                :key="column.reference"
+                v-for="column in kanbanBoard.columns"
+                :kanbanBoard="kanbanBoard"
+                :kanbanColumn="column"
+            />
         </div>
     </ViewComponent>
 </template>
@@ -54,15 +25,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { Sortable as VueSortable } from 'sortablejs-vue3';
-import Sortable from 'sortablejs';
 
-import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue';
+import KanbanColumnComponent from './component/KanbanColumnComponent.vue';
 
-import { recordHelper } from '@/helper/record.helper';
 import { useApi } from '@/use/api/api.use';
 
-import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
+import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
 
 const api = useApi();
 const route = useRoute();
@@ -83,46 +51,6 @@ const onAddColumn = async function (): Promise<void> {
     });
 
     kanbanBoard.value?.columns.push(column);
-};
-
-const onAddItem = async function (column: IKanbanColumn): Promise<void> {
-    if (kanbanBoard.value === null)
-        return;
-
-    const result = await api.kanban.addItem(kanbanBoard.value.reference, column.reference, {
-        content: 'new item',
-    });
-
-    column.items.push(result);
-};
-
-const onEnd = async function (event: Sortable.SortableEvent): Promise<void> {
-    if (kanbanBoard.value === null)
-        return;
-
-    const fromColumnReference = event.from.getAttribute('data-reference');
-    const toColumnReference = event.to.getAttribute('data-reference');
-
-    const fromColumn = kanbanBoard.value.columns.find(x => x.reference === fromColumnReference);
-    const toColumn = kanbanBoard.value.columns.find(x => x.reference === toColumnReference);
-    if (!fromColumn || !toColumn)
-        return;
-
-    if (event.oldIndex === undefined || event.newIndex === undefined)
-        return;
-
-    const item = fromColumn.items.splice(event.oldIndex, 1)[0];
-    toColumn.items.splice(event.newIndex, 0, item);
-
-    if (fromColumn.reference !== toColumn.reference)
-        event.item.remove();
-
-    await api.kanban.updateBoardPositions(kanbanBoard.value.reference, {
-        columns: recordHelper.toRecord(kanbanBoard.value.columns, col => col.reference, (col, columnIndex) => ({
-            position: columnIndex,
-            items: recordHelper.toRecord(col.items, itm => itm.reference, (itm, itemIndex) => itemIndex),
-        })),
-    });
 };
 
 onMounted(async () => {
