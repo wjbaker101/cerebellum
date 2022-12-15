@@ -7,10 +7,12 @@
 <script setup lang="ts">
 import { useModal } from '@wjb/vue/use/modal.use';
 
-import { IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
+import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 import KanbanItemModalComponent from '@/view/kanban/modal/KanbanItem.modal.component.vue';
 
 const props = defineProps<{
+    boardReference: string;
+    kanbanColumn: IKanbanColumn;
     kanbanItem: IKanbanItem;
 }>();
 
@@ -20,6 +22,8 @@ const onClick = function (): void {
     modal.show({
         component: KanbanItemModalComponent,
         componentProps: {
+            boardReference: props.boardReference,
+            kanbanColumn: props.kanbanColumn,
             kanbanItem: props.kanbanItem,
         },
     });

@@ -12,7 +12,7 @@
                     <IconComponent icon="tick" gap="right" />
                     <span>Confirm</span>
                 </ButtonComponent>
-                <DeleteButtonComponent class="flex-auto" />
+                <DeleteButtonComponent class="flex-auto" @delete="onDelete" />
             </FormSectionComponent>
         </FormComponent>
     </div>
@@ -21,9 +21,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
+import { useApi } from '@/use/api/api.use';
+import { useModal } from '@wjb/vue/use/modal.use';
+
+import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 
 const props = defineProps<{
+    boardReference: string;
+    kanbanColumn: IKanbanColumn;
     kanbanItem: IKanbanItem;
 }>();
 
@@ -31,12 +36,23 @@ interface IKanbanItemForm {
     content: string;
 }
 
+const api = useApi();
+const modal = useModal();
+
 const form = ref<IKanbanItemForm>({
     content: props.kanbanItem.content,
 });
 
 const onConfirm = function (): void {
     props.kanbanItem.content = form.value.content;
+};
+
+const onDelete = async function (): Promise<void> {
+    await api.kanban.deleteItem(props.boardReference, props.kanbanColumn.reference, props.kanbanItem.reference);
+
+    props.kanbanColumn.items = props.kanbanColumn.items.filter(x => x !== props.kanbanItem);
+
+    modal.hide();
 };
 </script>
 

@@ -38,7 +38,12 @@
                     @end="onEnd"
                 >
                     <template #item="{ element }">
-                        <KanbanItemComponent :kanbanItem="element" :key="element.reference" />
+                        <KanbanItemComponent
+                            :boardReference="kanbanBoard.reference"
+                            :kanbanColumn="column"
+                            :kanbanItem="element"
+                            :key="element.reference"
+                        />
                     </template>
                 </VueSortable>
             </div>
