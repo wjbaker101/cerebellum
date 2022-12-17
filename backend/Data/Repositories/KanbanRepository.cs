@@ -9,6 +9,7 @@ public interface IKanbanRepository
     KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard);
     KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn);
     KanbanColumnRecord UpdateColumn(KanbanColumnRecord kanbanColumn);
+    void DeleteColumn(KanbanColumnRecord kanbanColumn);
     KanbanItemRecord CreateItem(KanbanItemRecord kanbanItem);
     KanbanItemRecord UpdateItem(KanbanItemRecord kanbanItem);
     void DeleteItem(KanbanItemRecord kanbanItem);
@@ -26,6 +27,7 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
 
     public KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn) => SaveRecord(kanbanColumn);
     public KanbanColumnRecord UpdateColumn(KanbanColumnRecord kanbanColumn) => UpdateRecord(kanbanColumn);
+    public void DeleteColumn(KanbanColumnRecord kanbanColumn) => DeleteRecord(kanbanColumn);
 
     public KanbanItemRecord CreateItem(KanbanItemRecord kanbanItem) => SaveRecord(kanbanItem);
     public KanbanItemRecord UpdateItem(KanbanItemRecord kanbanItem) => UpdateRecord(kanbanItem);

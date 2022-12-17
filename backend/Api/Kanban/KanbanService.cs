@@ -14,6 +14,7 @@ public interface IKanbanService
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
     Result<UpdateBoardPositionsResponse> UpdateBoardPositions(Guid boardReference, UpdateBoardPositionsRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
+    Result DeleteKanbanColumn(Guid boardReference, Guid columnReference);
     Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request);
     Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
     Result DeleteKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference);
@@ -120,6 +121,21 @@ public sealed class KanbanService : IKanbanService
         {
             KanbanColumn = KanbanMapper.MapColumn(kanbanColumn)
         };
+    }
+
+    public Result DeleteKanbanColumn(Guid boardReference, Guid columnReference)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateKanbanItemResponse>.FromFailure(kanbanBoardResult);
+
+        var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
+        if (kanbanColumn == null)
+            return Result.Failure($"Kanban column '{columnReference}' could not be found.");
+
+        _kanbanRepository.DeleteColumn(kanbanColumn);
+
+        return Result.Success();
     }
 
     public Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request)
