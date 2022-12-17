@@ -570,6 +570,14 @@ export const useApi = function () {
                 };
             },
 
+            async deleteColumn(boardReference: string, columnReference: string): Promise<void> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}`, {
+                    method: 'delete',
+                });
+
+                await response.json() as IApiResponse<void>;
+            },
+
             async addItem(boardReference: string, columnReference: string, request: IAddKanbanItemRequest): Promise<IKanbanItem> {
                 const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item`, {
                     method: 'post',
