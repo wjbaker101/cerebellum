@@ -43,8 +43,12 @@ const form = ref<IKanbanColumnForm>({
     title: props.kanbanColumn.title,
 });
 
-const onConfirm = function (): void {
-    props.kanbanColumn.title = form.value.title;
+const onConfirm = async function (): Promise<void> {
+    const result = await api.kanban.updateColumn(props.kanbanBoard.reference, props.kanbanColumn.reference, {
+        title: form.value.title,
+    });
+
+    props.kanbanColumn.title = result.title;
 };
 
 const onDelete = async function (): Promise<void> {

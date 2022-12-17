@@ -30,6 +30,7 @@ import { ISearchKanbanBoardsResponse } from './type/SearchKanbanBoards.type';
 import { IAddKanbanItemRequest, IAddKanbanItemResponse } from './type/AddKanbanItem.type';
 import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/UpdateKanbanItem.type';
 import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
+import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from './type/UpdateKanbanColumn.type';
 
 const baseUrl = '/api';
 
@@ -553,6 +554,32 @@ export const useApi = function () {
                     body: JSON.stringify(request),
                 });
                 const json = await response.json() as IApiResponse<IAddKanbanColumnResponse>;
+
+                const kanbanColumn = json.result.kanbanColumn;
+
+                return {
+                    reference: kanbanColumn.reference,
+                    createdAt: dayjs(kanbanColumn.createdAt),
+                    title: kanbanColumn.title,
+                    position: kanbanColumn.position,
+                    items: kanbanColumn.items.map(item => ({
+                        reference: item.reference,
+                        createdAt: dayjs(item.createdAt),
+                        content: item.content,
+                        position: item.position,
+                    })),
+                };
+            },
+
+            async updateColumn(boardReference: string, columnReference: string, request: IUpdateKanbanColumnRequest): Promise<IKanbanColumn> {
+                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+                const json = await response.json() as IApiResponse<IUpdateKanbanColumnResponse>;
 
                 const kanbanColumn = json.result.kanbanColumn;
 
