@@ -14,6 +14,7 @@ public interface IKanbanService
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
     Result<UpdateBoardPositionsResponse> UpdateBoardPositions(Guid boardReference, UpdateBoardPositionsRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
+    Result<UpdateKanbanColumnResponse> UpdateKanbanColumn(Guid boardReference, Guid columnReference, UpdateKanbanColumnRequest request);
     Result DeleteKanbanColumn(Guid boardReference, Guid columnReference);
     Result<AddKanbanItemResponse> AddKanbanItem(Guid boardReference, Guid columnReference, AddKanbanItemRequest request);
     Result<UpdateKanbanItemResponse> UpdateKanbanItem(Guid boardReference, Guid columnReference, Guid itemReference, UpdateKanbanItemRequest request);
@@ -123,11 +124,31 @@ public sealed class KanbanService : IKanbanService
         };
     }
 
+    public Result<UpdateKanbanColumnResponse> UpdateKanbanColumn(Guid boardReference, Guid columnReference, UpdateKanbanColumnRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateKanbanColumnResponse>.FromFailure(kanbanBoardResult);
+
+        var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
+        if (kanbanColumn == null)
+            return Result<UpdateKanbanColumnResponse>.Failure($"Kanban column '{columnReference}' could not be found.");
+
+        kanbanColumn.Title = request.Title;
+
+        _kanbanRepository.UpdateColumn(kanbanColumn);
+
+        return new UpdateKanbanColumnResponse
+        {
+            KanbanColumn = KanbanMapper.MapColumn(kanbanColumn)
+        };
+    }
+
     public Result DeleteKanbanColumn(Guid boardReference, Guid columnReference)
     {
         var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
         if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
-            return Result<UpdateKanbanItemResponse>.FromFailure(kanbanBoardResult);
+            return Result.FromFailure(kanbanBoardResult);
 
         var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
         if (kanbanColumn == null)
@@ -194,7 +215,7 @@ public sealed class KanbanService : IKanbanService
     {
         var kanbanBoardResult = _kanbanRepository.GetBoard(boardReference);
         if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
-            return Result<UpdateKanbanItemResponse>.FromFailure(kanbanBoardResult);
+            return Result.FromFailure(kanbanBoardResult);
 
         var kanbanColumn = kanbanBoard.Columns.SingleOrDefault(x => x.Reference == columnReference);
         if (kanbanColumn == null)

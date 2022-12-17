@@ -50,6 +50,15 @@ public sealed class KanbanController : ApiController
         return ToApiResponse(result);
     }
 
+    [HttpPut]
+    [Route("board/{boardReference:guid}/column/{columnReference:guid}")]
+    public IActionResult UpdateKanbanColumn([FromRoute] Guid boardReference, [FromRoute] Guid columnReference, [FromBody] UpdateKanbanColumnRequest request)
+    {
+        var result = _kanbanService.UpdateKanbanColumn(boardReference, columnReference, request);
+
+        return ToApiResponse(result);
+    }
+
     [HttpDelete]
     [Route("board/{boardReference:guid}/column/{columnReference:guid}")]
     public IActionResult DeleteKanbanColumn([FromRoute] Guid boardReference, [FromRoute] Guid columnReference)
