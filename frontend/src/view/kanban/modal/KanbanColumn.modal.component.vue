@@ -48,7 +48,7 @@ const onConfirm = function (): void {
 };
 
 const onDelete = async function (): Promise<void> {
-    // await api.kanban.deleteItem(props.boardReference, props.kanbanColumn.reference, props.kanbanItem.reference);
+    await api.kanban.deleteColumn(props.kanbanBoard.reference, props.kanbanColumn.reference);
 
     props.kanbanBoard.columns = props.kanbanBoard.columns.filter(x => x !== props.kanbanColumn);
 
