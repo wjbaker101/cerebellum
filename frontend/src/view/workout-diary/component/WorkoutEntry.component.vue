@@ -12,7 +12,7 @@
             <div class="flex gap align-items-center">
                 <div>
                     <strong>Time: </strong>
-                    <span>{{ workoutEntry.startAt.format('ha') }}</span>
+                    <span>{{ displayStartAt }}</span>
                 </div>
                 <div>
                     <strong>Duration: </strong>
@@ -39,6 +39,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import WorkoutEntryModalComponent, { IWorkoutEntryModalProps } from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
@@ -50,6 +52,13 @@ const props = defineProps<{
 }>();
 
 const modal = useModal();
+
+const displayStartAt = computed<string>(() => {
+    if (props.workoutEntry.startAt.minute() === 0)
+        return props.workoutEntry.startAt.format('ha');
+
+    return props.workoutEntry.startAt.format('h:mma');
+});
 
 const onEntryClick = function (): void {
     modal.show<IWorkoutEntryModalProps>({
