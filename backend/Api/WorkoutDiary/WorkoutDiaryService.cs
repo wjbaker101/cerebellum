@@ -1,9 +1,8 @@
 ﻿using Api.WorkoutDiary.Services;
 using Api.WorkoutDiary.Types;
-using Core.Model;
+using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Extension;
 using NetApiLibs.Type;
 
 namespace Api.WorkoutDiary;
@@ -36,27 +35,7 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
 
         return new GetEntryResponse
         {
-            Entry = new WorkoutEntry
-            {
-                Reference = entry.Reference,
-                CreatedAt = entry.CreatedAt,
-                StartAt = entry.StartAt,
-                EndAt = entry.EndAt,
-                Weight = entry.Weight,
-                Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
-                {
-                    Reference = exercise.Reference,
-                    CreatedAt = exercise.CreatedAt,
-                    Name = exercise.Name,
-                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
-                    {
-                        Reference = set.Reference,
-                        CreatedAt = set.CreatedAt,
-                        Repetitions = set.Repetitions,
-                        Weight = set.Weight
-                    })
-                })
-            }
+            Entry = WorkoutDiaryMapper.MapEntry(entry)
         };
     }
 
@@ -66,31 +45,7 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
 
         return new GetEntriesResponse
         {
-            Entries = entries.ConvertAll(entry => new WorkoutEntry
-            {
-                Reference = entry.Reference,
-                CreatedAt = entry.CreatedAt,
-                StartAt = entry.StartAt,
-                EndAt = entry.EndAt,
-                Weight = entry.Weight,
-                Exercises = entry.Exercises
-                    .OrderBy(x => x.CreatedAt)
-                    .ConvertAll(exercise => new WorkoutEntryExercise
-                    {
-                        Reference = exercise.Reference,
-                        CreatedAt = exercise.CreatedAt,
-                        Name = exercise.Name,
-                        Sets = exercise.Sets
-                            .OrderBy(x => x.CreatedAt)
-                            .ConvertAll(set => new WorkoutEntrySet
-                            {
-                                Reference = set.Reference,
-                                CreatedAt = set.CreatedAt,
-                                Repetitions = set.Repetitions,
-                                Weight = set.Weight
-                            })
-                    })
-            })
+            Entries = entries.ConvertAll(WorkoutDiaryMapper.MapEntry)
         };
     }
 
@@ -136,27 +91,7 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
 
         return new CreateEntryResponse
         {
-            Entry = new WorkoutEntry
-            {
-                Reference = entry.Reference,
-                CreatedAt = entry.CreatedAt,
-                StartAt = entry.StartAt,
-                EndAt = entry.EndAt,
-                Weight = entry.Weight,
-                Exercises = entry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
-                {
-                    Reference = exercise.Reference,
-                    CreatedAt = exercise.CreatedAt,
-                    Name = exercise.Name,
-                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
-                    {
-                        Reference = set.Reference,
-                        CreatedAt = set.CreatedAt,
-                        Repetitions = set.Repetitions,
-                        Weight = set.Weight
-                    })
-                })
-            }
+            Entry = WorkoutDiaryMapper.MapEntry(entry)
         };
     }
 

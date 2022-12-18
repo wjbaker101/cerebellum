@@ -1,8 +1,7 @@
 ﻿using Api.WorkoutDiary.Types;
-using Core.Model;
+using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Extension;
 using NetApiLibs.Type;
 
 namespace Api.WorkoutDiary.Services;
@@ -37,27 +36,7 @@ public sealed class UpdateWorkoutEntryService
 
         return new UpdateEntryResponse
         {
-            Entry = new WorkoutEntry
-            {
-                Reference = updatedEntry.Reference,
-                CreatedAt = updatedEntry.CreatedAt,
-                StartAt = updatedEntry.StartAt,
-                EndAt = updatedEntry.EndAt,
-                Weight = updatedEntry.Weight,
-                Exercises = updatedEntry.Exercises.ConvertAll(exercise => new WorkoutEntryExercise
-                {
-                    Reference = exercise.Reference,
-                    CreatedAt = exercise.CreatedAt,
-                    Name = exercise.Name,
-                    Sets = exercise.Sets.ConvertAll(set => new WorkoutEntrySet
-                    {
-                        Reference = set.Reference,
-                        CreatedAt = set.CreatedAt,
-                        Repetitions = set.Repetitions,
-                        Weight = set.Weight
-                    })
-                })
-            }
+            Entry = WorkoutDiaryMapper.MapEntry(updatedEntry)
         };
     }
 
