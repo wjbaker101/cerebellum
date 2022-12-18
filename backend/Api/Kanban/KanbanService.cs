@@ -154,6 +154,9 @@ public sealed class KanbanService : IKanbanService
         if (kanbanColumn == null)
             return Result.Failure($"Kanban column '{columnReference}' could not be found.");
 
+        foreach (var kanbanItem in kanbanColumn.Items)
+            _kanbanRepository.DeleteItem(kanbanItem);
+
         _kanbanRepository.DeleteColumn(kanbanColumn);
 
         return Result.Success();
