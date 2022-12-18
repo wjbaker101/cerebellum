@@ -31,6 +31,7 @@ import { IAddKanbanItemRequest, IAddKanbanItemResponse } from './type/AddKanbanI
 import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/UpdateKanbanItem.type';
 import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
 import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from './type/UpdateKanbanColumn.type';
+import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from './type/UpdateKanbanBoard.type';
 
 const baseUrl = '/api';
 
@@ -511,6 +512,38 @@ export const useApi = function () {
                 const response = await fetch(`${baseUrl}/kanban/board/${reference}`);
 
                 const json = await response.json() as IApiResponse<IGetKanbanBoardResponse>;
+
+                const kanbanBoard = json.result.kanbanBoard;
+
+                return {
+                    reference: kanbanBoard.reference,
+                    createdAt: dayjs(kanbanBoard.createdAt),
+                    title: kanbanBoard.title,
+                    columns: kanbanBoard.columns.map(column => ({
+                        reference: column.reference,
+                        createdAt: dayjs(column.createdAt),
+                        title: column.title,
+                        position: column.position,
+                        items: column.items.map(item => ({
+                            reference: item.reference,
+                            createdAt: dayjs(item.createdAt),
+                            content: item.content,
+                            position: item.position,
+                        })),
+                    })),
+                };
+            },
+
+            async updateBoard(reference: string, request: IUpdateKanbanBoardRequest): Promise<IKanbanBoard> {
+                const response = await fetch(`${baseUrl}/kanban/board/${reference}`, {
+                    method: 'put',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+
+                const json = await response.json() as IApiResponse<IUpdateKanbanBoardResponse>;
 
                 const kanbanBoard = json.result.kanbanBoard;
 
