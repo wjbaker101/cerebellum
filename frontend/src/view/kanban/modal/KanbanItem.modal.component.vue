@@ -44,8 +44,13 @@ const form = ref<IKanbanItemForm>({
     content: props.kanbanItem.content,
 });
 
-const onConfirm = function (): void {
-    props.kanbanItem.content = form.value.content;
+const onConfirm = async function (): Promise<void> {
+    const result = await api.kanban.updateItem(props.boardReference, props.kanbanColumn.reference, props.kanbanItem.reference, {
+        content: form.value.content,
+        columnReference: props.kanbanColumn.reference,
+    });
+
+    props.kanbanItem.content = result.content;
 };
 
 const onDelete = async function (): Promise<void> {
