@@ -1,8 +1,8 @@
 <template>
     <ViewComponent v-if="kanbanBoard" class="kanban-board-view flex flex-vertical gap" :heading="kanbanBoard.title">
-        <template v-slot:title v-if="isEditingTitle">
+        <template v-slot:title>
             <h1>
-                <input ref="titleInput" type="text" v-model="kanbanTitle" @keypress.enter="onTitleConfirm">
+                <HiddenTextboxComponent v-model="kanbanTitle" @finish="onTitleConfirm" />
             </h1>
         </template>
         <template v-slot:header>
@@ -38,6 +38,7 @@ import { useRoute } from 'vue-router';
 import { Sortable as VueSortable } from 'sortablejs-vue3';
 import Sortable from 'sortablejs';
 
+import HiddenTextboxComponent from '@/component/HiddenTextboxComponent.vue';
 import KanbanColumnComponent from './component/KanbanColumnComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
@@ -51,12 +52,18 @@ const route = useRoute();
 const kanbanBoardReference = route.params.kanbanReference as string;
 
 const kanbanBoard = ref<IKanbanBoard | null>(null);
+const kanbanTitle = ref<string>('');
 
-const isEditingTitle = ref<boolean>(false);
+const onTitleConfirm = async function(title: string): Promise<void> {
+    if (kanbanBoard.value === null)
+        return;
 
-const kanbanTitle = ref<string>(kanbanBoard.value?.title ?? '');
+    const result = await api.kanban.updateBoard(kanbanBoard.value.reference, {
+        title: title,
+    });
 
-const onTitleConfirm = function(): void {};
+    kanbanBoard.value.title = result.title;
+};
 
 const onAddColumn = async function (): Promise<void> {
     const column = await api.kanban.addColumn(kanbanBoardReference, {
@@ -88,6 +95,7 @@ onMounted(async () => {
     const result = await api.kanban.getBoard(kanbanBoardReference);
 
     kanbanBoard.value = result;
+    kanbanTitle.value = result.title;
 });
 </script>
 
