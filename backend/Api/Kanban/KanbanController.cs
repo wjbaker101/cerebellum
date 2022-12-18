@@ -34,9 +34,18 @@ public sealed class KanbanController : ApiController
 
     [HttpPost]
     [Route("board")]
-    public IActionResult GetBoard([FromBody] CreateKanbanBoardRequest request)
+    public IActionResult CreateBoard([FromBody] CreateKanbanBoardRequest request)
     {
         var result = _kanbanService.CreateKanbanBoard(request);
+
+        return ToApiResponse(result);
+    }
+
+    [HttpPut]
+    [Route("board/{reference:guid}")]
+    public IActionResult UpdateBoard([FromRoute] Guid reference, [FromBody] UpdateKanbanBoardRequest request)
+    {
+        var result = _kanbanService.UpdateKanbanBoard(reference, request);
 
         return ToApiResponse(result);
     }

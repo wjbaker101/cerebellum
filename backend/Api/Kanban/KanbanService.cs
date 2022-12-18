@@ -12,6 +12,7 @@ public interface IKanbanService
     Result<GetKanbanBoardsResponse> GetBoards();
     Result<GetKanbanBoardResponse> GetBoard(Guid reference);
     Result<CreateKanbanBoardResponse> CreateKanbanBoard(CreateKanbanBoardRequest request);
+    Result<UpdateKanbanBoardResponse> UpdateKanbanBoard(Guid reference, UpdateKanbanBoardRequest request);
     Result<UpdateBoardPositionsResponse> UpdateBoardPositions(Guid boardReference, UpdateBoardPositionsRequest request);
     Result<AddKanbanColumnResponse> AddKanbanColumn(Guid boardReference, AddKanbanColumnRequest request);
     Result<UpdateKanbanColumnResponse> UpdateKanbanColumn(Guid boardReference, Guid columnReference, UpdateKanbanColumnRequest request);
@@ -68,6 +69,22 @@ public sealed class KanbanService : IKanbanService
         });
 
         return new CreateKanbanBoardResponse
+        {
+            KanbanBoard = KanbanMapper.MapBoard(kanbanBoard)
+        };
+    }
+
+    public Result<UpdateKanbanBoardResponse> UpdateKanbanBoard(Guid reference, UpdateKanbanBoardRequest request)
+    {
+        var kanbanBoardResult = _kanbanRepository.GetBoard(reference);
+        if (!kanbanBoardResult.TrySuccess(out var kanbanBoard))
+            return Result<UpdateKanbanBoardResponse>.FromFailure(kanbanBoardResult);
+
+        kanbanBoard.Title = request.Title;
+
+        _kanbanRepository.UpdateBoard(kanbanBoard);
+
+        return new UpdateKanbanBoardResponse
         {
             KanbanBoard = KanbanMapper.MapBoard(kanbanBoard)
         };

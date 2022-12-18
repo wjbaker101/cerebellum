@@ -7,6 +7,7 @@ namespace Data.Repositories;
 public interface IKanbanRepository
 {
     KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard);
+    KanbanBoardRecord UpdateBoard(KanbanBoardRecord kanbanBoard);
     KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn);
     KanbanColumnRecord UpdateColumn(KanbanColumnRecord kanbanColumn);
     void DeleteColumn(KanbanColumnRecord kanbanColumn);
@@ -24,6 +25,7 @@ public sealed class KanbanRepository : BaseRepository, IKanbanRepository
     }
 
     public KanbanBoardRecord CreateBoard(KanbanBoardRecord kanbanBoard) => SaveRecord(kanbanBoard);
+    public KanbanBoardRecord UpdateBoard(KanbanBoardRecord kanbanBoard) => UpdateRecord(kanbanBoard);
 
     public KanbanColumnRecord CreateColumn(KanbanColumnRecord kanbanColumn) => SaveRecord(kanbanColumn);
     public KanbanColumnRecord UpdateColumn(KanbanColumnRecord kanbanColumn) => UpdateRecord(kanbanColumn);
