@@ -43,6 +43,12 @@
                     <div>Workout Diary</div>
                 </GradientBorderComponent>
             </router-link>
+            <router-link to="/kanban" class="tab" @click.native="onNavigate">
+                <GradientBorderComponent :on-hover="!route.path.startsWith('/kanban')">
+                    <IconComponent icon="menu" style="transform:rotate(90deg)" />
+                    <div>Kanban</div>
+                </GradientBorderComponent>
+            </router-link>
         </ul>
     </nav>
     <nav class="nav-placeholder" aria-hidden="true"></nav>
