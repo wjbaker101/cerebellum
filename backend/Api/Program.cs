@@ -1,9 +1,9 @@
 using Api;
-using Api.Calendar;
-using Api.Kanban;
-using Api.Listum;
-using Api.Notes;
-using Api.WorkoutDiary;
+using Api.Api.Calendar;
+using Api.Api.Kanban;
+using Api.Api.Listum;
+using Api.Api.Notes;
+using Api.Api.WorkoutDiary;
 using Core.Settings;
 using Data;
 using Data.Repositories;
