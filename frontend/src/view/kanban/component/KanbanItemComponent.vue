@@ -1,6 +1,5 @@
 <template>
     <div class="kanban-item-component draggable flex gap-small" :data-reference="kanbanItem.reference">
-        <!-- {{ kanbanItem.content }} -->
         <HiddenTextboxComponent class="content-input" v-model="itemContent" @finish="onFinish" />
         <ButtonComponent class="details-button mini flex-auto" @click="onClick">
             <IconComponent icon="menu" />
