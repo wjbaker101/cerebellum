@@ -4,7 +4,7 @@ import CalendarView from '@/view/calendar/CalendarView.vue';
 import DashboardView from '@/view/dashboard/DashboardView.vue';
 import KanbanView from '@/view/kanban/KanbanView.vue';
 import KanbanBoardView from '@/view/kanban/KanbanBoardView.vue';
-import ListumView from '@/view/listum/ListumView.vue';
+import ListsView from '@/view/listum/ListsView.vue';
 import ListView from '@/view/listum/ListView.vue';
 import NotesView from '@/view/notes/NotesView.vue';
 import NoteView from '@/view/notes/NoteView.vue';
@@ -33,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/lists',
-        component: ListumView,
+        component: ListsView,
     },
     {
         path: '/workout-diary',
