@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.model';
 import { INote } from '@/model/Note.model';
-import { IList, IListItem } from '@/view/listum/model/Listum.model';
+import { IList, IListItem } from '@/view/lists/model/Listum.model';
 
 import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 

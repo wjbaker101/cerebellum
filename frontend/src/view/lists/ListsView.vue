@@ -22,7 +22,7 @@ import ListComponent from '@/component/ListComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
 
-import { IList } from '@/view/listum/model/Listum.model';
+import { IList } from '@/view/lists/model/Listum.model';
 
 const api = useApi();
 const router = useRouter();
