@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="list-view flex flex-vertical gap" :heading="listum?.title ?? ''">
+    <ViewComponent class="list-view flex flex-vertical gap" :heading="list?.title ?? ''">
         <template v-slot:title v-if="isEditingTitle">
             <h1>
                 <input ref="titleInput" type="text" v-model="listTitle" @keypress.enter="onTitleConfirm">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </template>
-        <div class="list" v-if="listum">
+        <div class="list" v-if="list">
             <div class="add-item-container flex gap-small align-items-center">
                 <div>
                     <input type="text" v-model="newItemContent" placeholder="Item contents...">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <ol>
-                <li v-for="item in listum.items" class="flex align-items-center gap">
+                <li v-for="item in list.items" class="flex align-items-center gap">
                     <div>
                         {{ item.content }}
                     </div>
@@ -71,17 +71,17 @@ const modal = useModal();
 const listReference = route.params.listReference as string;
 
 const titleInput = ref<HTMLInputElement | null>(null);
-const listum = ref<IList | null>(null);
+const list = ref<IList | null>(null);
 const listTitle = ref<string>('');
 const isEditingTitle = ref<boolean>(false);
 const newItemContent = ref<string>('');
 
 const onListUpdate = debounce(async () => {
-    if (listum.value === null)
+    if (list.value === null)
         return;
 
-    await api.listum.updateList(listum.value.reference, {
-        title: listum.value.title,
+    await api.listum.updateList(list.value.reference, {
+        title: list.value.title,
     });
 }, 200);
 
@@ -92,7 +92,7 @@ const onEditTitle = function () {
     }
 
     isEditingTitle.value = true;
-    listTitle.value = listum.value?.title ?? '';
+    listTitle.value = list.value?.title ?? '';
 
     nextTick(() => {
         titleInput.value?.focus();
@@ -100,41 +100,41 @@ const onEditTitle = function () {
 };
 
 const onTitleConfirm = function () {
-    if (listum.value === null)
+    if (list.value === null)
         return;
 
     isEditingTitle.value = false;
-    listum.value.title = listTitle.value;
+    list.value.title = listTitle.value;
 
     onListUpdate();
 };
 
 const onDelete = function () {
-    if (listum.value === null)
+    if (list.value === null)
         return;
 
     router.push({ path: '/lists' });
 };
 
 const onNewItem = async function (): Promise<void> {
-    if (listum.value === null)
+    if (list.value === null)
         return;
 
-    const listItem = await api.listum.addListItem(listum.value.reference, {
+    const listItem = await api.listum.addListItem(list.value.reference, {
         content: newItemContent.value,
     });
 
-    listum.value.items.push(listItem);
+    list.value.items.push(listItem);
 };
 
 const onItemClick = function(listItem: IListItem): void {
-    if (listum.value === null)
+    if (list.value === null)
         return;
 
     modal.show<IListItemModalProps>({
         component: ListItemModalComponent,
         componentProps: {
-            listReference: listum.value.reference,
+            listReference: list.value.reference,
             listItem,
         },
     });
@@ -143,7 +143,7 @@ const onItemClick = function(listItem: IListItem): void {
 onMounted(async () => {
     const result = await api.listum.getListByReference(listReference);
 
-    listum.value = result;
+    list.value = result;
 });
 </script>
 

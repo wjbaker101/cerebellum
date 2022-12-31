@@ -20,7 +20,7 @@ import { ref } from 'vue';
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
-import { IListItem } from '@/view/listum/model/Listum.model';
+import { IListItem } from '@/view/lists/model/List.model';
 
 export interface IListItemModalProps {
     listReference: string;
