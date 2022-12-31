@@ -34,7 +34,7 @@ const modal = useModal();
 const newContent = ref<string>(props.listItem.content);
 
 const onSubmit = async function (): Promise<void> {
-    const response = await api.listum.updateListItem(props.listReference, props.listItem.reference, {
+    const response = await api.lists.updateListItem(props.listReference, props.listItem.reference, {
         content: newContent.value,
     });
 

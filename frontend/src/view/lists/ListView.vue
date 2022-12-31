@@ -80,7 +80,7 @@ const onListUpdate = debounce(async () => {
     if (list.value === null)
         return;
 
-    await api.listum.updateList(list.value.reference, {
+    await api.lists.updateList(list.value.reference, {
         title: list.value.title,
     });
 }, 200);
@@ -120,7 +120,7 @@ const onNewItem = async function (): Promise<void> {
     if (list.value === null)
         return;
 
-    const listItem = await api.listum.addListItem(list.value.reference, {
+    const listItem = await api.lists.addListItem(list.value.reference, {
         content: newItemContent.value,
     });
 
@@ -141,7 +141,7 @@ const onItemClick = function(listItem: IListItem): void {
 };
 
 onMounted(async () => {
-    const result = await api.listum.getListByReference(listReference);
+    const result = await api.lists.getListByReference(listReference);
 
     list.value = result;
 });

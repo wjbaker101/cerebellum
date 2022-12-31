@@ -30,7 +30,7 @@ const router = useRouter();
 const lists = ref<Array<IList> | null>(null);
 
 const onCreate = async function () {
-    const list = await api.listum.createList({
+    const list = await api.lists.createList({
         title: 'New List',
     });
 
@@ -39,7 +39,7 @@ const onCreate = async function () {
 };
 
 onMounted(async () => {
-    const response = await api.listum.search();
+    const response = await api.lists.search();
 
     lists.value = response;
 });

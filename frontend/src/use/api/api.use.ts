@@ -182,7 +182,7 @@ export const useApi = function () {
             },
         },
 
-        listum: {
+        lists: {
             async search(): Promise<Array<IList>> {
                 const response = await fetch(`${baseUrl}/listum/lists`);
 
