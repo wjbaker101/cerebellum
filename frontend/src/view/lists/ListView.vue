@@ -61,7 +61,7 @@ import ListItemModalComponent, { IListItemModalProps } from '@/view/lists/modal/
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
-import { IList, IListItem } from '@/view/lists/model/Listum.model';
+import { IList, IListItem } from '@/view/lists/model/List.model';
 
 const api = useApi();
 const route = useRoute();
