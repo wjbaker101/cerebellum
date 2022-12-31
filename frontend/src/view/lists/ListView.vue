@@ -68,7 +68,7 @@ const route = useRoute();
 const router = useRouter();
 const modal = useModal();
 
-const listumReference = route.params.listumReference as string;
+const listReference = route.params.listReference as string;
 
 const titleInput = ref<HTMLInputElement | null>(null);
 const listum = ref<IList | null>(null);
@@ -141,7 +141,7 @@ const onItemClick = function(listItem: IListItem): void {
 };
 
 onMounted(async () => {
-    const result = await api.listum.getListByReference(listumReference);
+    const result = await api.listum.getListByReference(listReference);
 
     listum.value = result;
 });

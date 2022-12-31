@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
         component: NotesView,
     },
     {
-        path: '/lists/:listumReference',
+        path: '/lists/:listReference',
         component: ListView,
     },
     {
