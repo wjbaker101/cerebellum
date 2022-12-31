@@ -1,12 +1,12 @@
 <template>
-    <ViewComponent class="listum-view" heading="Listum" :no-header="false">
+    <ViewComponent class="listum-view" heading="Lists" :no-header="false">
         <template #header>
             <ButtonComponent class="primary" @click="onCreate">
                 <IconComponent icon="plus" gap="right" />
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <ListComponent :items="lists" itemName="lists" :urlMapper="(x: IListum) => `/listum/${x.reference}`">
+        <ListComponent :items="lists" itemName="lists" :urlMapper="(x: IListum) => `/lists/${x.reference}`">
             <template #item="{ item }">
                 {{ item.title }}
             </template>
@@ -35,7 +35,7 @@ const onCreate = async function () {
     });
 
     lists.value?.push(list);
-    router.push({ path: `/listum/${list.reference}`, });
+    router.push({ path: `/lists/${list.reference}`, });
 };
 
 onMounted(async () => {

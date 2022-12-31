@@ -31,10 +31,10 @@
                     <div>Notes</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/listum" class="tab" @click.native="onNavigate">
-                <GradientBorderComponent :on-hover="!route.path.startsWith('/listum')">
+            <router-link to="/lists" class="tab" @click.native="onNavigate">
+                <GradientBorderComponent :on-hover="!route.path.startsWith('/lists')">
                     <IconComponent icon="menu" />
-                    <div>Listum</div>
+                    <div>Lists</div>
                 </GradientBorderComponent>
             </router-link>
             <router-link to="/workout-diary" class="tab" @click.native="onNavigate">

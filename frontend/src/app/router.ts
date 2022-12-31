@@ -28,11 +28,11 @@ const routes: Array<RouteRecordRaw> = [
         component: NotesView,
     },
     {
-        path: '/listum/:listumReference',
+        path: '/lists/:listumReference',
         component: ListView,
     },
     {
-        path: '/listum',
+        path: '/lists',
         component: ListumView,
     },
     {

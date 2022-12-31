@@ -113,7 +113,7 @@ const onDelete = function () {
     if (listum.value === null)
         return;
 
-    router.push({ path: '/listum' });
+    router.push({ path: '/lists' });
 };
 
 const onNewItem = async function (): Promise<void> {
