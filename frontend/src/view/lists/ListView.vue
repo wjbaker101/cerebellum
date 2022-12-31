@@ -1,24 +1,12 @@
 <template>
-    <ViewComponent class="list-view flex flex-vertical gap" :heading="list?.title ?? ''">
-        <template v-slot:title v-if="isEditingTitle">
+    <ViewComponent v-if="list" class="list-view flex flex-vertical gap" :heading="list.title">
+        <template v-slot:title>
             <h1>
-                <input ref="titleInput" type="text" v-model="listTitle" @keypress.enter="onTitleConfirm">
+                <HiddenTextboxComponent v-model="listTitle" @finish="onTitleConfirm" />
             </h1>
         </template>
         <template v-slot:header>
             <div class="flex gap-small">
-                <div class="flex-auto">
-                    <ButtonComponent class="primary" @click="onEditTitle">
-                        <template v-if="isEditingTitle">
-                            <IconComponent icon="cross" gap="right" />
-                            <span>Cancel</span>
-                        </template>
-                        <template v-else>
-                            <IconComponent icon="pencil" gap="right" />
-                            <span>Edit Title</span>
-                        </template>
-                    </ButtonComponent>
-                </div>
                 <div class="flex-auto">
                     <DeleteButtonComponent @delete="onDelete" />
                 </div>
@@ -52,10 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
+import HiddenTextboxComponent from '@/component/HiddenTextboxComponent.vue';
 import ListItemModalComponent, { IListItemModalProps } from '@/view/lists/modal/ListItemModal.component.vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
@@ -70,7 +59,6 @@ const modal = useModal();
 
 const listReference = route.params.listReference as string;
 
-const titleInput = ref<HTMLInputElement | null>(null);
 const list = ref<IList | null>(null);
 const listTitle = ref<string>('');
 const isEditingTitle = ref<boolean>(false);
@@ -84,20 +72,6 @@ const onListUpdate = debounce(async () => {
         title: list.value.title,
     });
 }, 200);
-
-const onEditTitle = function () {
-    if (isEditingTitle.value) {
-        isEditingTitle.value = false;
-        return;
-    }
-
-    isEditingTitle.value = true;
-    listTitle.value = list.value?.title ?? '';
-
-    nextTick(() => {
-        titleInput.value?.focus();
-    });
-};
 
 const onTitleConfirm = function () {
     if (list.value === null)
@@ -144,6 +118,7 @@ onMounted(async () => {
     const result = await api.lists.getListByReference(listReference);
 
     list.value = result;
+    listTitle.value = result.title;
 });
 </script>
 
