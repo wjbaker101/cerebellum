@@ -30,12 +30,12 @@ const router = useRouter();
 const kanbanBoards = ref<Array<IKanbanBoard> | null>(null);
 
 const onCreate = async function () {
-    // const list = await api.kanban.cr({
+    // const list = await api.kanban.create({
     //     title: 'New List',
     // });
 
     // kanbanBoards.value?.push(list);
-    // router.push({ path: `/listum/${list.reference}`, });
+    // router.push({ path: `/lists/${list.reference}`, });
 };
 
 onMounted(async () => {

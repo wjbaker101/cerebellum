@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="listum-view" heading="Lists" :no-header="false">
+    <ViewComponent class="lists-view" heading="Lists" :no-header="false">
         <template #header>
             <ButtonComponent class="primary" @click="onCreate">
                 <IconComponent icon="plus" gap="right" />
