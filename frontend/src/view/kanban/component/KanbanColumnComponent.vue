@@ -1,5 +1,5 @@
 <template>
-    <div class="kanban-column flex flex-vertical gap draggable">
+    <div class="kanban-column flex flex-vertical gap" :class=" { 'draggable': isDraggable }">
         <header class="flex gap-small align-items-center flex-auto">
             <h2>{{ kanbanColumn.title }}</h2>
             <div class="flex-auto">
@@ -35,6 +35,8 @@
                     :kanbanColumn="kanbanColumn"
                     :kanbanItem="element"
                     :key="element.reference"
+                    @contentFocus="onItemContentFocus"
+                    @contentBlur="onItemContentBlur"
                 />
             </template>
         </VueSortable>
@@ -42,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Sortable as VueSortable } from 'sortablejs-vue3';
 import Sortable from 'sortablejs';
 
@@ -61,6 +64,8 @@ const props = defineProps<{
 
 const api = useApi();
 const modal = useModal();
+
+const isDraggable = ref<boolean>(true);
 
 const onAddItem = async function (column: IKanbanColumn): Promise<void> {
     const result = await api.kanban.addItem(props.kanbanBoard.reference, column.reference, {
@@ -104,6 +109,14 @@ const onOpenDetails = function (): void {
             kanbanColumn: props.kanbanColumn,
         },
     });
+};
+
+const onItemContentFocus = function (): void {
+    isDraggable.value = false;
+};
+
+const onItemContentBlur = function (): void {
+    isDraggable.value = true;
 };
 </script>
 

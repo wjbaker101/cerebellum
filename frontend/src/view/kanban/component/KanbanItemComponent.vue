@@ -1,6 +1,6 @@
 <template>
-    <div class="kanban-item-component draggable flex gap-small" :data-reference="kanbanItem.reference">
-        <HiddenTextboxComponent class="content-input" v-model="itemContent" @finish="onFinish" />
+    <div class="kanban-item-component flex gap-small" :class=" { 'draggable': isDraggable }" :data-reference="kanbanItem.reference">
+        <HiddenTextboxComponent class="content-input" v-model="itemContent" @finish="onFinish" @focus="onFocus" @blur="onBlur" />
         <ButtonComponent class="details-button mini flex-auto" @click="onClick">
             <IconComponent icon="menu" />
         </ButtonComponent>
@@ -23,10 +23,14 @@ const props = defineProps<{
     kanbanItem: IKanbanItem;
 }>();
 
+const emit = defineEmits(['contentFocus', 'contentBlur']);
+
 const api = useApi();
 const modal = useModal();
 
 const itemContent = ref<string>(props.kanbanItem.content);
+
+const isDraggable = ref<boolean>(true);
 
 const onClick = function (): void {
     modal.show<IKanbanItemModalProps>({
@@ -46,6 +50,16 @@ const onFinish = async function (content: string): Promise<void> {
     });
 
     props.kanbanItem.content = result.content;
+};
+
+const onFocus = function (): void {
+    isDraggable.value = false;
+    emit('contentFocus');
+};
+
+const onBlur = function (): void {
+    isDraggable.value = true;
+    emit('contentBlur');
 };
 </script>
 
