@@ -20,11 +20,11 @@ import { ref } from 'vue';
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
-import { IListumItem } from '@/model/Listum.model';
+import { IListItem } from '@/view/listum/model/Listum.model';
 
 export interface IListItemModalProps {
     listReference: string;
-    listItem: IListumItem;
+    listItem: IListItem;
 }
 const props = defineProps<IListItemModalProps>();
 

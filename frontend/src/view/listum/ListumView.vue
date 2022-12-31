@@ -6,7 +6,7 @@
                 <span>Create</span>
             </ButtonComponent>
         </template>
-        <ListComponent :items="lists" itemName="lists" :urlMapper="(x: IListum) => `/lists/${x.reference}`">
+        <ListComponent :items="lists" itemName="lists" :urlMapper="(x: IList) => `/lists/${x.reference}`">
             <template #item="{ item }">
                 {{ item.title }}
             </template>
@@ -22,12 +22,12 @@ import ListComponent from '@/component/ListComponent.vue';
 
 import { useApi } from '@/use/api/api.use';
 
-import { IListum } from '@/model/Listum.model';
+import { IList } from '@/view/listum/model/Listum.model';
 
 const api = useApi();
 const router = useRouter();
 
-const lists = ref<Array<IListum> | null>(null);
+const lists = ref<Array<IList> | null>(null);
 
 const onCreate = async function () {
     const list = await api.listum.createList({

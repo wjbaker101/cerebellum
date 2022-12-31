@@ -1,13 +1,13 @@
 import { Dayjs } from 'dayjs';
 
-export interface IListum {
+export interface IList {
     reference: string;
     createdAt: Dayjs;
     title: string;
-    items: Array<IListumItem>;
+    items: Array<IListItem>;
 }
 
-export interface IListumItem {
+export interface IListItem {
     reference: string;
     createdAt: Dayjs;
     content: string;

@@ -61,7 +61,7 @@ import ListItemModalComponent, { IListItemModalProps } from '@/view/listum/modal
 import { useModal } from '@wjb/vue/use/modal.use';
 import { useApi } from '@/use/api/api.use';
 
-import { IListum, IListumItem } from '@/model/Listum.model';
+import { IList, IListItem } from '@/view/listum/model/Listum.model';
 
 const api = useApi();
 const route = useRoute();
@@ -71,7 +71,7 @@ const modal = useModal();
 const listumReference = route.params.listumReference as string;
 
 const titleInput = ref<HTMLInputElement | null>(null);
-const listum = ref<IListum | null>(null);
+const listum = ref<IList | null>(null);
 const listTitle = ref<string>('');
 const isEditingTitle = ref<boolean>(false);
 const newItemContent = ref<string>('');
@@ -127,7 +127,7 @@ const onNewItem = async function (): Promise<void> {
     listum.value.items.push(listItem);
 };
 
-const onItemClick = function(listItem: IListumItem): void {
+const onItemClick = function(listItem: IListItem): void {
     if (listum.value === null)
         return;
 

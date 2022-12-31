@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.model';
 import { INote } from '@/model/Note.model';
-import { IListum, IListumItem } from '@/model/Listum.model';
+import { IList, IListItem } from '@/view/listum/model/Listum.model';
 
 import { IApiResponse } from '@/use/api/type/ApiResponse.type';
 
@@ -183,7 +183,7 @@ export const useApi = function () {
         },
 
         listum: {
-            async search(): Promise<Array<IListum>> {
+            async search(): Promise<Array<IList>> {
                 const response = await fetch(`${baseUrl}/listum/lists`);
 
                 const json = await response.json() as IApiResponse<GetListsResponse>;
@@ -203,7 +203,7 @@ export const useApi = function () {
                 }));
             },
 
-            async getListByReference(reference: string): Promise<IListum> {
+            async getListByReference(reference: string): Promise<IList> {
                 const response = await fetch(`${baseUrl}/listum/list/${reference}`);
 
                 const json = await response.json() as IApiResponse<IGetListByReference>;
@@ -225,7 +225,7 @@ export const useApi = function () {
 
             async createList(request: {
                 title: string;
-            }): Promise<IListum> {
+            }): Promise<IList> {
                 const response = await fetch(`${baseUrl}/listum/list`, {
                     method: 'post',
                     headers: new Headers({
@@ -249,7 +249,7 @@ export const useApi = function () {
 
             async updateList(reference: string, request: {
                 title: string;
-            }): Promise<IListum> {
+            }): Promise<IList> {
                 const response = await fetch(`${baseUrl}/listum/list/${reference}`, {
                     method: 'put',
                     headers: new Headers({
@@ -276,7 +276,7 @@ export const useApi = function () {
                 };
             },
 
-            async reorderList(reference: string, items: Array<IListumItem>): Promise<void> {
+            async reorderList(reference: string, items: Array<IListItem>): Promise<void> {
                 const order: Record<string, number> = {};
                 for (let index = 0; index < items.length; ++index) {
                     order[items[index].reference] = index;
@@ -295,7 +295,7 @@ export const useApi = function () {
 
             async addListItem(listReference: string, request: {
                 content: string;
-            }): Promise<IListumItem> {
+            }): Promise<IListItem> {
                 const response = await fetch(`${baseUrl}/listum/list/${listReference}/item`, {
                     method: 'post',
                     headers: new Headers({
@@ -319,7 +319,7 @@ export const useApi = function () {
 
             async updateListItem(listReference: string, itemReference: string, request: {
                 content: string;
-            }): Promise<IListumItem> {
+            }): Promise<IListItem> {
                 const response = await fetch(`${baseUrl}/listum/list/${listReference}/item/${itemReference}`, {
                     method: 'put',
                     headers: new Headers({
