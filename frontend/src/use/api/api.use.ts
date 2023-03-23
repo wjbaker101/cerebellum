@@ -32,6 +32,9 @@ import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/Upda
 import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
 import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from './type/UpdateKanbanColumn.type';
 import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from './type/UpdateKanbanBoard.type';
+import { IDashboard } from '@/model/Dashboard.model';
+import { IGetDashboardResponse } from './type/GetDashboard.type';
+import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
 
 const baseUrl = '/api';
 
@@ -90,6 +93,24 @@ export const useApi = function () {
                     startAt: dayjs(entry.startAt),
                     endAt: dayjs(entry.endAt),
                     recurringPeriod: mapRecurringPeriod(entry.recurringPeriod),
+                };
+            },
+        },
+
+        dashboard: {
+            async get(): Promise<IDashboard> {
+                const response = await fetch(`${baseUrl}/dashboard`);
+                const json  = await response.json() as IApiResponse<IGetDashboardResponse>;
+
+                const dashboard = json.result;
+
+                return {
+                    items: dashboard.items.map(x => ({
+                        reference: x.reference,
+                        title: x.title,
+                        type: dashboardItemTypeMapper.map(x.type),
+                        createdAt: dayjs(x.createdAt),
+                    })),
                 };
             },
         },
