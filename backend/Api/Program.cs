@@ -1,5 +1,6 @@
 using Api;
 using Api.Api.Calendar;
+using Api.Api.Dashboard;
 using Api.Api.Kanban;
 using Api.Api.Listum;
 using Api.Api.Notes;
@@ -7,6 +8,7 @@ using Api.Api.WorkoutDiary;
 using Core.Settings;
 using Data;
 using Data.Repositories;
+using Data.Repositories.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -21,6 +23,9 @@ services.AddSingleton<IApiDatabase, ApiDatabase>();
 
 services.AddSingleton<ICalendarService, CalendarService>();
 services.AddSingleton<ICalendarRepository, CalendarRepository>();
+
+services.AddSingleton<IDashboardService, DashboardService>();
+services.AddSingleton<IDashboardRepository, DashboardRepository>();
 
 services.AddSingleton<INotesService, NotesService>();
 services.AddSingleton<INotesRepository, NotesRepository>();
