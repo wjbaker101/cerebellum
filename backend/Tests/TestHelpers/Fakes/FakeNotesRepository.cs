@@ -42,7 +42,7 @@ public sealed class FakeNotesRepository : INotesRepository
 
     public Result<NoteRecord> GetByReference(Guid reference)
     {
-        return _noteResult.Value;
+        return _noteResult;
     }
 
     public void DeleteNote(NoteRecord note)
