@@ -4,10 +4,10 @@ namespace Api.Api.Kanban.Types;
 
 public sealed class CreateKanbanBoardRequest
 {
-    public string Title { get; init; } = null!;
+    public required string Title { get; init; }
 }
 
 public sealed class CreateKanbanBoardResponse
 {
-    public KanbanBoardModel KanbanBoard { get; init; } = null!;
+    public required KanbanBoardModel KanbanBoard { get; init; }
 }

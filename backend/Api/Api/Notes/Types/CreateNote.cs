@@ -4,11 +4,11 @@ namespace Api.Api.Notes.Types;
 
 public sealed class CreateNoteRequest
 {
-    public string Title { get; init; } = null!;
-    public string Content { get; init; } = null!;
+    public required string Title { get; init; }
+    public required string Content { get; init; }
 }
 
 public sealed class CreateNoteResponse
 {
-    public NoteModel Note { get; init; } = null!;
+    public required NoteModel Note { get; init; }
 }

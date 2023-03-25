@@ -4,5 +4,5 @@ namespace Api.Api.Listum.Types;
 
 public sealed class GetListByReferenceResponse
 {
-    public ListumModel List { get; init; }
+    public required ListumModel List { get; init; }
 }

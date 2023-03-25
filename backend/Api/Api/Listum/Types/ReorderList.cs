@@ -2,5 +2,5 @@
 
 public sealed class ReorderListRequest
 {
-    public Dictionary<Guid, int> Order { get; init; } = new();
+    public required Dictionary<Guid, int> Order { get; init; }
 }

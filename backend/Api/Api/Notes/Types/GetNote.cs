@@ -4,5 +4,5 @@ namespace Api.Api.Notes.Types;
 
 public sealed class GetNoteResponse
 {
-    public NoteModel Note { get; init; } = null!;
+    public required NoteModel Note { get; init; }
 }

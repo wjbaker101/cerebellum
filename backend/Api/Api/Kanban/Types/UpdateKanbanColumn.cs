@@ -4,10 +4,10 @@ namespace Api.Api.Kanban.Types;
 
 public sealed class UpdateKanbanColumnRequest
 {
-    public string Title { get; init; } = null!;
+    public required string Title { get; init; }
 }
 
 public sealed class UpdateKanbanColumnResponse
 {
-    public KanbanColumnModel KanbanColumn { get; init; } = null!;
+    public required KanbanColumnModel KanbanColumn { get; init; }
 }

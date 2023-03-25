@@ -4,10 +4,10 @@ namespace Api.Api.Listum.Types;
 
 public sealed class CreateListRequest
 {
-    public string Title { get; init; } = null!;
+    public required string Title { get; init; }
 }
 
 public sealed class CreateListResponse
 {
-    public ListumModel List { get; init; }
+    public required ListumModel List { get; init; }
 }
