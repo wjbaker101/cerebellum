@@ -1,4 +1,4 @@
-﻿namespace Api;
+﻿namespace Api.Setup;
 
 public static class SetupSettingsExtensions
 {
