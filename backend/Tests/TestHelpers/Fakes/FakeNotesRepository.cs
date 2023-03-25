@@ -23,7 +23,7 @@ public sealed class FakeNotesRepository : INotesRepository
         Content = "TestContent"
     });
 
-    public static FakeNotesRepository Failure(Result<NoteRecord> failure) => new(failure);
+    public static FakeNotesRepository Failure(string failure) => new(Result<NoteRecord>.Failure(failure));
 
     public NoteRecord SaveNote(NoteRecord note)
     {
