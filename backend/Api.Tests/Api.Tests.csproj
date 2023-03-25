@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Calendar\" />
+    <ProjectReference Include="..\Cerebellum\Cerebellum.csproj" />
   </ItemGroup>
 
 </Project>
