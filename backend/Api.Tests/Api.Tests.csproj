@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cerebellum\Cerebellum.csproj" />
+    <ProjectReference Include="..\Tests\TestHelpers\TestHelpers.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,9 @@
-﻿using Api.Tests.Notes._Helper;
-using Cerebellum.Api.Notes;
+﻿using Cerebellum.Api.Notes;
 using Cerebellum.Api.Notes.Types;
-using Data.Records;
-using Data.Repositories;
-using Moq;
 using NetApiLibs.Type;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
+using TestHelpers.Fakes;
 
 namespace Api.Tests.Notes;
 
@@ -20,15 +16,7 @@ public sealed class GivenASearchNotesRequest
     [OneTimeSetUp]
     public void Setup()
     {
-        var notesRepository = new Mock<INotesRepository>();
-        notesRepository
-            .Setup(mock => mock.SearchNotes())
-            .Returns(new List<NoteRecord>
-            {
-                TestNote.Get()
-            });
-
-        var subject = new NotesService(notesRepository.Object);
+        var subject = new NotesService(FakeNotesRepository.Default());
 
         _result = subject.SearchNotes();
     }

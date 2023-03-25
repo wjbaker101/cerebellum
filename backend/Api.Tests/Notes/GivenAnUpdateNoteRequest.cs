@@ -1,12 +1,9 @@
-﻿using Api.Tests.Notes._Helper;
-using Cerebellum.Api.Notes;
+﻿using Cerebellum.Api.Notes;
 using Cerebellum.Api.Notes.Types;
-using Data.Records;
-using Data.Repositories;
-using Moq;
 using NetApiLibs.Type;
 using NUnit.Framework;
 using System;
+using TestHelpers.Fakes;
 
 namespace Api.Tests.Notes;
 
@@ -14,23 +11,16 @@ namespace Api.Tests.Notes;
 [Parallelizable]
 public sealed class GivenAnUpdateNoteRequest
 {
-    private NoteRecord _note = null!;
-
-    private Mock<INotesRepository> _notesRepository = null!;
+    private FakeNotesRepository _notesRepository = null!;
 
     private Result<UpdateNoteResponse> _result = null!;
 
     [OneTimeSetUp]
     public void Setup()
     {
-        _note = TestNote.Get();
+        _notesRepository = FakeNotesRepository.Default();
 
-        _notesRepository = new Mock<INotesRepository>();
-        _notesRepository
-            .Setup(mock => mock.GetByReference(It.IsAny<Guid>()))
-            .Returns(_note);
-
-        var subject = new NotesService(_notesRepository.Object);
+        var subject = new NotesService(_notesRepository);
 
         _result = subject.UpdateNote(Guid.Parse("f1f7ddb9-fd5e-4c5e-a4a4-eed1dc875d50"), new UpdateNoteRequest
         {
@@ -48,22 +38,21 @@ public sealed class GivenAnUpdateNoteRequest
     [Test]
     public void ThenTheNoteIsUpdatedCorrectly()
     {
-        _notesRepository.Verify(mock => mock.UpdateNote(It.Is<NoteRecord>(request =>
-            request.Reference == _note.Reference &&
-            request.CreatedAt == _note.CreatedAt &&
-            request.Title == "TestTitle2" &&
-            request.Content == "TestContent2")), Times.Once);
+        _notesRepository.AssertUpdated();
+
+        var note = _notesRepository.ActionedNote!;
+
+        Assert.That(note.Title, Is.EqualTo("TestTitle2"));
+        Assert.That(note.Content, Is.EqualTo("TestContent2"));
     }
 
     [Test]
-    public void ThenTheCorrectNotesAreReturned()
+    public void ThenTheCorrectNoteIsReturned()
     {
         var note = _result.Value.Note;
 
         Assert.Multiple(() =>
         {
-            Assert.That(note.Reference, Is.EqualTo(_note.Reference), nameof(note.Reference));
-            Assert.That(note.CreatedAt, Is.EqualTo(_note.CreatedAt), nameof(note.CreatedAt));
             Assert.That(note.Title, Is.EqualTo("TestTitle2"), nameof(note.Title));
             Assert.That(note.Content, Is.EqualTo("TestContent2"), nameof(note.Content));
         });

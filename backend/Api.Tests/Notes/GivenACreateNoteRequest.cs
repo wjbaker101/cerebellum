@@ -1,10 +1,9 @@
 ﻿using Cerebellum.Api.Notes;
 using Cerebellum.Api.Notes.Types;
-using Data.Records;
-using Data.Repositories;
-using Moq;
 using NetApiLibs.Type;
 using NUnit.Framework;
+using System;
+using TestHelpers.Fakes;
 
 namespace Api.Tests.Notes;
 
@@ -12,19 +11,16 @@ namespace Api.Tests.Notes;
 [Parallelizable]
 public sealed class GivenACreateNoteRequest
 {
-    private Mock<INotesRepository> _notesRepository = null!;
+    private FakeNotesRepository _notesRepository = null!;
 
     private Result<CreateNoteResponse> _result = null!;
 
     [OneTimeSetUp]
     public void Setup()
     {
-        _notesRepository = new Mock<INotesRepository>();
-        _notesRepository
-            .Setup(mock => mock.SaveNote(It.IsAny<NoteRecord>()))
-            .Returns((NoteRecord note) => note);
+        _notesRepository = FakeNotesRepository.Default();
 
-        var subject = new NotesService(_notesRepository.Object);
+        var subject = new NotesService(_notesRepository);
 
         _result = subject.CreateNote(new CreateNoteRequest
         {
@@ -42,11 +38,14 @@ public sealed class GivenACreateNoteRequest
     [Test]
     public void ThenTheNoteIsSavedCorrectly()
     {
-        _notesRepository.Verify(mock => mock.SaveNote(It.Is<NoteRecord>(request =>
-            request.Reference != default &&
-            request.CreatedAt != default &&
-            request.Title == "TestTitle" &&
-            request.Content == "TestContent")), Times.Once);
+        _notesRepository.AssertSaved();
+
+        var note = _notesRepository.ActionedNote!;
+
+        Assert.That(note.Reference, Is.Not.EqualTo(default(Guid)));
+        Assert.That(note.CreatedAt, Is.Not.EqualTo(default(DateTime)));
+        Assert.That(note.Title, Is.EqualTo("TestTitle"));
+        Assert.That(note.Content, Is.EqualTo("TestContent"));
     }
 
     [Test]
