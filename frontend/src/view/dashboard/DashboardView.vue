@@ -127,14 +127,17 @@ onMounted(async () => {
         }
 
         .item {
+            position: relative;
             padding: 0.5rem;
             border-radius: var(--wjb-border-radius);
             aspect-ratio: 1 / 1;
+            background-color: var(--wjb-background-colour);
 
             @include shadow-small();
 
             &:hover {
                 transform: scale(1.2);
+                z-index: 1;
             }
 
             & > * {
