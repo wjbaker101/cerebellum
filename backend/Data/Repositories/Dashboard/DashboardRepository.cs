@@ -5,7 +5,7 @@ namespace Data.Repositories.Dashboard;
 
 public interface IDashboardRepository
 {
-    GetDashboardDto GetDashboard();
+    GetDashboardDto GetDashboard(GetDashboardParameters parameters);
 }
 
 public sealed class DashboardRepository : BaseRepository, IDashboardRepository
@@ -14,7 +14,7 @@ public sealed class DashboardRepository : BaseRepository, IDashboardRepository
     {
     }
 
-    public GetDashboardDto GetDashboard()
+    public GetDashboardDto GetDashboard(GetDashboardParameters parameters)
     {
         using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
@@ -22,19 +22,19 @@ public sealed class DashboardRepository : BaseRepository, IDashboardRepository
         var notes = session
             .Query<NoteRecord>()
             .OrderByDescending(x => x.CreatedAt)
-            .Take(5)
+            .Take(parameters.MaxItems)
             .ToList();
 
         var lists = session
             .Query<ListumRecord>()
             .OrderByDescending(x => x.CreatedAt)
-            .Take(5)
+            .Take(parameters.MaxItems)
             .ToList();
 
         var kanbanBoards = session
             .Query<KanbanBoardRecord>()
             .OrderByDescending(x => x.CreatedAt)
-            .Take(5)
+            .Take(parameters.MaxItems)
             .ToList();
 
         transaction.Commit();
@@ -46,7 +46,7 @@ public sealed class DashboardRepository : BaseRepository, IDashboardRepository
                 .Concat(lists.Select(MapItem))
                 .Concat(kanbanBoards.Select(MapItem))
                 .OrderByDescending(x => x.CreatedAt)
-                .Take(10)
+                .Take(parameters.MaxItems)
                 .ToList()
         };
     }

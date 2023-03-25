@@ -1,5 +1,6 @@
 ﻿using Api.Api.Dashboard.Types;
 using Data.Repositories.Dashboard;
+using Data.Repositories.Dashboard.Types;
 using NetApiLibs.Type;
 
 namespace Api.Api.Dashboard;
@@ -20,7 +21,10 @@ public sealed class DashboardService : IDashboardService
 
     public Result<GetDashboardResponse> GetDashBoard()
     {
-        var dashboard = _dashboardRepository.GetDashboard();
+        var dashboard = _dashboardRepository.GetDashboard(new GetDashboardParameters
+        {
+            MaxItems = 5
+        });
 
         return new GetDashboardResponse
         {

@@ -1,5 +1,10 @@
 ﻿namespace Data.Repositories.Dashboard.Types;
 
+public sealed class GetDashboardParameters
+{
+    public int MaxItems { get; init; }
+}
+
 public sealed class GetDashboardDto
 {
     public List<DashboardItem> Items { get; init; } = new();
