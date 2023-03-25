@@ -1,12 +1,16 @@
 ﻿using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
+using NUnit.Framework;
 
 namespace TestHelpers.Fakes;
 
 public sealed class FakeNotesRepository : INotesRepository
 {
     public NoteRecord? ActionedNote { get; private set; }
+    private bool _isSaved;
+    private bool _isUpdated;
+    private bool _isDeleted;
 
     private readonly Result<NoteRecord> _noteResult;
 
@@ -25,13 +29,19 @@ public sealed class FakeNotesRepository : INotesRepository
 
     public static FakeNotesRepository Failure(string failure) => new(Result<NoteRecord>.Failure(failure));
 
+    public void AssertSaved() => Assert.That(_isSaved, Is.True);
+    public void AssertUpdated() => Assert.That(_isUpdated, Is.True);
+    public void AssertDeleted() => Assert.That(_isDeleted, Is.True);
+
     public NoteRecord SaveNote(NoteRecord note)
     {
+        _isSaved = true;
         return ActionedNote = note;
     }
 
     public NoteRecord UpdateNote(NoteRecord note)
     {
+        _isUpdated = true;
         return ActionedNote = note;
     }
 
@@ -47,6 +57,7 @@ public sealed class FakeNotesRepository : INotesRepository
 
     public void DeleteNote(NoteRecord note)
     {
+        _isDeleted = true;
         ActionedNote = note;
     }
 }
