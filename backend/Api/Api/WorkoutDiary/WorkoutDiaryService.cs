@@ -57,7 +57,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
             CreatedAt = DateTime.UtcNow,
             StartAt = request.StartAt,
             EndAt = request.EndAt,
-            Weight = request.Weight
+            Weight = request.Weight,
+            Exercises = new List<WorkoutEntryExerciseRecord>()
         });
 
         var exercises = new List<WorkoutEntryExerciseRecord>();
@@ -68,7 +69,8 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
                 Reference = Guid.NewGuid(),
                 CreatedAt = DateTime.UtcNow,
                 Name = newExercise.Name,
-                Entry = entry
+                Entry = entry,
+                Sets = new List<WorkoutEntrySetRecord>()
             });
 
             var sets = new List<WorkoutEntrySetRecord>();

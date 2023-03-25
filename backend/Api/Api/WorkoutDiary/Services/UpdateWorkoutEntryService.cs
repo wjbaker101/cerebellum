@@ -98,7 +98,8 @@ public sealed class UpdateWorkoutEntryService
                 Reference = Guid.NewGuid(),
                 CreatedAt = DateTime.UtcNow,
                 Name = newExercise.Name,
-                Entry = entry
+                Entry = entry,
+                Sets = new List<WorkoutEntrySetRecord>()
             });
 
             foreach (var newSet in newExercise.Sets)

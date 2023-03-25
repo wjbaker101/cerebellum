@@ -5,12 +5,12 @@ namespace Data.Records;
 public class CalendarEntryRecord
 {
     public virtual long Id { get; init; }
-    public virtual Guid Reference { get; init; }
-    public virtual DateTime CreatedAt { get; init; }
-    public virtual string Description { get; set; } = null!;
-    public virtual DateTime StartAt { get; set; }
-    public virtual DateTime EndAt { get; set; }
-    public virtual CalendarEntryRecurringPeriod RecurringPeriod { get; set; }
+    public virtual required Guid Reference { get; init; }
+    public virtual required DateTime CreatedAt { get; init; }
+    public virtual required string Description { get; set; }
+    public virtual required DateTime StartAt { get; set; }
+    public virtual required DateTime EndAt { get; set; }
+    public virtual required CalendarEntryRecurringPeriod RecurringPeriod { get; set; }
 }
 
 public enum CalendarEntryRecurringPeriod

@@ -2,19 +2,19 @@
 
 public sealed class GetDashboardParameters
 {
-    public int MaxItems { get; init; }
+    public required int MaxItems { get; init; }
 }
 
 public sealed class GetDashboardDto
 {
-    public List<DashboardItem> Items { get; init; } = new();
+    public required List<DashboardItem> Items { get; init; }
 
     public sealed class DashboardItem
     {
-        public Guid Reference { get; init; }
-        public string Title { get; init; } = default!;
-        public DashboardItemType Type { get; init; }
-        public DateTime CreatedAt { get; init; }
+        public required Guid Reference { get; init; }
+        public required string Title { get; init; }
+        public required DashboardItemType Type { get; init; }
+        public required DateTime CreatedAt { get; init; }
     }
 }
 

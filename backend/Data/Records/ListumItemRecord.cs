@@ -5,11 +5,11 @@ namespace Data.Records;
 public class ListumItemRecord
 {
     public virtual long Id { get; init; }
-    public virtual Guid Reference { get; init; }
-    public virtual DateTime CreatedAt { get; init; }
-    public virtual string Content { get; set; } = null!;
-    public virtual int ListOrder { get; set; }
-    public virtual ListumRecord List { get; init; } = null!;
+    public virtual required Guid Reference { get; init; }
+    public virtual required DateTime CreatedAt { get; init; }
+    public virtual required string Content { get; set; }
+    public virtual required int ListOrder { get; set; }
+    public virtual required ListumRecord List { get; init; }
 }
 
 public sealed class ListumItemRecordMap : ClassMap<ListumItemRecord>

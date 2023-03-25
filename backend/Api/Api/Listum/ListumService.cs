@@ -1,10 +1,10 @@
-﻿using System.Net;
-using Api.Api.Listum.Types;
+﻿using Api.Api.Listum.Types;
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Extension;
 using NetApiLibs.Type;
+using System.Net;
 
 namespace Api.Api.Listum;
 
@@ -76,7 +76,8 @@ public sealed class ListumService : IListumService
         {
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
-            Title = request.Title
+            Title = request.Title,
+            Items = new HashSet<ListumItemRecord>()
         });
 
         return new CreateListResponse

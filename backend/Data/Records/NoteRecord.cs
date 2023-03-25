@@ -5,10 +5,10 @@ namespace Data.Records;
 public class NoteRecord
 {
     public virtual long Id { get; init; }
-    public virtual Guid Reference { get; init; }
-    public virtual DateTime CreatedAt { get; init; }
-    public virtual string Title { get; set; } = null!;
-    public virtual string Content { get; set; } = null!;
+    public virtual required Guid Reference { get; init; }
+    public virtual required DateTime CreatedAt { get; init; }
+    public virtual required string Title { get; set; }
+    public virtual required string Content { get; set; } 
 }
 
 public sealed class NoteRecordMap : ClassMap<NoteRecord>

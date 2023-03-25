@@ -5,10 +5,10 @@ namespace Data.Records;
 public class KanbanBoardRecord
 {
     public virtual long Id { get; init; }
-    public virtual Guid Reference { get; init; }
-    public virtual DateTime CreatedAt { get; init; }
-    public virtual string Title { get; set; } = null!;
-    public virtual ICollection<KanbanColumnRecord> Columns { get; set; } = new HashSet<KanbanColumnRecord>();
+    public virtual required Guid Reference { get; init; }
+    public virtual required DateTime CreatedAt { get; init; }
+    public virtual required string Title { get; set; }
+    public virtual required ICollection<KanbanColumnRecord> Columns { get; set; }
 }
 
 public sealed class KanbanBoardRecordMap : ClassMap<KanbanBoardRecord>

@@ -5,12 +5,12 @@ namespace Data.Records;
 public class WorkoutEntryRecord
 {
     public virtual long Id { get; init; }
-    public virtual Guid Reference { get; init; }
-    public virtual DateTime CreatedAt { get; init; }
-    public virtual DateTime StartAt { get; set; }
-    public virtual DateTime? EndAt { get; set; }
-    public virtual decimal? Weight { get; set; }
-    public virtual ICollection<WorkoutEntryExerciseRecord> Exercises { get; set; } = new HashSet<WorkoutEntryExerciseRecord>();
+    public virtual required Guid Reference { get; init; }
+    public virtual required DateTime CreatedAt { get; init; }
+    public virtual required DateTime StartAt { get; set; }
+    public virtual required DateTime? EndAt { get; set; }
+    public virtual required decimal? Weight { get; set; }
+    public virtual required ICollection<WorkoutEntryExerciseRecord> Exercises { get; set; }
 }
 
 public sealed class WorkoutEntryRecordMap : ClassMap<WorkoutEntryRecord>
