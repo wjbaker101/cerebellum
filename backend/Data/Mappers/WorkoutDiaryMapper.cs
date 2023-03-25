@@ -6,42 +6,29 @@ namespace Data.Mappers;
 
 public static class WorkoutDiaryMapper
 {
-    public static WorkoutEntry MapEntry(WorkoutEntryRecord entry)
+    public static WorkoutEntry MapEntry(WorkoutEntryRecord entry) => new()
     {
-        return new WorkoutEntry
-        {
-            Reference = entry.Reference,
-            CreatedAt = entry.CreatedAt,
-            StartAt = entry.StartAt,
-            EndAt = entry.EndAt,
-            Weight = entry.Weight,
-            Exercises = entry.Exercises
-                .OrderBy(x => x.CreatedAt)
-                .ConvertAll(MapExercise)
-        };
-    }
+        Reference = entry.Reference,
+        CreatedAt = entry.CreatedAt,
+        StartAt = entry.StartAt,
+        EndAt = entry.EndAt,
+        Weight = entry.Weight,
+        Exercises = entry.Exercises.OrderBy(x => x.CreatedAt).ConvertAll(MapExercise)
+    };
 
-    public static WorkoutEntryExercise MapExercise(WorkoutEntryExerciseRecord exercise)
+    public static WorkoutEntryExercise MapExercise(WorkoutEntryExerciseRecord exercise) => new()
     {
-        return new WorkoutEntryExercise
-        {
-            Reference = exercise.Reference,
-            CreatedAt = exercise.CreatedAt,
-            Name = exercise.Name,
-            Sets = exercise.Sets
-                .OrderBy(x => x.CreatedAt)
-                .ConvertAll(MapSet)
-        };
-    }
+        Reference = exercise.Reference,
+        CreatedAt = exercise.CreatedAt,
+        Name = exercise.Name,
+        Sets = exercise.Sets.OrderBy(x => x.CreatedAt).ConvertAll(MapSet)
+    };
 
-    public static WorkoutEntrySet MapSet(WorkoutEntrySetRecord set)
+    public static WorkoutEntrySet MapSet(WorkoutEntrySetRecord set) => new()
     {
-        return new WorkoutEntrySet
-        {
-            Reference = set.Reference,
-            CreatedAt = set.CreatedAt,
-            Repetitions = set.Repetitions,
-            Weight = set.Weight
-        };
-    }
+        Reference = set.Reference,
+        CreatedAt = set.CreatedAt,
+        Repetitions = set.Repetitions,
+        Weight = set.Weight
+    };
 }
