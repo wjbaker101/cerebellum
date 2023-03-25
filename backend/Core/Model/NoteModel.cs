@@ -2,8 +2,8 @@
 
 public sealed class NoteModel
 {
-    public Guid Reference { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public string Title { get; init; } = null!;
-    public string Content { get; init; } = null!;
+    public required Guid Reference { get; init; }
+    public required DateTime CreatedAt { get; init; }
+    public required string Title { get; init; }
+    public required string Content { get; init; }
 }

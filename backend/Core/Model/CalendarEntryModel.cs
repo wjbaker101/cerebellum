@@ -2,12 +2,12 @@
 
 public sealed class CalendarEntryModel
 {
-    public Guid Reference { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public string Description { get; init; } = null!;
-    public DateTime StartAt { get; init; }
-    public DateTime EndAt { get; init; }
-    public CalendarEntryRecurringPeriod RecurringPeriod { get; init; }
+    public required Guid Reference { get; init; }
+    public required DateTime CreatedAt { get; init; }
+    public required string Description { get; init; }
+    public required DateTime StartAt { get; init; }
+    public required DateTime EndAt { get; init; }
+    public required CalendarEntryRecurringPeriod RecurringPeriod { get; init; }
 }
 
 public enum CalendarEntryRecurringPeriod

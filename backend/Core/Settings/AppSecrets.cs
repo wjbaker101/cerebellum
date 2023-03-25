@@ -2,14 +2,14 @@
 
 public sealed class AppSecrets
 {
-    public DatabaseSettings Database { get; init; } = null!;
+    public required DatabaseSettings Database { get; init; }
 
     public sealed class DatabaseSettings
     {
-        public string Host { get; init; } = null!;
-        public int Port { get; init; }
-        public string Database { get; init; } = null!;
-        public string Username { get; init; } = null!;
-        public string Password { get; init; } = null!;
+        public required string Host { get; init; } 
+        public required int Port { get; init; }
+        public required string Database { get; init; }
+        public required string Username { get; init; }
+        public required string Password { get; init; } 
     }
 }

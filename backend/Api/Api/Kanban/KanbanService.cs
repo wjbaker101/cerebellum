@@ -41,7 +41,8 @@ public sealed class KanbanService : IKanbanService
             {
                 Reference = x.Reference,
                 CreatedAt = x.CreatedAt,
-                Title = x.Title
+                Title = x.Title,
+                Columns = new List<KanbanColumnModel>()
             })
         };
     }
