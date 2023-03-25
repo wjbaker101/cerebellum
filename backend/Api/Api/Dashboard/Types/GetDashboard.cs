@@ -1,4 +1,4 @@
-﻿namespace Api.Api.Dashboard.Types;
+﻿namespace Cerebellum.Api.Dashboard.Types;
 
 public sealed class GetDashboardResponse
 {

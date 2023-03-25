@@ -1,11 +1,11 @@
-﻿using Api.Api.WorkoutDiary.Services;
-using Api.Api.WorkoutDiary.Types;
+﻿using Cerebellum.Api.WorkoutDiary.Services;
+using Cerebellum.Api.WorkoutDiary.Types;
 using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
 
-namespace Api.Api.WorkoutDiary;
+namespace Cerebellum.Api.WorkoutDiary;
 
 public interface IWorkoutDiaryService
 {

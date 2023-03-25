@@ -1,4 +1,4 @@
-﻿namespace Api.Api.Kanban.Types;
+﻿namespace Cerebellum.Api.Kanban.Types;
 
 public sealed class UpdateBoardPositionsRequest
 {

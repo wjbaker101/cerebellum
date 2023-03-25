@@ -1,8 +1,8 @@
-﻿using Api.Api.Kanban.Types;
+﻿using Cerebellum.Api.Kanban.Types;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.Kanban;
+namespace Cerebellum.Api.Kanban;
 
 [Route("api/kanban")]
 public sealed class KanbanController : ApiController

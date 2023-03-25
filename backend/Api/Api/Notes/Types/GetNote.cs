@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 
-namespace Api.Api.Notes.Types;
+namespace Cerebellum.Api.Notes.Types;
 
 public sealed class GetNoteResponse
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.Dashboard;
+namespace Cerebellum.Api.Dashboard;
 
 [ApiController]
 [Route("api/dashboard")]

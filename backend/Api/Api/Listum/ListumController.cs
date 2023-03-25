@@ -1,8 +1,8 @@
-﻿using Api.Api.Listum.Types;
+﻿using Cerebellum.Api.Listum.Types;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.Listum;
+namespace Cerebellum.Api.Listum;
 
 [Route("api/listum")]
 public sealed class ListumController : ApiController

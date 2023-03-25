@@ -1,8 +1,8 @@
-﻿using Api.Api.WorkoutDiary.Types;
+﻿using Cerebellum.Api.WorkoutDiary.Types;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.WorkoutDiary;
+namespace Cerebellum.Api.WorkoutDiary;
 
 [Route("api/workout-diary")]
 public sealed class WorkoutDiaryController : ApiController

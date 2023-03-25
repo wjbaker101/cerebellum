@@ -1,4 +1,4 @@
-﻿using Api.Api.Calendar.Types;
+﻿using Cerebellum.Api.Calendar.Types;
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
@@ -6,7 +6,7 @@ using NetApiLibs.Extension;
 using NetApiLibs.Type;
 using CalendarEntryRecurringPeriod = Core.Model.CalendarEntryRecurringPeriod;
 
-namespace Api.Api.Calendar;
+namespace Cerebellum.Api.Calendar;
 
 public interface ICalendarService
 {

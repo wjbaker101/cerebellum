@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 
-namespace Api.Api.WorkoutDiary.Types;
+namespace Cerebellum.Api.WorkoutDiary.Types;
 
 public sealed class CreateEntryRequest
 {

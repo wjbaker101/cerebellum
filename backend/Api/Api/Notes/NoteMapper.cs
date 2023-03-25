@@ -1,7 +1,7 @@
 ﻿using Core.Model;
 using Data.Records;
 
-namespace Api.Api.Notes;
+namespace Cerebellum.Api.Notes;
 
 public static class NoteMapper
 {

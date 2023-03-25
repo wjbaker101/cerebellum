@@ -1,10 +1,10 @@
-﻿using Api.Api.WorkoutDiary.Types;
+﻿using Cerebellum.Api.WorkoutDiary.Types;
 using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
 
-namespace Api.Api.WorkoutDiary.Services;
+namespace Cerebellum.Api.WorkoutDiary.Services;
 
 public sealed class UpdateWorkoutEntryService
 {

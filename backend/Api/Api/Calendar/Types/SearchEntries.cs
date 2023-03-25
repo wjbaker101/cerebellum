@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 
-namespace Api.Api.Calendar.Types;
+namespace Cerebellum.Api.Calendar.Types;
 
 public sealed class SearchEntriesRequest
 {

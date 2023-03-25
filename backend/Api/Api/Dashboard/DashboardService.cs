@@ -1,9 +1,9 @@
-﻿using Api.Api.Dashboard.Types;
+﻿using Cerebellum.Api.Dashboard.Types;
 using Data.Repositories.Dashboard;
 using Data.Repositories.Dashboard.Types;
 using NetApiLibs.Type;
 
-namespace Api.Api.Dashboard;
+namespace Cerebellum.Api.Dashboard;
 
 public interface IDashboardService
 {

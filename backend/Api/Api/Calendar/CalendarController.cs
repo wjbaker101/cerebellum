@@ -1,8 +1,8 @@
-﻿using Api.Api.Calendar.Types;
+﻿using Cerebellum.Api.Calendar.Types;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.Calendar;
+namespace Cerebellum.Api.Calendar;
 
 [Route("api/calendar")]
 public sealed class CalendarController : ApiController

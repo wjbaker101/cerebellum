@@ -1,11 +1,11 @@
-﻿using Api.Api.Kanban.Types;
+﻿using Cerebellum.Api.Kanban.Types;
 using Core.Model;
 using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
 
-namespace Api.Api.Kanban;
+namespace Cerebellum.Api.Kanban;
 
 public interface IKanbanService
 {

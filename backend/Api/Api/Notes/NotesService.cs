@@ -1,9 +1,9 @@
-﻿using Api.Api.Notes.Types;
+﻿using Cerebellum.Api.Notes.Types;
 using Data.Records;
 using Data.Repositories;
 using NetApiLibs.Type;
 
-namespace Api.Api.Notes;
+namespace Cerebellum.Api.Notes;
 
 public interface INotesService
 {

@@ -1,4 +1,4 @@
-﻿namespace Api.Setup;
+﻿namespace Cerebellum.Setup;
 
 public static class SetupSettingsExtensions
 {

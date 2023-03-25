@@ -1,4 +1,4 @@
-﻿using Api.Api.Listum.Types;
+﻿using Cerebellum.Api.Listum.Types;
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
@@ -6,7 +6,7 @@ using NetApiLibs.Extension;
 using NetApiLibs.Type;
 using System.Net;
 
-namespace Api.Api.Listum;
+namespace Cerebellum.Api.Listum;
 
 public interface IListumService
 {

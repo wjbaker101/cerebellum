@@ -1,4 +1,4 @@
-﻿namespace Api.Api.Listum.Types;
+﻿namespace Cerebellum.Api.Listum.Types;
 
 public sealed class ReorderListRequest
 {

@@ -1,8 +1,8 @@
-﻿using Api.Api.Notes.Types;
+﻿using Cerebellum.Api.Notes.Types;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
-namespace Api.Api.Notes;
+namespace Cerebellum.Api.Notes;
 
 [Route("api")]
 public sealed class NotesController : ApiController
