@@ -57,4 +57,10 @@ textarea {
 
     @include shadow-small();
 }
+
+.content-width {
+    max-width: 67rem;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>

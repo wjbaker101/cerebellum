@@ -4,7 +4,7 @@ export interface IDashboard {
     readonly items: Array<IDashboardItem>;
 }
 
-interface IDashboardItem {
+export interface IDashboardItem {
     readonly reference: string;
     readonly title: string;
     readonly type: DashboardItemType;
