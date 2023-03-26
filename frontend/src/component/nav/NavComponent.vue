@@ -93,6 +93,11 @@ nav.nav-component {
     border-top-right-radius: var(--wjb-border-radius);
     border-bottom-right-radius: var(--wjb-border-radius);
     background-color: var(--wjb-background-colour);
+    background: linear-gradient(
+        -45deg,
+        var(--wjb-background-colour-dark),
+        var(--wjb-background-colour),
+    );
 
     @include shadow-medium();
 
