@@ -77,7 +77,6 @@ const onNavigate = function (): void {
 </script>
 
 <style lang="scss">
-@use '~@wjb/styling/variables' as *;
 @use '@/styling/variables' as *;
 
 nav.nav-placeholder,

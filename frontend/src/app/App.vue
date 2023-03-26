@@ -15,7 +15,7 @@ import NavComponent from '@/component/nav/NavComponent.vue';
 
 <style lang="scss">
 @use '@/styling/main' as *;
-@use '@wjb/styling/variables' as *;
+@use '@/styling/variables' as *;
 
 *,
 *::before,

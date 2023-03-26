@@ -100,7 +100,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-@use '~@wjb/styling/variables' as *;
+@use '@/styling/variables' as *;
 
 .kanban-board-view {
 

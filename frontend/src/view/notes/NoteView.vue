@@ -122,7 +122,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-@use '~@wjb/styling/variables.scss' as *;
+@use '@/styling/variables' as *;
 
 .note-view {
 

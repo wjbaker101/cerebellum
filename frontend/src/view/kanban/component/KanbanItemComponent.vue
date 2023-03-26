@@ -64,7 +64,7 @@ const onBlur = function (): void {
 </script>
 
 <style lang="scss">
-@use '~@wjb/styling/variables' as *;
+@use '@/styling/variables' as *;
 
 .kanban-item-component {
     padding: 0.5rem;
