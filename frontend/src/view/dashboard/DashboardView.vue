@@ -13,10 +13,10 @@
                 </div>
             </div>
         </div>
-        <div v-if="dashboard">
+        <div class="dashboard" :class="{ 'is-visible': dashboard !== null }">
             <div class="content-width">
                 <div class="dashboard-items">
-                    <RouterLink class="border text-centered" :key="item.reference" v-for="item in dashboard.items" :to="mapLink(item)">
+                    <RouterLink class="border text-centered" :key="item.reference" v-for="item in dashboard?.items" :to="mapLink(item)">
                         <GradientBorderComponent class="item flex">
                             <div class="flex-auto">
                                 <IconComponent v-if="item.type === 'note'" icon="page-text" size="large" />
@@ -112,6 +112,14 @@ onMounted(async () => {
             .time {
                 font-size: 6rem;
             }
+        }
+    }
+
+    .dashboard {
+        flex: 0;
+
+        &.is-visible {
+            flex: 1;
         }
     }
 
