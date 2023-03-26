@@ -61,9 +61,12 @@ onMounted(async () => {
 
     .dashboard {
         flex: 0;
+        opacity: 0;
+        transition: all 0.5s;
 
         &.is-visible {
             flex: 1;
+            opacity: 1;
         }
     }
 
