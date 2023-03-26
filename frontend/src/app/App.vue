@@ -17,30 +17,15 @@ import NavComponent from '@/component/nav/NavComponent.vue';
 @use '@/styling/main' as *;
 @use '@/styling/variables' as *;
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    vertical-align: middle;
-    transition: all 0.2s, font 0s;
-}
-
-html,
-body,
 #app,
 #app > .page {
     height: 100%;
 }
 
 body {
-    margin: 0;
     font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 15px;
-    line-height: 1.6em;
-    letter-spacing: 0.5px;
     background-color: var(--wjb-background-colour);
     color: var(--wjb-text-colour);
-    transition: none;
 }
 
 textarea {
