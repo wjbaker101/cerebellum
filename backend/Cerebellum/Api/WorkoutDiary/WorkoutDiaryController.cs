@@ -15,6 +15,19 @@ public sealed class WorkoutDiaryController : ApiController
     }
 
     [HttpGet]
+    [Route("entries/search")]
+    public IActionResult SearchEntries([FromQuery(Name = "start_at")] DateTime startAt, [FromQuery(Name = "end_at")] DateTime endAt)
+    {
+        var result = _workoutDiaryService.SearchEntries(new SearchEntriesRequest
+        {
+            StartAt = startAt,
+            EndAt = endAt
+        });
+
+        return ToApiResponse(result);
+    }
+
+    [HttpGet]
     [Route("entry/{reference:guid}")]
     public IActionResult GetEntry([FromRoute] Guid reference)
     {

@@ -8,6 +8,7 @@ using Core.Settings;
 using Data;
 using Data.Repositories;
 using Data.Repositories.Dashboard;
+using Data.Repositories.WorkoutDiary;
 
 namespace Cerebellum.Setup;
 

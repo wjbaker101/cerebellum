@@ -1,8 +1,9 @@
 ﻿using Data.Records;
+using Data.Repositories.WorkoutDiary.Types;
 using NetApiLibs.Type;
 using NHibernate.Linq;
 
-namespace Data.Repositories;
+namespace Data.Repositories.WorkoutDiary;
 
 public interface IWorkoutDiaryRepository
 {
@@ -15,6 +16,7 @@ public interface IWorkoutDiaryRepository
     WorkoutEntrySetRecord SaveSet(WorkoutEntrySetRecord exercise);
     WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord exercise);
     void DeleteSet(WorkoutEntrySetRecord exercise);
+    List<WorkoutEntryRecord> SearchEntries(SearchEntriesParameters parameters);
     Result<WorkoutEntryRecord> GetEntryByReference(Guid reference);
     List<WorkoutEntryRecord> GetEntries();
 }
@@ -36,6 +38,30 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
     public WorkoutEntrySetRecord SaveSet(WorkoutEntrySetRecord set) => SaveRecord(set);
     public WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord set) => UpdateRecord(set);
     public void DeleteSet(WorkoutEntrySetRecord set) => DeleteRecord(set);
+
+    public List<WorkoutEntryRecord> SearchEntries(SearchEntriesParameters parameters)
+    {
+        using var session = Database.SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        var query = session
+            .Query<WorkoutEntryRecord>()
+            .FetchMany(x => x.Exercises)
+            .ToFuture();
+
+        session
+            .Query<WorkoutEntryExerciseRecord>()
+            .FetchMany(x => x.Sets)
+            .ToFuture();
+
+        var entries = query
+            .OrderByDescending(x => x.StartAt)
+            .ToList();
+
+        transaction.Commit();
+
+        return entries;
+    }
 
     public Result<WorkoutEntryRecord> GetEntryByReference(Guid reference)
     {

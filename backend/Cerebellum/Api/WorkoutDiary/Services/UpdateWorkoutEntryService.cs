@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.WorkoutDiary.Types;
 using Data.Mappers;
 using Data.Records;
-using Data.Repositories;
+using Data.Repositories.WorkoutDiary;
 using NetApiLibs.Type;
 
 namespace Cerebellum.Api.WorkoutDiary.Services;

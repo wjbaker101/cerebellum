@@ -2,13 +2,15 @@
 using Cerebellum.Api.WorkoutDiary.Types;
 using Data.Mappers;
 using Data.Records;
-using Data.Repositories;
+using Data.Repositories.WorkoutDiary;
+using Data.Repositories.WorkoutDiary.Types;
 using NetApiLibs.Type;
 
 namespace Cerebellum.Api.WorkoutDiary;
 
 public interface IWorkoutDiaryService
 {
+    Result<SearchEntriesResponse> SearchEntries(SearchEntriesRequest request);
     Result<GetEntryResponse> GetEntryByReference(Guid reference);
     Result<GetEntriesResponse> GetEntries();
     Result<CreateEntryResponse> CreateEntry(CreateEntryRequest request);
@@ -25,6 +27,20 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
     {
         _workoutDiaryRepository = workoutDiaryRepository;
         _updateWorkoutEntryService = new UpdateWorkoutEntryService(workoutDiaryRepository);
+    }
+
+    public Result<SearchEntriesResponse> SearchEntries(SearchEntriesRequest request)
+    {
+        var entries = _workoutDiaryRepository.SearchEntries(new SearchEntriesParameters
+        {
+            StartAt = request.StartAt,
+            EndAt = request.EndAt
+        });
+
+        return new SearchEntriesResponse
+        {
+            Entries = entries.ConvertAll(WorkoutDiaryMapper.MapEntry)
+        };
     }
 
     public Result<GetEntryResponse> GetEntryByReference(Guid reference)
