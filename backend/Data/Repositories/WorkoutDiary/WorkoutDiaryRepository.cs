@@ -45,15 +45,17 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
         using var transaction = session.BeginTransaction();
 
         var query = session
-            .Query<WorkoutEntryRecord>();
+            .Query<WorkoutEntryRecord>()
+            .FetchMany(x => x.Exercises)
+            .Where(x => x.StartAt >= parameters.StartAt && x.StartAt <= parameters.EndAt)
+            .ToFuture();
 
         var entries = query
-            .FetchMany(x => x.Exercises)
             .Where(x => x.StartAt >= parameters.StartAt && x.StartAt <= parameters.EndAt)
             .Take(parameters.PageSize)
             .Skip(parameters.PageSize * (parameters.PageNumber - 1))
             .OrderByDescending(x => x.StartAt)
-            .ToFuture();
+            .ToList();
 
         session
             .Query<WorkoutEntryExerciseRecord>()
@@ -62,7 +64,9 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
             .FetchMany(x => x.Sets)
             .ToFuture();
 
-        var entryCount = query.ToFutureValue(x => x.Count());
+        var entryCount = session
+            .Query<WorkoutEntryRecord>()
+            .ToFutureValue(x => x.Count());
 
         transaction.Commit();
 
