@@ -41,17 +41,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import WorkoutEntryModalComponent, { IWorkoutEntryModalProps } from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
-
-import { useModal } from '@wjb/vue/use/modal.use';
-
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
 
 const props = defineProps<{
     workoutEntry: IWorkoutEntry;
 }>();
 
-const modal = useModal();
+const emit = defineEmits(['showModal']);
 
 const displayStartAt = computed<string>(() => {
     if (props.workoutEntry.startAt.minute() === 0)
@@ -61,12 +57,9 @@ const displayStartAt = computed<string>(() => {
 });
 
 const onEntryClick = function (): void {
-    modal.show<IWorkoutEntryModalProps>({
-        component: WorkoutEntryModalComponent,
-        componentProps: {
-            workoutEntry: props.workoutEntry,
-        },
-    });
+    history.pushState({}, '', `/workout-diary/entry/${props.workoutEntry.reference}`);
+
+    emit('showModal', props.workoutEntry);
 };
 </script>
 

@@ -40,6 +40,10 @@ const routes: Array<RouteRecordRaw> = [
         component: WorkoutDiaryView,
     },
     {
+        path: '/workout-diary/entry/:entryReference',
+        component: WorkoutDiaryView,
+    },
+    {
         path: '/kanban',
         component: KanbanView,
     },
