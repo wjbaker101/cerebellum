@@ -47,6 +47,7 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
         var query = session
             .Query<WorkoutEntryRecord>()
             .FetchMany(x => x.Exercises)
+            .Where(x => x.StartAt >= parameters.StartAt && x.StartAt <= parameters.EndAt)
             .ToFuture();
 
         session
