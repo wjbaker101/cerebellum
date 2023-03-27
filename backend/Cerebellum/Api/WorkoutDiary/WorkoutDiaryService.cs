@@ -31,15 +31,17 @@ public sealed class WorkoutDiaryService : IWorkoutDiaryService
 
     public Result<SearchEntriesResponse> SearchEntries(SearchEntriesRequest request)
     {
-        var entries = _workoutDiaryRepository.SearchEntries(new SearchEntriesParameters
+        var searchEntries = _workoutDiaryRepository.SearchEntries(new SearchEntriesParameters
         {
             StartAt = request.StartAt,
-            EndAt = request.EndAt
+            EndAt = request.EndAt,
+            PageSize = request.PageSize,
+            PageNumber = request.PageNumber
         });
 
         return new SearchEntriesResponse
         {
-            Entries = entries.ConvertAll(WorkoutDiaryMapper.MapEntry)
+            Entries = searchEntries.Entries.ConvertAll(WorkoutDiaryMapper.MapEntry)
         };
     }
 

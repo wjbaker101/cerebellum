@@ -16,7 +16,7 @@ public interface IWorkoutDiaryRepository
     WorkoutEntrySetRecord SaveSet(WorkoutEntrySetRecord exercise);
     WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord exercise);
     void DeleteSet(WorkoutEntrySetRecord exercise);
-    List<WorkoutEntryRecord> SearchEntries(SearchEntriesParameters parameters);
+    SearchEntriesDto SearchEntries(SearchEntriesParameters parameters);
     Result<WorkoutEntryRecord> GetEntryByReference(Guid reference);
     List<WorkoutEntryRecord> GetEntries();
 }
@@ -39,29 +39,41 @@ public sealed class WorkoutDiaryRepository : BaseRepository, IWorkoutDiaryReposi
     public WorkoutEntrySetRecord UpdateSet(WorkoutEntrySetRecord set) => UpdateRecord(set);
     public void DeleteSet(WorkoutEntrySetRecord set) => DeleteRecord(set);
 
-    public List<WorkoutEntryRecord> SearchEntries(SearchEntriesParameters parameters)
+    public SearchEntriesDto SearchEntries(SearchEntriesParameters parameters)
     {
         using var session = Database.SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         var query = session
-            .Query<WorkoutEntryRecord>()
+            .Query<WorkoutEntryRecord>();
+
+        var entries = query
             .FetchMany(x => x.Exercises)
             .Where(x => x.StartAt >= parameters.StartAt && x.StartAt <= parameters.EndAt)
+            .Take(parameters.PageSize)
+            .Skip(parameters.PageSize * (parameters.PageNumber - 1))
+            .OrderByDescending(x => x.StartAt)
             .ToFuture();
 
         session
             .Query<WorkoutEntryExerciseRecord>()
+            .Fetch(x => x.Entry)
+            .Where(x => x.Entry.StartAt >= parameters.StartAt && x.Entry.StartAt <= parameters.EndAt)
             .FetchMany(x => x.Sets)
             .ToFuture();
 
-        var entries = query
-            .OrderByDescending(x => x.StartAt)
-            .ToList();
+        var entryCount = query.ToFutureValue(x => x.Count());
 
         transaction.Commit();
 
-        return entries;
+        return new SearchEntriesDto
+        {
+            Entries = entries.ToList(),
+            EntryCount = entryCount.Value,
+            PageSize = parameters.PageSize,
+            PageNumber = parameters.PageNumber,
+            PageCount = (int)Math.Ceiling((double)entryCount.Value / parameters.PageSize)
+        };
     }
 
     public Result<WorkoutEntryRecord> GetEntryByReference(Guid reference)

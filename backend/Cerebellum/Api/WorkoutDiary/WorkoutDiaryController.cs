@@ -16,10 +16,16 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpGet]
     [Route("entries/search")]
-    public IActionResult SearchEntries([FromQuery(Name = "start_at")] DateTime startAt, [FromQuery(Name = "end_at")] DateTime endAt)
+    public IActionResult SearchEntries(
+        [FromQuery(Name = "page_number")] int pageNumber,
+        [FromQuery(Name = "page_size")] int pageSize,
+        [FromQuery(Name = "start_at")] DateTime startAt,
+        [FromQuery(Name = "end_at")] DateTime endAt)
     {
         var result = _workoutDiaryService.SearchEntries(new SearchEntriesRequest
         {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
             StartAt = startAt,
             EndAt = endAt
         });
