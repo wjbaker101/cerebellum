@@ -23,7 +23,7 @@ export const useWorkoutDiary = function () {
         async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
             const result = await api.workoutDiary.createEntry(request);
 
-            entries.value?.push(result);
+            entries.value = [result].concat(entries.value ?? []);
 
             return result;
         },
