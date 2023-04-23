@@ -10,7 +10,7 @@
     "dependencies": {
         "@vuepic/vue-datepicker": "^3.6.1",
         "@wjb/styling": "^1.0.60",
-        "@wjb/vue": "^1.0.63",
+        "@wjb/vue": "^1.0.67",
         "dayjs": "^1.11.4",
         "register-service-worker": "^1.7.2",
         "sortablejs": "^1.15.0",
