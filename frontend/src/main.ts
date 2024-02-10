@@ -1,10 +1,12 @@
 import { createApp } from 'vue';
 
-import '@/app/setup/dayjs';
-import { components } from '@/app/setup/components';
+import '@/setup/dayjs';
 
-import App from '@/app/App.vue';
-import { router } from '@/app/router';
+import App from '@/App.vue';
+
+import { components } from '@/setup/components';
+import { router } from '@/setup/router';
+
 
 const app = createApp(App);
 app.use(components);
