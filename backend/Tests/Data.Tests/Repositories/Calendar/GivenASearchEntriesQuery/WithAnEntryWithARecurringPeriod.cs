@@ -21,6 +21,8 @@ public sealed class WithAnEntryWithARecurringPeriod
             new()
             {
                 Reference = Guid.Parse("6fde403b-b32e-42e5-8ac5-7785b23b6d62"),
+                CreatedAt = new DateTime(2006, 04, 22, 15, 09, 01),
+                Description = "TestDescription",
                 StartAt = new DateTime(2020, 04, 03),
                 EndAt = new DateTime(2020, 04, 03),
                 RecurringPeriod = CalendarEntryRecurringPeriod.Weekly
@@ -28,6 +30,8 @@ public sealed class WithAnEntryWithARecurringPeriod
             new()
             {
                 Reference = Guid.Parse("08b07415-05de-4ff5-90ab-45558f786b23"),
+                CreatedAt = new DateTime(2006, 04, 22, 15, 09, 01),
+                Description = "TestDescription",
                 StartAt = new DateTime(2020, 04, 03),
                 EndAt = new DateTime(2020, 04, 03),
                 RecurringPeriod = CalendarEntryRecurringPeriod.Monthly
@@ -35,6 +39,8 @@ public sealed class WithAnEntryWithARecurringPeriod
             new()
             {
                 Reference = Guid.Parse("e88fbba6-6286-4120-813d-691cb2558c67"),
+                CreatedAt = new DateTime(2006, 04, 22, 15, 09, 01),
+                Description = "TestDescription",
                 StartAt = new DateTime(2020, 04, 03),
                 EndAt = new DateTime(2020, 04, 03),
                 RecurringPeriod = CalendarEntryRecurringPeriod.Yearly
