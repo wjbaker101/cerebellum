@@ -5,7 +5,7 @@ using System.Net;
 namespace Cerebellum.Middleware.Authentication;
 
 [AttributeUsage(AttributeTargets.Method)]
-public sealed class DoNotAuthenticateAttribute : Attribute
+public sealed class AuthenticateAttribute : Attribute
 {
 }
 
@@ -13,8 +13,8 @@ public sealed class AuthenticationMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var attribute = context.GetEndpoint()?.Metadata.GetMetadata<DoNotAuthenticateAttribute>();
-        if (attribute != null)
+        var attribute = context.GetEndpoint()?.Metadata.GetMetadata<AuthenticateAttribute>();
+        if (attribute == null)
         {
             await next(context);
             return;

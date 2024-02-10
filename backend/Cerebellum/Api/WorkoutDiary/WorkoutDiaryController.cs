@@ -1,4 +1,5 @@
 ﻿using Cerebellum.Api.WorkoutDiary.Types;
+using Cerebellum.Middleware.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
@@ -16,6 +17,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpGet]
     [Route("entries/search")]
+    [Authenticate]
     public IActionResult SearchEntries(
         [FromQuery(Name = "page_number")] int pageNumber,
         [FromQuery(Name = "page_size")] int pageSize,
@@ -35,6 +37,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpGet]
     [Route("entry/{reference:guid}")]
+    [Authenticate]
     public IActionResult GetEntry([FromRoute] Guid reference)
     {
         var result = _workoutDiaryService.GetEntryByReference(reference);
@@ -44,6 +47,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpGet]
     [Route("entries")]
+    [Authenticate]
     public IActionResult GetEntries()
     {
         var result = _workoutDiaryService.GetEntries();
@@ -53,6 +57,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpPost]
     [Route("entry")]
+    [Authenticate]
     public IActionResult CreateEntry([FromBody] CreateEntryRequest request)
     {
         var result = _workoutDiaryService.CreateEntry(request);
@@ -62,6 +67,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpPut]
     [Route("entry/{reference:guid}")]
+    [Authenticate]
     public IActionResult UpdateEntry([FromRoute] Guid reference, [FromBody] UpdateEntryRequest request)
     {
         var result = _workoutDiaryService.UpdateEntry(reference, request);
@@ -71,6 +77,7 @@ public sealed class WorkoutDiaryController : ApiController
 
     [HttpDelete]
     [Route("entry/{reference:guid}")]
+    [Authenticate]
     public IActionResult DeleteEntry([FromRoute] Guid reference)
     {
         var result = _workoutDiaryService.DeleteEntry(reference);

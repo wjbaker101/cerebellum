@@ -1,5 +1,4 @@
 ﻿using Cerebellum.Api.Auth.Types;
-using Cerebellum.Middleware.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
@@ -18,7 +17,6 @@ public sealed class AuthController : ApiController
 
     [HttpPost]
     [Route("log-in")]
-    [DoNotAuthenticate]
     public async Task<IActionResult> LogIn([FromBody] LogInRequest request, CancellationToken cancellationToken)
     {
         var result = await _authService.LogIn(request, cancellationToken);

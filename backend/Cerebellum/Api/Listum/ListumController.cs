@@ -1,4 +1,5 @@
 ﻿using Cerebellum.Api.Listum.Types;
+using Cerebellum.Middleware.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
@@ -16,6 +17,7 @@ public sealed class ListumController : ApiController
 
     [HttpGet]
     [Route("lists")]
+    [Authenticate]
     public IActionResult GetLists()
     {
         var result = _listumService.GetLists();
@@ -25,6 +27,7 @@ public sealed class ListumController : ApiController
 
     [HttpGet]
     [Route("list/{reference:guid}")]
+    [Authenticate]
     public IActionResult GetListByReference([FromRoute] Guid reference)
     {
         var result = _listumService.GetListByReference(reference);
@@ -34,6 +37,7 @@ public sealed class ListumController : ApiController
 
     [HttpPost]
     [Route("list")]
+    [Authenticate]
     public IActionResult CreateList([FromBody] CreateListRequest request)
     {
         var result = _listumService.CreateList(request);
@@ -43,6 +47,7 @@ public sealed class ListumController : ApiController
 
     [HttpPut]
     [Route("list/{reference:guid}")]
+    [Authenticate]
     public IActionResult UpdateList([FromRoute] Guid reference, [FromBody] UpdateListRequest request)
     {
         var result = _listumService.UpdateList(reference, request);
@@ -52,6 +57,7 @@ public sealed class ListumController : ApiController
 
     [HttpPost]
     [Route("list/{reference:guid}/reorder")]
+    [Authenticate]
     public IActionResult ReorderList([FromRoute] Guid reference, [FromBody] ReorderListRequest request)
     {
         var result = _listumService.ReorderList(reference, request);
@@ -61,6 +67,7 @@ public sealed class ListumController : ApiController
 
     [HttpPost]
     [Route("list/{reference:guid}/item")]
+    [Authenticate]
     public IActionResult CreateListItem([FromRoute] Guid reference, [FromBody] CreateListItemRequest request)
     {
         var result = _listumService.CreateListItem(reference, request);
@@ -70,6 +77,7 @@ public sealed class ListumController : ApiController
 
     [HttpPut]
     [Route("list/{listReference:guid}/item/{itemReference:guid}")]
+    [Authenticate]
     public IActionResult UpdateListItem([FromRoute] Guid listReference, [FromRoute] Guid itemReference, [FromBody] UpdateListItemRequest request)
     {
         var result = _listumService.UpdateListItem(listReference, itemReference, request);

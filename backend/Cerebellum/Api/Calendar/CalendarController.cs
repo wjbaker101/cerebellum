@@ -1,4 +1,5 @@
 ﻿using Cerebellum.Api.Calendar.Types;
+using Cerebellum.Middleware.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
@@ -16,6 +17,7 @@ public sealed class CalendarController : ApiController
 
     [HttpPost]
     [Route("entry")]
+    [Authenticate]
     public IActionResult CreateEntry([FromBody] CreateEntryRequest request)
     {
         var result = _calendarService.CreateEntry(request);
@@ -25,6 +27,7 @@ public sealed class CalendarController : ApiController
 
     [HttpGet]
     [Route("entries")]
+    [Authenticate]
     public IActionResult SearchEntries([FromQuery] SearchEntriesRequest request)
     {
         var result = _calendarService.SearchEntries(request);

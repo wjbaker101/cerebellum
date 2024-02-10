@@ -1,4 +1,5 @@
 ﻿using Cerebellum.Api.Notes.Types;
+using Cerebellum.Middleware.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
@@ -16,6 +17,7 @@ public sealed class NotesController : ApiController
 
     [HttpGet]
     [Route("notes")]
+    [Authenticate]
     public IActionResult SearchNotes()
     {
         var result = _notesService.SearchNotes();
@@ -25,6 +27,7 @@ public sealed class NotesController : ApiController
 
     [HttpPost]
     [Route("note")]
+    [Authenticate]
     public IActionResult CreateNote([FromBody] CreateNoteRequest request)
     {
         var result = _notesService.CreateNote(request);
@@ -34,6 +37,7 @@ public sealed class NotesController : ApiController
 
     [HttpGet]
     [Route("note/{reference:guid}")]
+    [Authenticate]
     public IActionResult GetNote([FromRoute] Guid reference)
     {
         var result = _notesService.GetNote(reference);
@@ -43,6 +47,7 @@ public sealed class NotesController : ApiController
 
     [HttpPut]
     [Route("note/{reference:guid}")]
+    [Authenticate]
     public IActionResult UpdateNote([FromRoute] Guid reference, [FromBody] UpdateNoteRequest request)
     {
         var result = _notesService.UpdateNote(reference, request);
@@ -52,6 +57,7 @@ public sealed class NotesController : ApiController
 
     [HttpDelete]
     [Route("note/{reference:guid}")]
+    [Authenticate]
     public IActionResult DeleteNote([FromRoute] Guid reference)
     {
         var result = _notesService.DeleteNote(reference);

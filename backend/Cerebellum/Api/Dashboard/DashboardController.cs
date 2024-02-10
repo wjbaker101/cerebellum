@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Cerebellum.Middleware.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using NetApiLibs.Api;
 
 namespace Cerebellum.Api.Dashboard;
@@ -16,6 +17,7 @@ public sealed class DashboardController : ApiController
 
     [HttpGet]
     [Route("")]
+    [Authenticate]
     public IActionResult GetDashboard()
     {
         var result = _dashboardService.GetDashBoard();
