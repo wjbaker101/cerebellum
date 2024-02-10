@@ -16,7 +16,7 @@ public sealed class AuthController : ApiController
 
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("log-in")]
     [DoNotAuthenticate]
     public async Task<IActionResult> LogIn([FromBody] LogInRequest request, CancellationToken cancellationToken)
