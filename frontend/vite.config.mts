@@ -22,7 +22,7 @@ export default defineConfig({
     },
 
     build: {
-        outDir: '../backend/Api/wwwroot',
+        outDir: '../backend/Cerebellum/wwwroot',
         emptyOutDir: true,
     },
 
