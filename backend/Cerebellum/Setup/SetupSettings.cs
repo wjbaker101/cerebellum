@@ -1,8 +1,10 @@
-﻿namespace Cerebellum.Setup;
+﻿using Core.Settings;
 
-public static class SetupSettingsExtensions
+namespace Cerebellum.Setup;
+
+public static class SetupSettings
 {
-    public static void SetupSettings(this WebApplicationBuilder builder)
+    public static void BuildSettings(this WebApplicationBuilder builder)
     {
         var isDev = builder.Environment.IsDevelopment();
 
@@ -10,6 +12,8 @@ public static class SetupSettingsExtensions
             .SetBasePath(builder.Environment.ContentRootPath)
             .AddJsonFile(GetFile("appsettings", isDev))
             .AddJsonFile(GetFile("appsecrets", isDev));
+
+        builder.Services.AddSingleton(builder.Configuration.Get<AppSecrets>()!);
     }
 
     private static string GetFile(string file, bool isDev)
