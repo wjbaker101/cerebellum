@@ -10,7 +10,7 @@
 import { ref } from 'vue';
 import dayjs from 'dayjs';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 import { useAuth } from '@/use/auth/Auth.use';
 
 const api = useApi();
@@ -39,4 +39,4 @@ const onLogIn = async () => {
 <style lang="scss">
 .log-in-view {
 }
-</style>
+</style>@/api/api.use

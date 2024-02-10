@@ -38,7 +38,7 @@ import { computed, nextTick, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from 'ts-debounce';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { INote } from '@/model/Note.model';
 
@@ -146,4 +146,4 @@ onMounted(async () => {
         }
     }
 }
-</style>
+</style>@/api/api.use

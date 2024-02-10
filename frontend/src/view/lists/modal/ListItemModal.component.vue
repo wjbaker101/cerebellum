@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 
 import { useModal } from '@wjb/vue/use/modal.use';
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { IListItem } from '@/view/lists/model/List.model';
 
@@ -49,4 +49,4 @@ const onSubmit = async function (): Promise<void> {
     width: 650px;
     max-width: 100%;
 }
-</style>
+</style>@/api/api.use

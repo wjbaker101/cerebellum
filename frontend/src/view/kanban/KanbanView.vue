@@ -20,7 +20,7 @@ import { useRouter } from 'vue-router';
 
 import ListComponent from '@/component/ListComponent.vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
 
@@ -46,4 +46,4 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-</style>
+</style>@/api/api.use

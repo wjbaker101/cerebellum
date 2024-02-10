@@ -1,7 +1,7 @@
 import { readonly, ref } from 'vue';
 import { Dayjs } from 'dayjs';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { ICalendarEntry } from '@/model/CalendarEntry.model';
 

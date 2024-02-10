@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 import { useModal } from '@wjb/vue/use/modal.use';
 
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
@@ -67,4 +67,4 @@ const onDelete = async function (): Promise<void> {
     width: 720px;
     max-width: 100%;
 }
-</style>
+</style>@/api/api.use

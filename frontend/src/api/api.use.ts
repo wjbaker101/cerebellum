@@ -4,20 +4,20 @@ import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.m
 import { INote } from '@/model/Note.model';
 import { IList, IListItem } from '@/view/lists/model/List.model';
 
-import { IApiResponse } from '@/use/api/type/ApiResponse.type';
+import { IApiResponse } from '@/api/type/ApiResponse.type';
 
-import { ISearchCalendarEntriesResponse } from '@/use/api/type/SearchCalendarEntries.type';
-import { IAddCalendarEntryResponse } from '@/use/api/type/AddCalendarEntry.type';
-import { ISearchNotesResponse } from '@/use/api/type/SearchNotes.type';
-import { IGetNoteResponse } from '@/use/api/type/GetNote.type';
-import { ICreateNoteResponse } from '@/use/api/type/CreateNote.type';
-import { IUpdateNoteResponse } from '@/use/api/type/UpdateNote.type';
-import { IGetListByReference } from '@/use/api/type/GetListByReference.type';
-import { GetListsResponse } from '@/use/api/type/GetLists.type';
-import { ICreateListResponse } from '@/use/api/type/CreateList.type';
-import { IUpdateListResponse } from '@/use/api/type/UpdateList.type';
-import { ICreateListItemResponse } from '@/use/api/type/CreateListItem.type';
-import { IUpdateListItemResponse } from '@/use/api/type/UpdateListItem.type';
+import { ISearchCalendarEntriesResponse } from '@/api/type/SearchCalendarEntries.type';
+import { IAddCalendarEntryResponse } from '@/api/type/AddCalendarEntry.type';
+import { ISearchNotesResponse } from '@/api/type/SearchNotes.type';
+import { IGetNoteResponse } from '@/api/type/GetNote.type';
+import { ICreateNoteResponse } from '@/api/type/CreateNote.type';
+import { IUpdateNoteResponse } from '@/api/type/UpdateNote.type';
+import { IGetListByReference } from '@/api/type/GetListByReference.type';
+import { GetListsResponse } from '@/api/type/GetLists.type';
+import { ICreateListResponse } from '@/api/type/CreateList.type';
+import { IUpdateListResponse } from '@/api/type/UpdateList.type';
+import { ICreateListItemResponse } from '@/api/type/CreateListItem.type';
+import { IUpdateListItemResponse } from '@/api/type/UpdateListItem.type';
 import { ISearchWorkoutDiaryEntriesResponse } from './type/SearchWorkoutDiaryEntries.type';
 import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiaryEntryByReference.type';
 import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
@@ -36,7 +36,7 @@ import { IDashboard } from '@/model/Dashboard.model';
 import { IGetDashboardResponse } from './type/GetDashboard.type';
 import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
 import { ILogInRequest, ILogInResponse } from './type/LogIn.type';
-import { useAuth } from '../auth/Auth.use';
+import { useAuth } from '../use/auth/Auth.use';
 
 const baseUrl = '/api';
 

@@ -52,7 +52,7 @@ import KanbanItemComponent from '@/view/kanban/component/KanbanItemComponent.vue
 import KanbanColumnModalComponent, { IKanbanColumnModalProps } from '@/view/kanban/modal/KanbanColumn.modal.component.vue';
 
 import { recordHelper } from '@/helper/record.helper';
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 import { useModal } from '@wjb/vue/use/modal.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
@@ -121,4 +121,4 @@ const onItemContentBlur = function (): void {
 </script>
 
 <style lang="scss">
-</style>
+</style>@/api/api.use

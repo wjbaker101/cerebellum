@@ -1,10 +1,10 @@
 import { ref } from 'vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
-import { ICreateWorkoutDiaryEntryRequest } from '@/use/api/type/CreateWorkoutDiaryEntry.type';
-import { IUpdateWorkoutDiaryEntryRequest } from '@/use/api/type/UpdateWorkoutDiaryEntry.type';
+import { ICreateWorkoutDiaryEntryRequest } from '@/api/type/CreateWorkoutDiaryEntry.type';
+import { IUpdateWorkoutDiaryEntryRequest } from '@/api/type/UpdateWorkoutDiaryEntry.type';
 
 const api = useApi();
 

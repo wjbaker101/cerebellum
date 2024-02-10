@@ -41,7 +41,7 @@ import Sortable from 'sortablejs';
 import HiddenTextboxComponent from '@/component/HiddenTextboxComponent.vue';
 import KanbanColumnComponent from './component/KanbanColumnComponent.vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 import { recordHelper } from '@/helper/record.helper';
 
 import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
@@ -131,4 +131,4 @@ onMounted(async () => {
         }
     }
 }
-</style>
+</style>@/api/api.use

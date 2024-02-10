@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 import { useModal } from '@wjb/vue/use/modal.use';
 
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
@@ -95,4 +95,4 @@ const onBlur = function (): void {
         }
     }
 }
-</style>
+</style>@/api/api.use

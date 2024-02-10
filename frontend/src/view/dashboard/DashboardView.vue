@@ -28,7 +28,7 @@ import { onMounted, ref } from 'vue';
 import GradientBorderComponent from '@/component/GradientBorderComponent.vue';
 import DashboardClockComponent from '@/view/dashboard/components/DashboardClock.component.vue';
 
-import { useApi } from '@/use/api/api.use';
+import { useApi } from '@/api/api.use';
 
 import { IDashboard, IDashboardItem } from '@/model/Dashboard.model';
 
@@ -105,4 +105,4 @@ onMounted(async () => {
         }
     }
 }
-</style>
+</style>@/api/api.use
