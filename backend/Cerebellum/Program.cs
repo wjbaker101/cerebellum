@@ -1,3 +1,4 @@
+using Cerebellum.Middleware.Authentication;
 using Cerebellum.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ services.AddSpaStaticFiles(spa =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<AuthenticationMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
