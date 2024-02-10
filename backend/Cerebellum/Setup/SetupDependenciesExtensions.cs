@@ -5,7 +5,6 @@ using Cerebellum.Api.Kanban;
 using Cerebellum.Api.Listum;
 using Cerebellum.Api.Notes;
 using Cerebellum.Api.WorkoutDiary;
-using Cerebellum.Middleware.Authentication;
 using Core.Settings;
 using Data;
 using Data.Repositories;
@@ -21,8 +20,6 @@ public static class SetupDependenciesExtensions
         var services = builder.Services;
 
         services.AddSingleton(builder.Configuration.Get<AppSecrets>()!);
-
-        services.AddSingleton<AuthenticationMiddleware>();
 
         services.AddSingleton<IApiDatabase, ApiDatabase>();
 
