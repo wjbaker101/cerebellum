@@ -1,11 +1,13 @@
 using Cerebellum.Setup;
+using Core.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 builder.SetupSettings();
-builder.SetupDependencies();
+services.AddSingleton(builder.Configuration.Get<AppSecrets>()!);
 
+services.AddDependencies();
 services.AddMiddleware();
 services.AddControllers();
 services.AddFrontend();

@@ -5,7 +5,6 @@ using Cerebellum.Api.Kanban;
 using Cerebellum.Api.Listum;
 using Cerebellum.Api.Notes;
 using Cerebellum.Api.WorkoutDiary;
-using Core.Settings;
 using Data;
 using Data.Repositories;
 using Data.Repositories.Dashboard;
@@ -13,14 +12,10 @@ using Data.Repositories.WorkoutDiary;
 
 namespace Cerebellum.Setup;
 
-public static class SetupDependenciesExtensions
+public static class SetupDependencies
 {
-    public static void SetupDependencies(this WebApplicationBuilder builder)
+    public static void AddDependencies(this IServiceCollection services)
     {
-        var services = builder.Services;
-
-        services.AddSingleton(builder.Configuration.Get<AppSecrets>()!);
-
         services.AddSingleton<IApiDatabase, ApiDatabase>();
 
         services.AddSingleton<IAuthService, AuthService>();
