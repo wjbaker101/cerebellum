@@ -16,8 +16,9 @@ app.UseMiddleware();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.UseFrontend();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseFrontend();
+
 app.Run();
