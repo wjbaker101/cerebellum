@@ -1,6 +1,6 @@
 ﻿using Cerebellum.Api.Notes;
 using Cerebellum.Api.Notes.Types;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NUnit.Framework;
 using System;
 using TestHelpers.Fakes;
@@ -49,7 +49,7 @@ public sealed class GivenAnUpdateNoteRequest
     [Test]
     public void ThenTheCorrectNoteIsReturned()
     {
-        var note = _result.Value.Note;
+        var note = _result.Content.Note;
 
         Assert.Multiple(() =>
         {

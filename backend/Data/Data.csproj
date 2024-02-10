@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DotNetLibs.Core" Version="231213.2222.0" />
 		<PackageReference Include="FluentNHibernate" Version="3.1.0" />
-		<PackageReference Include="NetApiLibs" Version="230117.2001.0" />
 		<PackageReference Include="NHibernate" Version="5.3.13" />
 		<PackageReference Include="Npgsql" Version="6.0.6" />
 	</ItemGroup>

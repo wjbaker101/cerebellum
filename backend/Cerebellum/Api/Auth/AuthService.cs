@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.Auth.Types;
 using Core.Model;
 using Data.Repositories;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 
 namespace Cerebellum.Api.Auth;
 

@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.Notes.Types;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 
 namespace Cerebellum.Api.Notes;
 
@@ -57,7 +57,7 @@ public sealed class NotesService : INotesService
 
         return new GetNoteResponse
         {
-            Note = NoteMapper.Map(noteResult.Value)
+            Note = NoteMapper.Map(noteResult.Content)
         };
     }
 
@@ -84,7 +84,7 @@ public sealed class NotesService : INotesService
         if (noteResult.IsFailure)
             return Result<GetNoteResponse>.FromFailure(noteResult);
 
-        _notesRepository.DeleteNote(noteResult.Value);
+        _notesRepository.DeleteNote(noteResult.Content);
 
         return Result.Success();
     }

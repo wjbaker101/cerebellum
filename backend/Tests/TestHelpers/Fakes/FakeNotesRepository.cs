@@ -1,6 +1,6 @@
 ﻿using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NUnit.Framework;
 
 namespace TestHelpers.Fakes;
@@ -47,7 +47,7 @@ public sealed class FakeNotesRepository : INotesRepository
 
     public List<NoteRecord> SearchNotes()
     {
-        return new List<NoteRecord> { _noteResult.Value };
+        return new List<NoteRecord> { _noteResult.Content };
     }
 
     public Result<NoteRecord> GetByReference(Guid reference)

@@ -1,8 +1,7 @@
 ﻿using Data.Records;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NHibernate;
 using NHibernate.Linq;
-using System.Net;
 
 namespace Data.Repositories;
 
@@ -66,7 +65,7 @@ public sealed class ListumRepository : BaseRepository, IListumRepository
             .SingleOrDefault(x => x.Reference == reference);
 
         if (list == null)
-            return Result<ListumRecord>.Failure($"Unable to find list with given reference: {reference}.", HttpStatusCode.NotFound);
+            return Result<ListumRecord>.Failure($"Unable to find list with given reference: {reference}.");
 
         transaction.Commit();
 

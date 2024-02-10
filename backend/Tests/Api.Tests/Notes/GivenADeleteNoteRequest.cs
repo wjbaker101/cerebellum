@@ -1,5 +1,5 @@
 ﻿using Cerebellum.Api.Notes;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NUnit.Framework;
 using System;
 using TestHelpers.Fakes;

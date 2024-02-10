@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.Kanban.Types;
 using Cerebellum.Middleware.Authentication;
+using DotNetLibs.Api.Types;
 using Microsoft.AspNetCore.Mvc;
-using NetApiLibs.Api;
 
 namespace Cerebellum.Api.Kanban;
 

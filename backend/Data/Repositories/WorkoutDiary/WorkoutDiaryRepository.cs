@@ -1,6 +1,6 @@
 ﻿using Data.Records;
 using Data.Repositories.WorkoutDiary.Types;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NHibernate.Linq;
 
 namespace Data.Repositories.WorkoutDiary;

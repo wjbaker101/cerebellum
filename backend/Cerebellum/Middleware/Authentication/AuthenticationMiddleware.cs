@@ -48,7 +48,7 @@ public sealed class AuthenticationMiddleware : IMiddleware
 
         var userRepository = context.RequestServices.GetRequiredService<IUserRepository>();
 
-        var userResult = await userRepository.GetByReference(userReferenceResult.Value, cancellationToken);
+        var userResult = await userRepository.GetByReference(userReferenceResult.Content, cancellationToken);
         if (!userResult.TrySuccess(out var user))
         {
             Unauthorized(context);

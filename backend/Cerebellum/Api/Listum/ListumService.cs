@@ -2,9 +2,8 @@
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Extension;
-using NetApiLibs.Type;
-using System.Net;
+using DotNetLibs.Core.Extensions;
+using DotNetLibs.Core.Types;
 
 namespace Cerebellum.Api.Listum;
 
@@ -59,7 +58,7 @@ public sealed class ListumService : IListumService
                 Title = list.Title,
                 Items = list.Items
                     .OrderBy(x => x.ListOrder)
-                    .ConvertAll(x => new ListumItemModel
+                    .MapAll(x => new ListumItemModel
                     {
                         Reference = x.Reference,
                         CreatedAt = x.CreatedAt,
@@ -109,7 +108,7 @@ public sealed class ListumService : IListumService
                 Reference = list.Reference,
                 CreatedAt = list.CreatedAt,
                 Title = list.Title,
-                Items = list.Items.ConvertAll(x => new ListumItemModel
+                Items = list.Items.MapAll(x => new ListumItemModel
                 {
                     Reference = x.Reference,
                     CreatedAt = x.CreatedAt,
@@ -150,8 +149,8 @@ public sealed class ListumService : IListumService
             Reference = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             Content = request.Content,
-            ListOrder = listResult.Value.Items.Any() ? listResult.Value.Items.Max(x => x.ListOrder) + 1 : 1,
-            List = listResult.Value
+            ListOrder = listResult.Content.Items.Any() ? listResult.Content.Items.Max(x => x.ListOrder) + 1 : 1,
+            List = listResult.Content
         });
 
         return new CreateListItemResponse
@@ -172,9 +171,9 @@ public sealed class ListumService : IListumService
         if (listResult.IsFailure)
             return Result<UpdateListItemResponse>.FromFailure(listResult);
 
-        var listItem = listResult.Value.Items.SingleOrDefault(x => x.Reference == itemReference);
+        var listItem = listResult.Content.Items.SingleOrDefault(x => x.Reference == itemReference);
         if (listItem == null)
-            return Result<UpdateListItemResponse>.Failure($"Unable to find list item with given reference: {itemReference}.", HttpStatusCode.NotFound);
+            return Result<UpdateListItemResponse>.Failure($"Unable to find list item with given reference: {itemReference}.");
 
         listItem.Content = request.Content;
 

@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 using Data.Records;
-using NetApiLibs.Extension;
+using DotNetLibs.Core.Extensions;
 
 namespace Data.Mappers;
 
@@ -11,7 +11,7 @@ public static class KanbanMapper
         Reference = board.Reference,
         CreatedAt = board.CreatedAt,
         Title = board.Title,
-        Columns = board.Columns.OrderBy(x => x.Position).ConvertAll(MapColumn)
+        Columns = board.Columns.OrderBy(x => x.Position).MapAll(MapColumn)
     };
 
     public static KanbanColumnModel MapColumn(KanbanColumnRecord column) => new()
@@ -20,7 +20,7 @@ public static class KanbanMapper
         CreatedAt = column.CreatedAt,
         Title = column.Title,
         Position = column.Position,
-        Items = column.Items.OrderBy(x => x.Position).ConvertAll(MapItem)
+        Items = column.Items.OrderBy(x => x.Position).MapAll(MapItem)
     };
 
     public static KanbanItemModel MapItem(KanbanItemRecord item) => new()

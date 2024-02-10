@@ -3,7 +3,7 @@ using Core.Model;
 using Data.Mappers;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 
 namespace Cerebellum.Api.Kanban;
 

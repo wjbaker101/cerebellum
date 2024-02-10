@@ -1,5 +1,5 @@
 ﻿using Data.Records;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Types;
 using NHibernate.Linq;
 
 namespace Data.Repositories;

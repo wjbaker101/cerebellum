@@ -1,6 +1,6 @@
 ﻿using Cerebellum.Api.Auth.Types;
+using DotNetLibs.Api.Types;
 using Microsoft.AspNetCore.Mvc;
-using NetApiLibs.Api;
 
 namespace Cerebellum.Api.Auth;
 

@@ -1,7 +1,7 @@
 ﻿using Core.Model;
 using Core.Settings;
+using DotNetLibs.Core.Types;
 using Microsoft.IdentityModel.Tokens;
-using NetApiLibs.Type;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

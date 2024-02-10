@@ -2,8 +2,8 @@
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
-using NetApiLibs.Extension;
-using NetApiLibs.Type;
+using DotNetLibs.Core.Extensions;
+using DotNetLibs.Core.Types;
 using CalendarEntryRecurringPeriod = Core.Model.CalendarEntryRecurringPeriod;
 
 namespace Cerebellum.Api.Calendar;
@@ -60,7 +60,7 @@ public sealed class CalendarService : ICalendarService
         {
             Entries = entries
                 .Where(x => ShouldShowEntry(x, request.StartAt, request.EndAt))
-                .ConvertAll(x => new CalendarEntryModel
+                .MapAll(x => new CalendarEntryModel
                 {
                     Reference = x.Reference,
                     CreatedAt = x.CreatedAt,
