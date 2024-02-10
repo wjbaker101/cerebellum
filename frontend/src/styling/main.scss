@@ -1,5 +1,5 @@
-@use '~@wjb/styling/setup-variables' as *;
-@use '~@wjb/styling/main' as *;
+@use '@wjb/styling/setup-variables' as *;
+@use '@wjb/styling/main' as *;
 @use './variables' as *;
 
 @use './element/input' as *;
