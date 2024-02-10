@@ -64,7 +64,7 @@ import { useModal } from '@wjb/vue/use/modal.use';
 import NewEntryModalComponent from '@/view/calendar/modal/NewEntryComponent.modal.vue';
 import GradientBorderComponent from '@/component/GradientBorderComponent.vue';
 
-import { ICalendarEntry } from '@/model/CalendarEntry.model.js';
+import { ICalendarEntry } from '@/models/CalendarEntry.model.js';
 
 const calendar = useCalendar();
 const modal = useModal();
@@ -182,4 +182,4 @@ watchEffect(async () => {
         }
     }
 }
-</style>
+</style>@/models/CalendarEntry.model.js

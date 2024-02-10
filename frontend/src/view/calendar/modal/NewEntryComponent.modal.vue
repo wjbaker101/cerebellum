@@ -32,7 +32,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import { useApi } from '@/api/api.use';
 import { useCalendar } from '@/use/calendar.use';
 
-import { CalendarRecurringPeriod } from '@/model/CalendarEntry.model';
+import { CalendarRecurringPeriod } from '@/models/CalendarEntry.model';
 
 const api = useApi();
 const calendar = useCalendar();
@@ -73,4 +73,4 @@ const onCreate = async function () {
 .new-entry-modal-component {
     width: 520px;
 }
-</style>@/api/api.use
+</style>@/api/api.use@/models/CalendarEntry.model

@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 
 import { useApi } from '@/api/api.use';
 
-import { ICalendarEntry } from '@/model/CalendarEntry.model';
+import { ICalendarEntry } from '@/models/CalendarEntry.model';
 
 const api = useApi();
 

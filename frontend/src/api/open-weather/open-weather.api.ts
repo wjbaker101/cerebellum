@@ -1,7 +1,7 @@
 import { config } from '@/config/secret.config';
 
 import { IGetWeatherResponse } from '@/api/open-weather/type/GetWeather.type';
-import { IWeather } from '@/model/Weather.model';
+import { IWeather } from '@/models/Weather.model';
 
 const baseUrl = 'https://api.openweathermap.org/data/2.5';
 

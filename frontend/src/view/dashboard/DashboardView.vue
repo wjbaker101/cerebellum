@@ -30,7 +30,7 @@ import DashboardClockComponent from '@/view/dashboard/components/DashboardClock.
 
 import { useApi } from '@/api/api.use';
 
-import { IDashboard, IDashboardItem } from '@/model/Dashboard.model';
+import { IDashboard, IDashboardItem } from '@/models/Dashboard.model';
 
 const api = useApi();
 
@@ -105,4 +105,4 @@ onMounted(async () => {
         }
     }
 }
-</style>@/api/api.use
+</style>@/api/api.use@/models/Dashboard.model

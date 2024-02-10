@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-import { CalendarRecurringPeriod, ICalendarEntry } from '@/model/CalendarEntry.model';
-import { INote } from '@/model/Note.model';
+import { CalendarRecurringPeriod, ICalendarEntry } from '@/models/CalendarEntry.model';
+import { INote } from '@/models/Note.model';
 import { IList, IListItem } from '@/view/lists/model/List.model';
 
 import { IApiResponse } from '@/api/type/ApiResponse.type';
@@ -32,7 +32,7 @@ import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/Upda
 import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
 import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from './type/UpdateKanbanColumn.type';
 import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from './type/UpdateKanbanBoard.type';
-import { IDashboard } from '@/model/Dashboard.model';
+import { IDashboard } from '@/models/Dashboard.model';
 import { IGetDashboardResponse } from './type/GetDashboard.type';
 import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
 import { ILogInRequest, ILogInResponse } from './type/LogIn.type';

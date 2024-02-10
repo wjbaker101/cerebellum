@@ -18,7 +18,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 import { openWeatherApi } from '@/api/open-weather/open-weather.api';
 
-import { IWeather } from '@/model/Weather.model';
+import { IWeather } from '@/models/Weather.model';
 
 const now = ref<Dayjs>(dayjs());
 const weather = ref<IWeather | null>(null);
@@ -67,4 +67,4 @@ onMounted(async () => {
         }
     }
 }
-</style>
+</style>@/models/Weather.model

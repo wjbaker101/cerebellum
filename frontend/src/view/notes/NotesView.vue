@@ -22,7 +22,7 @@ import ListComponent from '@/component/ListComponent.vue';
 
 import { useApi } from '@/api/api.use';
 
-import { INote } from '@/model/Note.model';
+import { INote } from '@/models/Note.model';
 
 const api = useApi();
 const router = useRouter();
@@ -47,4 +47,4 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-</style>@/api/api.use
+</style>@/api/api.use@/models/Note.model

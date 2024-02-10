@@ -1,4 +1,4 @@
-import { DashboardItemType } from '@/model/Dashboard.model';
+import { DashboardItemType } from '@/models/Dashboard.model';
 
 export const dashboardItemTypeMapper = {
 
