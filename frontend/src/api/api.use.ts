@@ -1,10 +1,15 @@
 import dayjs, { Dayjs } from 'dayjs';
 
+import { apiClient } from '@/api/client';
+
+import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
+
 import { CalendarRecurringPeriod, ICalendarEntry } from '@/models/CalendarEntry.model';
 import { INote } from '@/models/Note.model';
 import { IList, IListItem } from '@/view/lists/model/List.model';
-
-import { IApiResponse } from '@/api/type/ApiResponse.type';
+import { IDashboard } from '@/models/Dashboard.model';
+import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
+import { IKanbanBoard, IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 
 import { ISearchCalendarEntriesResponse } from '@/api/type/SearchCalendarEntries.type';
 import { IAddCalendarEntryResponse } from '@/api/type/AddCalendarEntry.type';
@@ -18,64 +23,64 @@ import { ICreateListResponse } from '@/api/type/CreateList.type';
 import { IUpdateListResponse } from '@/api/type/UpdateList.type';
 import { ICreateListItemResponse } from '@/api/type/CreateListItem.type';
 import { IUpdateListItemResponse } from '@/api/type/UpdateListItem.type';
-import { ISearchWorkoutDiaryEntriesResponse } from './type/SearchWorkoutDiaryEntries.type';
-import { IGetWorkoutDiaryEntryByReferenceResponse } from './type/GetWorkoutDiaryEntryByReference.type';
-import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from './type/CreateWorkoutDiaryEntry.type';
-import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from './type/UpdateWorkoutDiaryEntry.type';
-import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
-import { IKanbanBoard, IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
-import { IGetKanbanBoardResponse } from './type/GetKanbanBoard.type';
-import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from './type/AddKanbanColumn.type';
-import { ISearchKanbanBoardsResponse } from './type/SearchKanbanBoards.type';
-import { IAddKanbanItemRequest, IAddKanbanItemResponse } from './type/AddKanbanItem.type';
-import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from './type/UpdateKanbanItem.type';
-import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from './type/UpdateKanbanBoardPositions.type';
-import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from './type/UpdateKanbanColumn.type';
-import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from './type/UpdateKanbanBoard.type';
-import { IDashboard } from '@/models/Dashboard.model';
-import { IGetDashboardResponse } from './type/GetDashboard.type';
-import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
-import { ILogInRequest, ILogInResponse } from './type/LogIn.type';
-import { useAuth } from '../use/auth/Auth.use';
-
-const baseUrl = '/api';
-
-const auth = useAuth();
-const authDetails = auth.details;
+import { ISearchWorkoutDiaryEntriesResponse } from '@/api/type/SearchWorkoutDiaryEntries.type';
+import { IGetWorkoutDiaryEntryByReferenceResponse } from '@/api/type/GetWorkoutDiaryEntryByReference.type';
+import { ICreateWorkoutDiaryEntryRequest, ICreateWorkoutDiaryEntryResponse } from '@/api/type/CreateWorkoutDiaryEntry.type';
+import { IUpdateWorkoutDiaryEntryRequest, IUpdateWorkoutDiaryEntryResponse } from '@/api/type/UpdateWorkoutDiaryEntry.type';
+import { IGetKanbanBoardResponse } from '@/api/type/GetKanbanBoard.type';
+import { IAddKanbanColumnRequest, IAddKanbanColumnResponse } from '@/api/type/AddKanbanColumn.type';
+import { ISearchKanbanBoardsResponse } from '@/api/type/SearchKanbanBoards.type';
+import { IAddKanbanItemRequest, IAddKanbanItemResponse } from '@/api/type/AddKanbanItem.type';
+import { IUpdateKanbanItemRequest, IUpdateKanbanItemResponse } from '@/api/type/UpdateKanbanItem.type';
+import { IUpdateKanbanBoardPositionsRequest, IUpdateKanbanBoardPositionsResponse } from '@/api/type/UpdateKanbanBoardPositions.type';
+import { IUpdateKanbanColumnRequest, IUpdateKanbanColumnResponse } from '@/api/type/UpdateKanbanColumn.type';
+import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from '@/api/type/UpdateKanbanBoard.type';
+import { IGetDashboardResponse } from '@/api/type/GetDashboard.type';
+import { ILogInRequest, ILogInResponse } from '@/api/type/LogIn.type';
 
 export const useApi = function () {
     return {
 
         auth: {
 
-            async logIn(request: ILogInRequest): Promise<ILogInResponse> {
-                const response = await fetch(`${baseUrl}/auth/log-in`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async logIn(request: ILogInRequest): Promise<ILogInResponse | Error> {
+                const response = await apiClient.post<ILogInResponse>({
+                    body: request,
+                    url: '/auth/log-in',
+                    auth: {
+                        required: false,
+                        use: false,
+                    },
                 });
-                const json = await response.json() as IApiResponse<ILogInResponse>;
 
-                return json.result;
+                if (response instanceof Error)
+                    return response;
+
+                return response;
             },
 
         },
 
         calendar: {
-            async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<Array<ICalendarEntry>> {
-                const params = new URLSearchParams({
-                    startAt: startAt.toISOString(),
-                    endAt: endAt.toISOString()
+           
+            async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<Array<ICalendarEntry> | Error> {
+                const queryParams = new Map<string, string>();
+                queryParams.set('startAt', startAt.toISOString());
+                queryParams.set('endAt', endAt.toISOString());
+
+                const response = await apiClient.get<ISearchCalendarEntriesResponse>({
+                    url: '/calendar/entries',
+                    queryParams: queryParams,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
 
-                const response = await fetch(`${baseUrl}/calendar/entries?${params.toString()}`);
-                const json = await response.json() as IApiResponse<ISearchCalendarEntriesResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const entries = json.result.entries;
-
-                return entries.map(x => ({
+                return response.entries.map(x => ({
                     reference: x.reference,
                     createdAt: dayjs(x.createdAt),
                     description: x.description,
@@ -90,23 +95,26 @@ export const useApi = function () {
                 startAt: Dayjs,
                 endAt: Dayjs,
                 recurringPeriod: CalendarRecurringPeriod,
-            }): Promise<ICalendarEntry> {
+            }): Promise<ICalendarEntry | Error> {
 
-                const response = await fetch(`${baseUrl}/calendar/entry`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+                const response = await apiClient.post<IAddCalendarEntryResponse>({
+                    url: '/calendar/entry',
+                    body: {
                         description: request.description,
                         startAt: request.startAt.toISOString(),
                         endAt: request.endAt.toISOString(),
                         recurringPeriod: mapApiRecurringPeriod(request.recurringPeriod),
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IAddCalendarEntryResponse>;
 
-                const entry = json.result.calendarEntry;
+                if (response instanceof Error)
+                    return response;
+
+                const entry = response.calendarEntry;
 
                 return {
                     reference: entry.reference,
@@ -120,14 +128,22 @@ export const useApi = function () {
         },
 
         dashboard: {
-            async get(): Promise<IDashboard> {
-                const response = await fetch(`${baseUrl}/dashboard`);
-                const json  = await response.json() as IApiResponse<IGetDashboardResponse>;
+            async get(): Promise<IDashboard | Error> {
+                const response = await apiClient.get<IGetDashboardResponse>({
+                    url: '/dashboard',
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const dashboard = json.result;
+                if (response instanceof Error)
+                    return response;
+
+                const items = response.items;
 
                 return {
-                    items: dashboard.items.map(x => ({
+                    items: items.map(x => ({
                         reference: x.reference,
                         title: x.title,
                         type: dashboardItemTypeMapper.map(x.type),
@@ -138,11 +154,19 @@ export const useApi = function () {
         },
 
         notes: {
-            async search(): Promise<Array<INote>> {
-                const response = await fetch(`${baseUrl}/notes`);
-                const json = await response.json() as IApiResponse<ISearchNotesResponse>;
+            async search(): Promise<Array<INote> | Error> {
+                const response = await apiClient.get<ISearchNotesResponse>({
+                    url: '/notes',
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const notes = json.result.notes;
+                if (response instanceof Error)
+                    return response;
+
+                const notes = response.notes;
 
                 return notes.map(x => ({
                     reference: x.reference,
@@ -152,11 +176,19 @@ export const useApi = function () {
                 }));
             },
 
-            async getNote(reference: string): Promise<INote> {
-                const response = await fetch(`${baseUrl}/note/${reference}`);
-                const json = await response.json() as IApiResponse<IGetNoteResponse>;
+            async getNote(reference: string): Promise<INote | Error> {
+                const response = await apiClient.get<IGetNoteResponse>({
+                    url: `/note/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const note = json.result.note;
+                if (response instanceof Error)
+                    return response;
+
+                const note = response.note;
 
                 return {
                     reference: note.reference,
@@ -169,20 +201,23 @@ export const useApi = function () {
             async createNote(request: {
                 title: string;
                 content: string;
-            }): Promise<INote> {
-                const response = await fetch(`${baseUrl}/note`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<INote | Error> {
+                const response = await apiClient.post<ICreateNoteResponse>({
+                    url: '/note',
+                    body: {
                         title: request.title,
                         content: request.content,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<ICreateNoteResponse>;
 
-                const note = json.result.note;
+                if (response instanceof Error)
+                    return response;
+
+                const note = response.note;
 
                 return {
                     reference: note.reference,
@@ -195,20 +230,23 @@ export const useApi = function () {
             async updateNote(reference: string, request: {
                 title: string;
                 content: string;
-            }): Promise<INote> {
-                const response = await fetch(`${baseUrl}/note/${reference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<INote | Error> {
+                const response = await apiClient.put<IUpdateNoteResponse>({
+                    url: `/note/${reference}`,
+                    body: {
                         title: request.title,
                         content: request.content,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateNoteResponse>;
 
-                const note = json.result.note;
+                if (response instanceof Error)
+                    return response;
+
+                const note = response.note;
 
                 return {
                     reference: note.reference,
@@ -218,20 +256,34 @@ export const useApi = function () {
                 };
             },
 
-            async deleteNote(reference: string): Promise<void> {
-                await fetch(`${baseUrl}/note/${reference}`, {
-                    method: 'delete',
+            async deleteNote(reference: string): Promise<void | Error> {
+                const response = await apiClient.delete({
+                    url: `/note/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
+
+                if (response instanceof Error)
+                    return response;
             },
         },
 
         lists: {
-            async search(): Promise<Array<IList>> {
-                const response = await fetch(`${baseUrl}/listum/lists`);
+            async search(): Promise<Array<IList> | Error> {
+                const response = await apiClient.get<GetListsResponse>({
+                    url: '/listum/lists',
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const json = await response.json() as IApiResponse<GetListsResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const lists = json.result.lists;
+                const lists = response.lists;
 
                 return lists.map(list => ({
                     reference: list.reference,
@@ -246,12 +298,19 @@ export const useApi = function () {
                 }));
             },
 
-            async getListByReference(reference: string): Promise<IList> {
-                const response = await fetch(`${baseUrl}/listum/list/${reference}`);
+            async getListByReference(reference: string): Promise<IList | Error> {
+                const response = await apiClient.get<IGetListByReference>({
+                    url: `/listum/list/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const json = await response.json() as IApiResponse<IGetListByReference>;
+                if (response instanceof Error)
+                    return response;
 
-                const list = json.result.list;
+                const list = response.list;
 
                 return {
                     reference: list.reference,
@@ -268,19 +327,22 @@ export const useApi = function () {
 
             async createList(request: {
                 title: string;
-            }): Promise<IList> {
-                const response = await fetch(`${baseUrl}/listum/list`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<IList | Error> {
+                const response = await apiClient.post<ICreateListResponse>({
+                    url: '/listum/list',
+                    body: {
                         title: request.title,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<ICreateListResponse>;
 
-                const list = json.result.list;
+                if (response instanceof Error)
+                    return response;
+
+                const list = response.list;
 
                 return {
                     reference: list.reference,
@@ -292,19 +354,22 @@ export const useApi = function () {
 
             async updateList(reference: string, request: {
                 title: string;
-            }): Promise<IList> {
-                const response = await fetch(`${baseUrl}/listum/list/${reference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<IList | Error> {
+                const response = await apiClient.put<IUpdateListResponse>({
+                    url: `/listum/list/${reference}`,
+                    body: {
                         title: request.title,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateListResponse>;
 
-                const list = json.result.list;
+                if (response instanceof Error)
+                    return response;
+
+                const list = response.list;
 
                 return {
                     reference: list.reference,
@@ -319,38 +384,45 @@ export const useApi = function () {
                 };
             },
 
-            async reorderList(reference: string, items: Array<IListItem>): Promise<void> {
+            async reorderList(reference: string, items: Array<IListItem>): Promise<void | Error> {
                 const order: Record<string, number> = {};
                 for (let index = 0; index < items.length; ++index) {
                     order[items[index].reference] = index;
                 }
-
-                await fetch(`${baseUrl}/listum/list/${reference}/reorder`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+                
+                const response = await apiClient.post({
+                    url: `/listum/list/${reference}/reorder`,
+                    body: {
                         order,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
+
+                if (response instanceof Error)
+                    return response;
             },
 
             async addListItem(listReference: string, request: {
                 content: string;
-            }): Promise<IListItem> {
-                const response = await fetch(`${baseUrl}/listum/list/${listReference}/item`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<IListItem | Error> {
+                const response = await apiClient.post<ICreateListItemResponse>({
+                    url: `/listum/list/${listReference}/item`,
+                    body: {
                         content: request.content,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<ICreateListItemResponse>;
 
-                const listItem = json.result.listItem;
+                if (response instanceof Error)
+                    return response;
+
+                const listItem = response.listItem;
 
                 return {
                     reference: listItem.reference,
@@ -362,19 +434,22 @@ export const useApi = function () {
 
             async updateListItem(listReference: string, itemReference: string, request: {
                 content: string;
-            }): Promise<IListItem> {
-                const response = await fetch(`${baseUrl}/listum/list/${listReference}/item/${itemReference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            }): Promise<IListItem | Error> {
+                const response = await apiClient.put<IUpdateListItemResponse>({
+                    url: `/listum/list/${listReference}/item/${itemReference}`,
+                    body: {
                         content: request.content,
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateListItemResponse>;
 
-                const listItem = json.result.listItem;
+                if (response instanceof Error)
+                    return response;
+
+                const listItem = response.listItem;
 
                 return {
                     reference: listItem.reference,
@@ -386,16 +461,19 @@ export const useApi = function () {
         },
 
         workoutDiary: {
-            async search(): Promise<Array<IWorkoutEntry>> {
-                const response = await fetch(`${baseUrl}/workout-diary/entries`, {
-                    headers: {
-                        'Authorization': `Bearer ${authDetails.value?.loginToken}`,
+            async search(): Promise<Array<IWorkoutEntry> | Error> {
+                const response = await apiClient.get<ISearchWorkoutDiaryEntriesResponse>({
+                    url: '/workout-diary/entries',
+                    auth: {
+                        required: true,
+                        use: true,
                     },
                 });
 
-                const json = await response.json() as IApiResponse<ISearchWorkoutDiaryEntriesResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const entries = json.result.entries;
+                const entries = response.entries;
 
                 return entries.map(entry => ({
                     reference: entry.reference,
@@ -417,12 +495,19 @@ export const useApi = function () {
                 }));
             },
 
-            async getEntryByReference(reference: string): Promise<IWorkoutEntry> {
-                const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`);
+            async getEntryByReference(reference: string): Promise<IWorkoutEntry | Error> {
+                const response = await apiClient.get<IGetWorkoutDiaryEntryByReferenceResponse>({
+                    url: `/workout-diary/entry/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const json = await response.json() as IApiResponse<IGetWorkoutDiaryEntryByReferenceResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const entry = json.result.entry;
+                const entry = response.entry;
 
                 return {
                     reference: entry.reference,
@@ -444,13 +529,10 @@ export const useApi = function () {
                 };
             },
 
-            async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
-                const response = await fetch(`${baseUrl}/workout-diary/entry`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            async createEntry(request: ICreateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry | Error> {
+                const response = await apiClient.post<ICreateWorkoutDiaryEntryResponse>({
+                    url: '/workout-diary/entry',
+                    body: {
                         startAt: request.startAt,
                         endAt: request.endAt,
                         weight: request.weight,
@@ -463,11 +545,17 @@ export const useApi = function () {
                                 weight: set.weight,
                             })),
                         })),
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<ICreateWorkoutDiaryEntryResponse>;
 
-                const entry = json.result.entry;
+                if (response instanceof Error)
+                    return response;
+
+                const entry = response.entry;
 
                 return {
                     reference: entry.reference,
@@ -489,13 +577,10 @@ export const useApi = function () {
                 };
             },
 
-            async updateEntry(reference: string, request: IUpdateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry> {
-                const response = await fetch(`${baseUrl}/workout-diary/entry/${reference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify({
+            async updateEntry(reference: string, request: IUpdateWorkoutDiaryEntryRequest): Promise<IWorkoutEntry | Error> {
+                const response = await apiClient.put<IUpdateWorkoutDiaryEntryResponse>({
+                    url: `/workout-diary/entry/${reference}`,
+                    body: {
                         startAt: request.startAt,
                         endAt: request.endAt,
                         weight: request.weight,
@@ -508,11 +593,17 @@ export const useApi = function () {
                                 weight: set.weight,
                             })),
                         })),
-                    }),
+                    },
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateWorkoutDiaryEntryResponse>;
 
-                const entry = json.result.entry;
+                if (response instanceof Error)
+                    return response;
+
+                const entry = response.entry;
 
                 return {
                     reference: entry.reference,
@@ -534,18 +625,34 @@ export const useApi = function () {
                 };
             },
 
-            async deleteEntry(reference: string): Promise<void> {
-                await fetch(`${baseUrl}/workout-diary/entry/${reference}`, { method: 'delete' });
+            async deleteEntry(reference: string): Promise<void | Error> {
+                const response = await apiClient.delete({
+                    url: `/workout-diary/entry/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
+
+                if (response instanceof Error)
+                    return response;
             },
         },
 
         kanban: {
-            async search(): Promise<Array<IKanbanBoard>> {
-                const response = await fetch(`${baseUrl}/kanban/search`);
+            async search(): Promise<Array<IKanbanBoard> | Error> {
+                const response = await apiClient.get<ISearchKanbanBoardsResponse>({
+                    url: '/kanban/search',
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const json = await response.json() as IApiResponse<ISearchKanbanBoardsResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const kanbanBoards = json.result.kanbanBoards;
+                const kanbanBoards = response.kanbanBoards;
 
                 return kanbanBoards.map(x => ({
                     reference: x.reference,
@@ -555,12 +662,19 @@ export const useApi = function () {
                 }));
             },
 
-            async getBoard(reference: string): Promise<IKanbanBoard> {
-                const response = await fetch(`${baseUrl}/kanban/board/${reference}`);
+            async getBoard(reference: string): Promise<IKanbanBoard | Error> {
+                const response = await apiClient.get<IGetKanbanBoardResponse>({
+                    url: `/kanban/board/${reference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
+                });
 
-                const json = await response.json() as IApiResponse<IGetKanbanBoardResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const kanbanBoard = json.result.kanbanBoard;
+                const kanbanBoard = response.kanbanBoard;
 
                 return {
                     reference: kanbanBoard.reference,
@@ -581,18 +695,20 @@ export const useApi = function () {
                 };
             },
 
-            async updateBoard(reference: string, request: IUpdateKanbanBoardRequest): Promise<IKanbanBoard> {
-                const response = await fetch(`${baseUrl}/kanban/board/${reference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async updateBoard(reference: string, request: IUpdateKanbanBoardRequest): Promise<IKanbanBoard | Error> {
+                const response = await apiClient.put<IUpdateKanbanBoardResponse>({
+                    url: `/kanban/board/${reference}`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
 
-                const json = await response.json() as IApiResponse<IUpdateKanbanBoardResponse>;
+                if (response instanceof Error)
+                    return response;
 
-                const kanbanBoard = json.result.kanbanBoard;
+                const kanbanBoard = response.kanbanBoard;
 
                 return {
                     reference: kanbanBoard.reference,
@@ -613,29 +729,34 @@ export const useApi = function () {
                 };
             },
 
-            async updateBoardPositions(boardReference: string, request: IUpdateKanbanBoardPositionsRequest): Promise<void> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/positions`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async updateBoardPositions(boardReference: string, request: IUpdateKanbanBoardPositionsRequest): Promise<void | Error> {
+                const response = await apiClient.put<IUpdateKanbanBoardPositionsResponse>({
+                    url: `/kanban/board/${boardReference}/positions`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
 
-                await response.json() as IApiResponse<IUpdateKanbanBoardPositionsResponse>;
+                if (response instanceof Error)
+                    return response;
             },
 
-            async addColumn(reference: string, request: IAddKanbanColumnRequest): Promise<IKanbanColumn> {
-                const response = await fetch(`${baseUrl}/kanban/board/${reference}/column`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async addColumn(reference: string, request: IAddKanbanColumnRequest): Promise<IKanbanColumn | Error> {
+                const response = await apiClient.post<IAddKanbanColumnResponse>({
+                    url: `/kanban/board/${reference}/column`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IAddKanbanColumnResponse>;
 
-                const kanbanColumn = json.result.kanbanColumn;
+                if (response instanceof Error)
+                    return response;
+
+                const kanbanColumn = response.kanbanColumn;
 
                 return {
                     reference: kanbanColumn.reference,
@@ -651,17 +772,20 @@ export const useApi = function () {
                 };
             },
 
-            async updateColumn(boardReference: string, columnReference: string, request: IUpdateKanbanColumnRequest): Promise<IKanbanColumn> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async updateColumn(boardReference: string, columnReference: string, request: IUpdateKanbanColumnRequest): Promise<IKanbanColumn | Error> {
+                const response = await apiClient.put<IUpdateKanbanColumnResponse>({
+                    url: `/kanban/board/${boardReference}/column/${columnReference}`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateKanbanColumnResponse>;
 
-                const kanbanColumn = json.result.kanbanColumn;
+                if (response instanceof Error)
+                    return response;
+
+                const kanbanColumn = response.kanbanColumn;
 
                 return {
                     reference: kanbanColumn.reference,
@@ -677,25 +801,33 @@ export const useApi = function () {
                 };
             },
 
-            async deleteColumn(boardReference: string, columnReference: string): Promise<void> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}`, {
-                    method: 'delete',
+            async deleteColumn(boardReference: string, columnReference: string): Promise<void | Error> {
+                const response = await apiClient.delete({
+                    url: `/kanban/board/${boardReference}/column/${columnReference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
 
-                await response.json() as IApiResponse<void>;
+                if (response instanceof Error)
+                    return response;
             },
 
-            async addItem(boardReference: string, columnReference: string, request: IAddKanbanItemRequest): Promise<IKanbanItem> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item`, {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async addItem(boardReference: string, columnReference: string, request: IAddKanbanItemRequest): Promise<IKanbanItem | Error> {
+                const response = await apiClient.post<IAddKanbanItemResponse>({
+                    url: `/kanban/board/${boardReference}/column/${columnReference}/item`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IAddKanbanItemResponse>;
 
-                const kanbanItem = json.result.kanbanItem;
+                if (response instanceof Error)
+                    return response;
+
+                const kanbanItem = response.kanbanItem;
 
                 return {
                     reference: kanbanItem.reference,
@@ -705,17 +837,20 @@ export const useApi = function () {
                 };
             },
 
-            async updateItem(boardReference: string, columnReference: string, itemReference: string, request: IUpdateKanbanItemRequest): Promise<IKanbanItem> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`, {
-                    method: 'put',
-                    headers: new Headers({
-                        'Content-Type': 'application/json',
-                    }),
-                    body: JSON.stringify(request),
+            async updateItem(boardReference: string, columnReference: string, itemReference: string, request: IUpdateKanbanItemRequest): Promise<IKanbanItem | Error> {
+                const response = await apiClient.put<IUpdateKanbanItemResponse>({
+                    url: `/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`,
+                    body: request,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
-                const json = await response.json() as IApiResponse<IUpdateKanbanItemResponse>;
 
-                const kanbanItem = json.result.kanbanItem;
+                if (response instanceof Error)
+                    return response;
+
+                const kanbanItem = response.kanbanItem;
 
                 return {
                     reference: kanbanItem.reference,
@@ -725,12 +860,17 @@ export const useApi = function () {
                 };
             },
 
-            async deleteItem(boardReference: string, columnReference: string, itemReference: string): Promise<void> {
-                const response = await fetch(`${baseUrl}/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`, {
-                    method: 'delete',
+            async deleteItem(boardReference: string, columnReference: string, itemReference: string): Promise<void | Error> {
+                const response = await apiClient.delete({
+                    url: `/kanban/board/${boardReference}/column/${columnReference}/item/${itemReference}`,
+                    auth: {
+                        required: true,
+                        use: true,
+                    },
                 });
 
-                await response.json() as IApiResponse<void>;
+                if (response instanceof Error)
+                    return response;
             },
         },
 
