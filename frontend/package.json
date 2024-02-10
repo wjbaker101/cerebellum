@@ -4,15 +4,15 @@
     "private": true,
     "scripts": {
         "co:login": "aws codeartifact login --tool npm --repository npm-libs --domain wjb --domain-owner 144953083930",
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build"
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview"
     },
     "dependencies": {
         "@vuepic/vue-datepicker": "^3.6.1",
         "@wjb/styling": "^1.0.60",
         "@wjb/vue": "^1.0.68",
         "dayjs": "^1.11.4",
-        "register-service-worker": "^1.7.2",
         "sortablejs": "^1.15.0",
         "sortablejs-vue3": "^1.2.3",
         "ts-debounce": "^4.0.0",
@@ -20,14 +20,12 @@
         "vue-router": "^4.0.3"
     },
     "devDependencies": {
+        "@types/node": "^20.11.17",
         "@types/sortablejs": "^1.15.0",
-        "@vue/cli-plugin-pwa": "~5.0.0",
-        "@vue/cli-plugin-router": "~5.0.0",
-        "@vue/cli-plugin-typescript": "~5.0.0",
-        "@vue/cli-service": "~5.0.0",
+        "@vitejs/plugin-vue": "^5.0.4",
         "sass": "^1.32.7",
-        "sass-loader": "^12.0.0",
-        "typescript": "~4.5.5"
+        "typescript": "~4.5.5",
+        "vite": "^5.1.1"
     },
     "browserslist": [
         "> 1%",
