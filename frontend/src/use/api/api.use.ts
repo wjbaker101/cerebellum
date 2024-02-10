@@ -35,11 +35,33 @@ import { IUpdateKanbanBoardRequest, IUpdateKanbanBoardResponse } from './type/Up
 import { IDashboard } from '@/model/Dashboard.model';
 import { IGetDashboardResponse } from './type/GetDashboard.type';
 import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
+import { ILogInRequest, ILogInResponse } from './type/LogIn.type';
+import { useAuth } from '../auth/Auth.use';
 
 const baseUrl = '/api';
 
+const auth = useAuth();
+const authDetails = auth.details;
+
 export const useApi = function () {
     return {
+
+        auth: {
+
+            async logIn(request: ILogInRequest): Promise<ILogInResponse> {
+                const response = await fetch(`${baseUrl}/auth/log-in`, {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(request),
+                });
+                const json = await response.json() as IApiResponse<ILogInResponse>;
+
+                return json.result;
+            },
+
+        },
 
         calendar: {
             async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<Array<ICalendarEntry>> {
@@ -365,7 +387,11 @@ export const useApi = function () {
 
         workoutDiary: {
             async search(): Promise<Array<IWorkoutEntry>> {
-                const response = await fetch(`${baseUrl}/workout-diary/entries`);
+                const response = await fetch(`${baseUrl}/workout-diary/entries`, {
+                    headers: {
+                        'Authorization': `Bearer ${authDetails.value?.loginToken}`,
+                    },
+                });
 
                 const json = await response.json() as IApiResponse<ISearchWorkoutDiaryEntriesResponse>;
 

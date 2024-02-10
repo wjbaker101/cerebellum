@@ -9,6 +9,7 @@ import ListView from '@/view/lists/ListView.vue';
 import NotesView from '@/view/notes/NotesView.vue';
 import NoteView from '@/view/notes/NoteView.vue';
 import WorkoutDiaryView from '@/view/workout-diary/WorkoutDiaryView.vue';
+import LogInView from '@/view/log-in/LogIn.view.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -50,6 +51,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/kanban/:kanbanReference',
         component: KanbanBoardView,
+    },
+    {
+        path: '/log-in',
+        component: LogInView,
     },
 ];
 
