@@ -1,6 +1,10 @@
 import { readonly, ref } from 'vue';
 import { Dayjs } from 'dayjs';
 
+import { useCache } from '@/use/cache/Cache.use.ts';
+
+const cache = useCache();
+
 interface IAuth {
     readonly loginToken: string;
     readonly user: {
@@ -10,7 +14,7 @@ interface IAuth {
     };
 }
 
-const auth = ref<IAuth | null>(null);
+const auth = ref<IAuth | null>(cache.get<IAuth>('auth'));
 
 export const useAuth = function () {
     return {
@@ -19,6 +23,7 @@ export const useAuth = function () {
 
         set(newAuth: IAuth) {
             auth.value = newAuth;
+            cache.set('auth', auth.value);
         },
 
         clear() {
