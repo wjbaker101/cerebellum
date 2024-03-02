@@ -1,5 +1,4 @@
 ﻿using Cerebellum.Api.Auth;
-using Cerebellum.Api.Calendar;
 using Cerebellum.Api.Dashboard;
 using Cerebellum.Api.Kanban;
 using Cerebellum.Api.Listum;
@@ -22,9 +21,6 @@ public static class SetupDependencies
         services.AddSingleton<IPasswordService, PasswordService>();
         services.AddSingleton<ILoginTokenService, LoginTokenService>();
         services.AddSingleton<IUserRepository, UserRepository>();
-
-        services.AddSingleton<ICalendarService, CalendarService>();
-        services.AddSingleton<ICalendarRepository, CalendarRepository>();
 
         services.AddSingleton<IDashboardService, DashboardService>();
         services.AddSingleton<IDashboardRepository, DashboardRepository>();

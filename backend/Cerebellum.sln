@@ -13,9 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{33F601CB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Tests", "Tests\Api.Tests\Api.Tests.csproj", "{A902E611-FA83-424A-8EC3-FA877589898B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Tests", "Tests\Data.Tests\Data.Tests.csproj", "{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHelpers", "Tests\TestHelpers\TestHelpers.csproj", "{8BFEA371-108A-47F9-B863-3F2601D96959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHelpers", "Tests\TestHelpers\TestHelpers.csproj", "{8BFEA371-108A-47F9-B863-3F2601D96959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{A902E611-FA83-424A-8EC3-FA877589898B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A902E611-FA83-424A-8EC3-FA877589898B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A902E611-FA83-424A-8EC3-FA877589898B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BFEA371-108A-47F9-B863-3F2601D96959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8BFEA371-108A-47F9-B863-3F2601D96959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BFEA371-108A-47F9-B863-3F2601D96959}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,7 +47,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A902E611-FA83-424A-8EC3-FA877589898B} = {33F601CB-3186-4C5E-B677-75F9A0264658}
-		{D1C5F67E-D747-4502-B6F8-FFEF293F9AA4} = {33F601CB-3186-4C5E-B677-75F9A0264658}
 		{8BFEA371-108A-47F9-B863-3F2601D96959} = {33F601CB-3186-4C5E-B677-75F9A0264658}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
