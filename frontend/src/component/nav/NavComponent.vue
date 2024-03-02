@@ -13,9 +13,12 @@
             </div>
         </div>
         <ul class="tabs" :class="{ 'is-open': isOpen }">
-            <div class="text-centered">
-                <router-link to="/log-in">Log In</router-link>
-            </div>
+            <router-link to="/log-in" class="tab" @click.native="onNavigate">
+                <GradientBorderComponent :on-hover="!route.path.startsWith('/log-in')">
+                    <IconComponent icon="user" />
+                    <div>Login</div>
+                </GradientBorderComponent>
+            </router-link>
             <router-link to="/" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!isDashboard">
                     <IconComponent icon="home" />
