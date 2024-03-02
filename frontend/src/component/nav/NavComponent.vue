@@ -25,12 +25,6 @@
                     <div>Dashboard</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/calendar" class="tab" @click.native="onNavigate">
-                <GradientBorderComponent :on-hover="!route.path.startsWith('/calendar')">
-                    <IconComponent icon="calendar" />
-                    <div>Calendar</div>
-                </GradientBorderComponent>
-            </router-link>
             <router-link to="/notes" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/notes')">
                     <IconComponent icon="page-text" />

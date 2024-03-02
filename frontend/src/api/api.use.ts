@@ -1,18 +1,15 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 import { apiClient } from '@/api/client';
 
 import { dashboardItemTypeMapper } from './mapper/DashboardItemType.mapper';
 
-import { CalendarRecurringPeriod, ICalendarEntry } from '@/models/CalendarEntry.model';
 import { INote } from '@/models/Note.model';
 import { IList, IListItem } from '@/view/lists/model/List.model';
 import { IDashboard } from '@/models/Dashboard.model';
 import { IWorkoutEntry, IWorkoutExercise, IWorkoutExerciseSet } from '@/view/workout-diary/model/WorkoutEntry.model';
 import { IKanbanBoard, IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 
-import { ISearchCalendarEntriesResponse } from '@/api/type/SearchCalendarEntries.type';
-import { IAddCalendarEntryResponse } from '@/api/type/AddCalendarEntry.type';
 import { ISearchNotesResponse } from '@/api/type/SearchNotes.type';
 import { IGetNoteResponse } from '@/api/type/GetNote.type';
 import { ICreateNoteResponse } from '@/api/type/CreateNote.type';
@@ -59,72 +56,6 @@ export const useApi = function () {
                 return response;
             },
 
-        },
-
-        calendar: {
-           
-            async searchEntries(startAt: Dayjs, endAt: Dayjs): Promise<Array<ICalendarEntry> | Error> {
-                const queryParams = new Map<string, string>();
-                queryParams.set('startAt', startAt.toISOString());
-                queryParams.set('endAt', endAt.toISOString());
-
-                const response = await apiClient.get<ISearchCalendarEntriesResponse>({
-                    url: '/calendar/entries',
-                    queryParams: queryParams,
-                    auth: {
-                        required: true,
-                        use: true,
-                    },
-                });
-
-                if (response instanceof Error)
-                    return response;
-
-                return response.entries.map(x => ({
-                    reference: x.reference,
-                    createdAt: dayjs(x.createdAt),
-                    description: x.description,
-                    startAt: dayjs(x.startAt),
-                    endAt: dayjs(x.endAt),
-                    recurringPeriod: mapRecurringPeriod(x.recurringPeriod),
-                }));
-            },
-
-            async addEntry(request: {
-                description: string,
-                startAt: Dayjs,
-                endAt: Dayjs,
-                recurringPeriod: CalendarRecurringPeriod,
-            }): Promise<ICalendarEntry | Error> {
-
-                const response = await apiClient.post<IAddCalendarEntryResponse>({
-                    url: '/calendar/entry',
-                    body: {
-                        description: request.description,
-                        startAt: request.startAt.toISOString(),
-                        endAt: request.endAt.toISOString(),
-                        recurringPeriod: mapApiRecurringPeriod(request.recurringPeriod),
-                    },
-                    auth: {
-                        required: true,
-                        use: true,
-                    },
-                });
-
-                if (response instanceof Error)
-                    return response;
-
-                const entry = response.calendarEntry;
-
-                return {
-                    reference: entry.reference,
-                    createdAt: dayjs(entry.createdAt),
-                    description: entry.description,
-                    startAt: dayjs(entry.startAt),
-                    endAt: dayjs(entry.endAt),
-                    recurringPeriod: mapRecurringPeriod(entry.recurringPeriod),
-                };
-            },
         },
 
         dashboard: {
@@ -875,24 +806,4 @@ export const useApi = function () {
         },
 
     };
-};
-
-const mapRecurringPeriod = function (value: number): CalendarRecurringPeriod {
-    switch (value) {
-        case 1: return 'none';
-        case 2: return 'weekly';
-        case 3: return 'monthly';
-        case 4: return 'yearly';
-
-        default: throw new Error(`Invalid recurring period retrieved: ${value}.`);
-    }
-};
-
-const mapApiRecurringPeriod = function (value: CalendarRecurringPeriod): number {
-    switch (value) {
-        case 'none': return 1;
-        case 'weekly': return 2;
-        case 'monthly': return 3;
-        case 'yearly': return 4;
-    }
 };
