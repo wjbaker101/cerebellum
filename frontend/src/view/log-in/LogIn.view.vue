@@ -25,6 +25,9 @@ const onLogIn = async () => {
         password: password.value,
     });
 
+    if (result instanceof Error)
+        return;
+
     auth.set({
         loginToken: result.loginToken,
         user: {
@@ -39,4 +42,4 @@ const onLogIn = async () => {
 <style lang="scss">
 .log-in-view {
 }
-</style>@/api/api.use
+</style>
