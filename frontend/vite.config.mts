@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 
-import { pwa } from './src/vite/pwa';
+import { pwa } from './vite/pwa';
 
 export default defineConfig({
 
