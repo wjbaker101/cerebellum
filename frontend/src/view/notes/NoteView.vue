@@ -144,4 +144,4 @@ onMounted(async () => {
         }
     }
 }
-</style>@/api/api.use@/models/Note.model
+</style>
