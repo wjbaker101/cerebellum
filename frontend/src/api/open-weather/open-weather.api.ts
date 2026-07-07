@@ -1,5 +1,3 @@
-import { config } from '@/config/secret.config';
-
 import { IGetWeatherResponse } from '@/api/open-weather/type/GetWeather.type';
 import { IWeather } from '@/models/Weather.model';
 
@@ -51,7 +49,7 @@ const mapIcon = function(code: string): string {
 export const openWeatherApi = {
 
     async getWeather(location: string): Promise<IWeather> {
-        const response = await fetch(`${baseUrl}/weather?q=${location}&appid=${config.openWeatherApi.apiKey}`);
+        const response = await fetch(`${baseUrl}/weather?q=${location}&appid=`);
         const json = await response.json() as IGetWeatherResponse;
 
         const weather = json.weather[0];
