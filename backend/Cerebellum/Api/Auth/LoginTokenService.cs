@@ -1,5 +1,4 @@
 ﻿using Core.Model;
-using Core.Settings;
 using Core.Types;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,9 +19,9 @@ public sealed class LoginTokenService : ILoginTokenService
 
     private readonly string _secretKey;
 
-    public LoginTokenService(AppSecrets secrets)
+    public LoginTokenService()
     {
-        _secretKey = secrets.Auth.LoginToken;
+        _secretKey = Environment.GetEnvironmentVariable("DOTNET_LOGIN_TOKEN")!;
     }
 
     public string Create(UserModel user)

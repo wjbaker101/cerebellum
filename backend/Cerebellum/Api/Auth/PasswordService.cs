@@ -1,5 +1,4 @@
-﻿using Core.Settings;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace Cerebellum.Api.Auth;
@@ -14,9 +13,9 @@ public sealed class PasswordService : IPasswordService
 {
     private readonly string _pepper;
 
-    public PasswordService(AppSecrets appSecrets)
+    public PasswordService()
     {
-        _pepper = appSecrets.Auth.Pepper;
+        _pepper = Environment.GetEnvironmentVariable("DOTNET_AUTH_PEPPER")!;
     }
 
     public string Hash(string password, string salt)

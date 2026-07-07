@@ -1,6 +1,4 @@
-﻿using Core.Settings;
-
-namespace Cerebellum.Setup;
+﻿namespace Cerebellum.Setup;
 
 public static class SetupSettings
 {
@@ -10,10 +8,7 @@ public static class SetupSettings
 
         builder.Configuration
             .SetBasePath(builder.Environment.ContentRootPath)
-            .AddJsonFile(GetFile("appsettings", isDev))
-            .AddJsonFile(GetFile("appsecrets", isDev));
-
-        builder.Services.AddSingleton(builder.Configuration.Get<AppSecrets>()!);
+            .AddJsonFile(GetFile("appsettings", isDev));
     }
 
     private static string GetFile(string file, bool isDev)

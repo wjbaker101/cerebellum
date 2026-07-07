@@ -5,6 +5,8 @@ var services = builder.Services;
 
 builder.BuildSettings();
 
+builder.Configuration.AddEnvironmentVariables();
+
 services.AddDependencies();
 services.AddMiddleware();
 services.AddControllers();
