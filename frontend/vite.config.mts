@@ -24,11 +24,6 @@ export default defineConfig({
         ],
     },
 
-    build: {
-        outDir: '../backend/Cerebellum/wwwroot',
-        emptyOutDir: true,
-    },
-
     server: {
         proxy: {
             '/api': {

@@ -31,7 +31,7 @@ RUN dotnet restore ./Data
 
 COPY ./backend .
 
-COPY --from=frontend /app/Cerebellum/wwwroot/ ./Cerebellum/wwwroot/
+COPY --from=frontend /app/dist ./Cerebellum/wwwroot
 
 RUN dotnet publish Cerebellum -c Release -o out
 
