@@ -45,6 +45,8 @@ import { useApi } from '@/api/api.use';
 import { recordHelper } from '@/helper/record.helper';
 
 import { IKanbanBoard } from '@/view/kanban/model/KanbanBoard.model';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const api = useApi();
 const route = useRoute();

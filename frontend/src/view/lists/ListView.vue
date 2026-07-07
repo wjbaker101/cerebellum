@@ -51,6 +51,10 @@ import { useModal } from '@/composables/modal.use';
 import { useApi } from '@/api/api.use';
 
 import { IList, IListItem } from '@/view/lists/model/List.model';
+import DeleteButtonComponent from '@/component/DeleteButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import ViewComponent from '@/component/ViewComponent.vue';
 
 const api = useApi();
 const route = useRoute();

@@ -26,6 +26,9 @@ import { useModal } from '@/composables/modal.use';
 import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
 import { IWorkoutEntry } from './model/WorkoutEntry.model';
+import ViewComponent from '@/component/ViewComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const route = useRoute();
 const modal = useModal();

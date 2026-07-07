@@ -60,6 +60,8 @@ import { useRoute } from 'vue-router';
 
 import GradientBorderComponent from '@/component/GradientBorderComponent.vue';
 import NavClockComponent from '@/component/nav/component/NavClockComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const route = useRoute();
 
@@ -81,7 +83,7 @@ const onNavigate = function (): void {
 
 nav.nav-placeholder,
 nav.nav-component {
-    flex: 0 0 157px;
+    flex: 0 0 203px;
 }
 
 nav.nav-component {

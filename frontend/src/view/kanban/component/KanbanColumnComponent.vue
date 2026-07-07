@@ -56,6 +56,8 @@ import { useApi } from '@/api/api.use';
 import { useModal } from '@/composables/modal.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const props = defineProps<{
     kanbanBoard: IKanbanBoard;

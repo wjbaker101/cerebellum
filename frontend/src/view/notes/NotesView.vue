@@ -23,6 +23,8 @@ import ListComponent from '@/component/ListComponent.vue';
 import { useApi } from '@/api/api.use';
 
 import { INote } from '@/models/Note.model';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const api = useApi();
 const router = useRouter();

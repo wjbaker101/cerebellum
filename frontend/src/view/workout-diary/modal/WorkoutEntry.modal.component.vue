@@ -101,6 +101,12 @@ import { helper } from '@/view/workout-diary/helper/helper';
 import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
+import FormSectionComponent from '@/component/form/FormSectionComponent.vue';
+import FormInputComponent from '@/component/form/FormInputComponent.vue';
+import FormComponent from '@/component/form/FormComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
+import DeleteButtonComponent from '@/component/DeleteButtonComponent.vue';
 
 export interface IWorkoutEntryModalProps {
     workoutEntry?: IWorkoutEntry;

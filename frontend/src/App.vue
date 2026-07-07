@@ -1,5 +1,5 @@
 <template>
-    <div class="flex page breakpoint">
+    <div class="page breakpoint">
         <NavComponent></NavComponent>
         <router-view></router-view>
         <ModalComponent />
@@ -45,5 +45,9 @@ textarea {
     max-width: 67rem;
     margin-left: auto;
     margin-right: auto;
+}
+
+.page {
+    display: flex;
 }
 </style>

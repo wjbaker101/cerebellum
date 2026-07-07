@@ -25,6 +25,11 @@ import { useApi } from '@/api/api.use';
 import { useModal } from '@/composables/modal.use';
 
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
+import FormComponent from '@/component/form/FormComponent.vue';
+import FormSectionComponent from '@/component/form/FormSectionComponent.vue';
+import FormInputComponent from '@/component/form/FormInputComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
 
 export interface IKanbanItemModalProps {
     boardReference: string;

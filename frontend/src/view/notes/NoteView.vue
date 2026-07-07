@@ -41,6 +41,10 @@ import { debounce } from 'ts-debounce';
 import { useApi } from '@/api/api.use';
 
 import { INote } from '@/models/Note.model';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
+import DeleteButtonComponent from '@/component/DeleteButtonComponent.vue';
+import ViewComponent from '@/component/ViewComponent.vue';
 
 const api = useApi();
 const route = useRoute();

@@ -2,7 +2,36 @@
 
 @use './element/input' as *;
 
+@mixin setup-colour($variableName, $colour) {
+    --wjb-#{$variableName}: #{$colour};
+    --wjb-#{$variableName}-light: color-mix(in srgb, var(--wjb-#{$variableName}) 80%, #fff);
+    --wjb-#{$variableName}-dark: color-mix(in srgb, var(--wjb-#{$variableName}) 80%, #000);
+}
+
+@mixin setup-variables() {
+
+    @include setup-colour('grey', #ccc);
+
+    @include setup-colour('background-colour', #222226);
+
+    --wjb-text-colour: #efefef;
+    --wjb-text-colour-opposite: #222;
+
+    @include setup-colour('primary', #176bc0);
+    @include setup-colour('secondary', #17c06c);
+    @include setup-colour('tertiary', #4217c0);
+
+    @include setup-colour('success', #45bd0e);
+    @include setup-colour('warning', #bd710e);
+    @include setup-colour('danger', #aa0f0f);
+
+    --wjb-border-radius: 0.3rem;
+
+}
+
 :root {
+    @include setup-variables();
+
     --wjb-primary: #4db87b;
     --wjb-secondary: #4d8ab8;
     --wjb-tertiary: #644db8;

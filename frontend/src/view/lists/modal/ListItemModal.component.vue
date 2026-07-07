@@ -21,6 +21,10 @@ import { useModal } from '@/composables/modal.use';
 import { useApi } from '@/api/api.use';
 
 import { IListItem } from '@/view/lists/model/List.model';
+import FormComponent from '@/component/form/FormComponent.vue';
+import FormSectionComponent from '@/component/form/FormSectionComponent.vue';
+import FormInputComponent from '@/component/form/FormInputComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
 
 export interface IListItemModalProps {
     listReference: string;

@@ -16,6 +16,8 @@ import { useModal } from '@/composables/modal.use';
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 import KanbanItemModalComponent, { IKanbanItemModalProps } from '@/view/kanban/modal/KanbanItem.modal.component.vue';
 import HiddenTextboxComponent from '@/component/HiddenTextboxComponent.vue';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const props = defineProps<{
     boardReference: string;

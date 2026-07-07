@@ -42,6 +42,8 @@
 import { computed } from 'vue';
 
 import { IWorkoutEntry } from '@/view/workout-diary/model/WorkoutEntry.model';
+import ButtonComponent from '@/component/ButtonComponent.vue';
+import IconComponent from '@/component/IconComponent.vue';
 
 const props = defineProps<{
     workoutEntry: IWorkoutEntry;
