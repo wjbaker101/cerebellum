@@ -16,7 +16,12 @@ public sealed class ApiDatabase : IApiDatabase
     public ApiDatabase()
     {
         SessionFactory = Fluently.Configure()
-            .Database(PostgreSQLConfiguration.Standard.ConnectionString(Environment.GetEnvironmentVariable("DOTNET_PG_CONNECTION_STRING")))
+            .Database(PostgreSQLConfiguration.Standard.ConnectionString(c => c
+                .Host(Environment.GetEnvironmentVariable("DOTNET_PG_HOST"))
+                .Port(int.Parse(Environment.GetEnvironmentVariable("DOTNET_PG_PORT")!))
+                .Database(Environment.GetEnvironmentVariable("DOTNET_PG_DATABASE"))
+                .Username(Environment.GetEnvironmentVariable("DOTNET_PG_USERNAME"))
+                .Password(Environment.GetEnvironmentVariable("DOTNET_PG_PASSWORD"))))
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ApiDatabase>())
             .BuildSessionFactory();
     }
