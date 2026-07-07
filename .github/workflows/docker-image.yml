@@ -40,9 +40,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Setup appsecrets file
-        run: echo "${{ secrets.appsecrets_file }}" > ./backend/Cerebellum/appsecrets.json
-
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v7
