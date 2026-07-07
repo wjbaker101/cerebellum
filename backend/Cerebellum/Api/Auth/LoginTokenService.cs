@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 using Core.Settings;
-using DotNetLibs.Core.Types;
+using Core.Types;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

@@ -1,5 +1,5 @@
 ﻿using Data.Records;
-using DotNetLibs.Core.Types;
+using Core.Types;
 using NHibernate;
 using NHibernate.Linq;
 

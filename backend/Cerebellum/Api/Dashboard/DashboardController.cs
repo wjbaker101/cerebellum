@@ -1,5 +1,5 @@
 ﻿using Cerebellum.Middleware.Authentication;
-using DotNetLibs.Api.Types;
+using Cerebellum.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cerebellum.Api.Dashboard;

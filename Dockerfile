@@ -15,12 +15,6 @@ RUN yarn run build
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS backend-build
 
-ARG AWS_ACCESS_KEY_ID
-ARG AWS_SECRET_ACCESS_KEY
-ARG AWS_DEFAULT_REGION
-
-RUN apk add --no-cache aws-cli
-
 WORKDIR /app
 
 RUN mkdir Cerebellum
@@ -30,8 +24,6 @@ RUN mkdir Data
 COPY ./backend/Cerebellum/*.csproj ./Cerebellum
 COPY ./backend/Core/*.csproj ./Core
 COPY ./backend/Data/*.csproj ./Data
-
-RUN aws codeartifact login --tool dotnet --repository DotNetLibs --domain wjb --domain-owner 144953083930
 
 RUN dotnet restore ./Cerebellum
 RUN dotnet restore ./Core

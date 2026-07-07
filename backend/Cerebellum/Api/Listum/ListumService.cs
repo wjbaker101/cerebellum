@@ -2,8 +2,8 @@
 using Core.Model;
 using Data.Records;
 using Data.Repositories;
-using DotNetLibs.Core.Extensions;
-using DotNetLibs.Core.Types;
+using Core.Extensions;
+using Core.Types;
 
 namespace Cerebellum.Api.Listum;
 

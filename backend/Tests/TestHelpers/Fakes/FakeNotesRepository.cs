@@ -1,6 +1,6 @@
 ﻿using Data.Records;
 using Data.Repositories;
-using DotNetLibs.Core.Types;
+using Core.Types;
 using NUnit.Framework;
 
 namespace TestHelpers.Fakes;

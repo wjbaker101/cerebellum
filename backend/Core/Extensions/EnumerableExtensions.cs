@@ -1,0 +1,14 @@
+﻿namespace Core.Extensions;
+
+public static class EnumerableExtensions
+{
+    public static List<TOutput> MapAll<TInput, TOutput>(this IEnumerable<TInput> input, Func<TInput, TOutput> mapper)
+    {
+        return input.Select(mapper).ToList();
+    }
+
+    public static List<TOutput> MapAll<TInput, TOutput>(this IEnumerable<TInput> input, Func<TInput, int, TOutput> mapper)
+    {
+        return input.Select(mapper).ToList();
+    }
+}

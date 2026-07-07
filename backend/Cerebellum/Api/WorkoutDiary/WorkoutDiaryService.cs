@@ -4,7 +4,7 @@ using Data.Mappers;
 using Data.Records;
 using Data.Repositories.WorkoutDiary;
 using Data.Repositories.WorkoutDiary.Types;
-using DotNetLibs.Core.Types;
+using Core.Types;
 
 namespace Cerebellum.Api.WorkoutDiary;
 

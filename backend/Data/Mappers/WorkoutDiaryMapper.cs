@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 using Data.Records;
-using DotNetLibs.Core.Extensions;
+using Core.Extensions;
 
 namespace Data.Mappers;
 

@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.Notes.Types;
 using Data.Records;
 using Data.Repositories;
-using DotNetLibs.Core.Types;
+using Core.Types;
 
 namespace Cerebellum.Api.Notes;
 

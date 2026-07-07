@@ -2,7 +2,7 @@
 using Data.Mappers;
 using Data.Records;
 using Data.Repositories.WorkoutDiary;
-using DotNetLibs.Core.Types;
+using Core.Types;
 
 namespace Cerebellum.Api.WorkoutDiary.Services;
 

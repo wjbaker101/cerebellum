@@ -1,7 +1,7 @@
 ﻿using Cerebellum.Api.Dashboard.Types;
 using Data.Repositories.Dashboard;
 using Data.Repositories.Dashboard.Types;
-using DotNetLibs.Core.Types;
+using Core.Types;
 
 namespace Cerebellum.Api.Dashboard;
 
