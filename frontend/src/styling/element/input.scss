@@ -16,6 +16,4 @@ select {
     &:focus {
         outline: 2px dashed var(--wjb-secondary);
     }
-
-    @include shadow-small();
 }

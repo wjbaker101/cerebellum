@@ -9,7 +9,6 @@
     },
     "dependencies": {
         "@vuepic/vue-datepicker": "^8.1.0",
-        "@wjb/styling": "^1.0.60",
         "dayjs": "^1.11.4",
         "sortablejs": "^1.15.0",
         "sortablejs-vue3": "^1.2.3",

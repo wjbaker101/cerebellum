@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent v-if="kanbanBoard" class="kanban-board-view flex flex-vertical gap" :heading="kanbanBoard.title">
+    <ViewComponent v-if="kanbanBoard" class="flex flex-vertical kanban-board-view gap" :heading="kanbanBoard.title">
         <template v-slot:title>
             <h1>
                 <HiddenTextboxComponent v-model="kanbanTitle" @finish="onTitleConfirm" />
@@ -12,7 +12,7 @@
             </ButtonComponent>
         </template>
         <VueSortable
-            class="kanban-board flex gap"
+            class="flex kanban-board gap"
             :list="kanbanBoard.columns"
             tag="div"
             item-key="reference"
@@ -115,8 +115,6 @@ onMounted(async () => {
         padding: 1rem;
         border-top: 4px solid var(--wjb-secondary);
         border-radius: var(--wjb-border-radius);
-
-        @include shadow-large();
 
         & > header {
             h2 {

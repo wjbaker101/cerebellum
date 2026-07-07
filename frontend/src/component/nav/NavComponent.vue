@@ -1,11 +1,11 @@
 <template>
     <nav class="nav-component">
-        <div class="title-heading flex align-items-center">
+        <div class="flex align-items-center title-heading">
             <h1>
                 Cerebellum
                 <NavClockComponent :enabled="!isDashboard" />
             </h1>
-            <div class="open-button-container flex-auto">
+            <div class="flex-auto open-button-container">
                 <ButtonComponent class="primary mini" @click="toggleOpen">
                     <IconComponent v-if="isOpen" icon="cross" />
                     <IconComponent v-else icon="menu" />
@@ -99,8 +99,6 @@ nav.nav-component {
         var(--wjb-background-colour),
     );
 
-    @include shadow-medium();
-
     .title-heading {
         text-align: center;
     }
@@ -160,8 +158,6 @@ nav.nav-component {
             opacity: 0;
             pointer-events: none;
             z-index: 1;
-
-            @include shadow-medium();
 
             &.is-open {
                 opacity: 1;

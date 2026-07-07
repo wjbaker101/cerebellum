@@ -71,8 +71,6 @@ const onBlur = function (): void {
     border-radius: var(--wjb-border-radius);
     cursor: pointer;
 
-    @include shadow-small();
-
     & + .kanban-item {
         margin-top: 0.25rem;
     }

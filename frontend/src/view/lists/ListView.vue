@@ -148,8 +148,6 @@ onMounted(async () => {
             padding: 0.25rem;
             counter-increment: count;
 
-            @include shadow-small();
-
             &::before {
                 content: counter(count) ".";
                 width: 2rem;

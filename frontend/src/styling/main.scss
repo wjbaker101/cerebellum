@@ -1,12 +1,8 @@
-@use '@wjb/styling/setup-variables' as *;
-@use '@wjb/styling/main' as *;
 @use './variables' as *;
 
 @use './element/input' as *;
 
 :root {
-    @include setup-variables();
-
     --wjb-primary: #4db87b;
     --wjb-secondary: #4d8ab8;
     --wjb-tertiary: #644db8;

@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="note-view flex flex-vertical gap" :heading="note?.title ?? ''">
+    <ViewComponent class="flex flex-vertical note-view gap" :heading="note?.title ?? ''">
         <template v-slot:title v-if="isEditingTitle">
             <h1>
                 <input ref="titleInput" type="text" v-model="noteTitle" @keypress.enter="onTitleConfirm">
@@ -24,8 +24,8 @@
                 </div>
             </div>
         </template>
-        <div class="text-container flex">
-            <div class="line-numbers flex-auto text-right">
+        <div class="flex text-container">
+            <div class="flex-auto text-right line-numbers">
                 <div v-for="i in rowCount">{{ i }}</div>
             </div>
             <textarea :rows="rowCount" v-model="noteContent"></textarea>
@@ -133,8 +133,6 @@ onMounted(async () => {
 
     .text-container {
         background-color: var(--wjb-background-colour-dark);
-
-        @include shadow-small();
     }
 
     textarea {

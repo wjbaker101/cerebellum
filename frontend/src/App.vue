@@ -39,8 +39,6 @@ textarea {
     font: inherit;
     letter-spacing: inherit;
     border-radius: var(--wjb-border-radius);
-
-    @include shadow-small();
 }
 
 .content-width {

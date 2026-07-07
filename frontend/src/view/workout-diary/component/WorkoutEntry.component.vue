@@ -1,7 +1,7 @@
 <template>
     <div class="workout-entry-component">
         <section>
-            <div class="flex gap align-items-center">
+            <div class="flex align-items-center gap">
                 <h3>{{ workoutEntry.startAt.format('ddd Do MMM') }}</h3>
                 <div class="flex-auto">
                     <ButtonComponent class="mini" @click="onEntryClick">
@@ -9,7 +9,7 @@
                     </ButtonComponent>
                 </div>
             </div>
-            <div class="flex gap align-items-center">
+            <div class="flex align-items-center gap">
                 <div>
                     <strong>Time: </strong>
                     <span>{{ displayStartAt }}</span>
@@ -70,7 +70,5 @@ const onEntryClick = function (): void {
     padding: 0.5rem;
     border-top: 4px solid var(--wjb-secondary);
     border-radius: var(--wjb-border-radius);
-
-    @include shadow-small();
 }
 </style>

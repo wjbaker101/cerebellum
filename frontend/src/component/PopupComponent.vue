@@ -24,8 +24,6 @@ const onClick = function (): void {
 </script>
 
 <style lang="scss" scoped>
-@use '~@wjb/styling/variables' as *;
-
 .\@wjb-popup-component {
     position: fixed;
     top: 1rem;
@@ -36,8 +34,6 @@ const onClick = function (): void {
     z-index: 15;
     cursor: pointer;
     transition: transform 0.3s, opacity 0.3s;
-
-    @include shadow-medium();
 
     &.style-error {
         background-color: var(--wjb-danger);
