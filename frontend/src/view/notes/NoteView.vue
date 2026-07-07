@@ -117,6 +117,10 @@ const onDelete = function () {
 onMounted(async () => {
     const result = await api.notes.getNote(noteReference);
 
+    if (result instanceof Error) {
+        return;
+    }
+
     note.value = result;
 });
 </script>
