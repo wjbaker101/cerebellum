@@ -1,0 +1,24 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    transition: all 0.2s, font 0s, letter-spacing 0s;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.6em;
+    letter-spacing: 0.5px;
+    transition: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2em;
+}

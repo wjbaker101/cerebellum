@@ -1,5 +1,9 @@
 @use './variables' as *;
 
+@use './utility/flex';
+@use './utility/grid';
+@use './utility/reset';
+@use './utility/text';
 @use './element/input' as *;
 
 @mixin setup-colour($variableName, $colour) {
