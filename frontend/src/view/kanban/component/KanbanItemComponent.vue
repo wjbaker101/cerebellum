@@ -1,7 +1,7 @@
 <template>
-    <div class="kanban-item-component flex gap-small" :class=" { 'draggable': isDraggable }" :data-reference="kanbanItem.reference">
+    <div class="flex gap-small kanban-item-component" :class=" { 'draggable': isDraggable }" :data-reference="kanbanItem.reference">
         <HiddenTextboxComponent class="content-input" v-model="itemContent" @finish="onFinish" @focus="onFocus" @blur="onBlur" />
-        <ButtonComponent class="details-button mini flex-auto" @click="onClick">
+        <ButtonComponent class="flex-auto details-button mini" @click="onClick">
             <IconComponent icon="menu" />
         </ButtonComponent>
     </div>
@@ -11,7 +11,7 @@
 import { ref } from 'vue';
 
 import { useApi } from '@/api/api.use';
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 
 import { IKanbanColumn, IKanbanItem } from '@/view/kanban/model/KanbanBoard.model';
 import KanbanItemModalComponent, { IKanbanItemModalProps } from '@/view/kanban/modal/KanbanItem.modal.component.vue';

@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent class="workout-diary-view flex flex-vertical gap" heading="Workout Diary">
+    <ViewComponent class="flex flex-vertical workout-diary-view gap" heading="Workout Diary">
         <template v-slot:header>
             <ButtonComponent class="primary" @click="onAddEntry">
                 <IconComponent icon="plus" gap="right" />
@@ -22,7 +22,7 @@ import ListComponent from '@/component/ListComponent.vue';
 import WorkoutEntryComponent from '@/view/workout-diary/component/WorkoutEntry.component.vue';
 import WorkoutEntryModalComponent, { IWorkoutEntryModalProps } from '@/view/workout-diary/modal/WorkoutEntry.modal.component.vue';
 
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';
 
 import { IWorkoutEntry } from './model/WorkoutEntry.model';

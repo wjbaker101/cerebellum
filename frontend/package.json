@@ -3,7 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "co:login": "aws codeartifact login --tool npm --repository npm-libs --domain wjb --domain-owner 144953083930",
         "dev": "vite",
         "build": "vite build",
         "serve": "vite preview"
@@ -11,7 +10,6 @@
     "dependencies": {
         "@vuepic/vue-datepicker": "^8.1.0",
         "@wjb/styling": "^1.0.60",
-        "@wjb/vue": "^1.0.68",
         "dayjs": "^1.11.4",
         "sortablejs": "^1.15.0",
         "sortablejs-vue3": "^1.2.3",

@@ -7,8 +7,8 @@
                     <input type="datetime-local" v-model="form.startAt">
                 </FormInputComponent>
             </FormSectionComponent>
-            <FormSectionComponent class="flex gap align-items-end">
-                <div class="flex gap-small align-items-end">
+            <FormSectionComponent class="flex align-items-end gap">
+                <div class="flex align-items-end gap-small">
                     <div>
                         <FormInputComponent label="End">
                             <input type="time" placeholder="End Time" v-model="form.endAt">
@@ -26,7 +26,7 @@
                     </FormInputComponent>
                 </div>
             </FormSectionComponent>
-            <div class="flex gap align-items-center">
+            <div class="flex align-items-center gap">
                 <h3>Exercises:</h3>
                 <div class="flex-auto">
                     <ButtonComponent class="primary mini" @click="onAddExercise">
@@ -36,7 +36,7 @@
             </div>
             <FormSectionComponent class="flex gap breakpoint" :key="`exercise-${exercise.createdAt.toISOString()}`" v-for="(exercise, exerciseIndex) in form.exercises">
                 <div class="flex-1">
-                    <div class="flex gap-small align-items-end">
+                    <div class="flex align-items-end gap-small">
                         <div v-if="exerciseIndex > 0" class="flex-auto">
                             <DeleteButtonComponent class="mini" only-icon @delete="onDeleteExercise(exerciseIndex)" />
                         </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="flex-1">
-                    <div class="flex gap-small align-items-end" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
+                    <div class="flex align-items-end gap-small" :key="`set-${set.createdAt.toISOString()}`" v-for="(set, setIndex) in exercise.sets">
                         <div class="flex-1">
                             <FormInputComponent :label="setIndex === 0 ? 'Reps' : ''">
                                 <input :ref="refOfSet(exerciseIndex, setIndex, 'repetitions')" type="number" placeholder="99" v-model="set.repetitions" @keypress.enter="goTo(refOfSet(exerciseIndex, setIndex, 'weight'))">
@@ -94,8 +94,8 @@
 import { getCurrentInstance, ref } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 
-import { useModal } from '@wjb/vue/use/modal.use';
-import { usePopup } from '@wjb/vue/use/popup.use';
+import { useModal } from '@/composables/modal.use';
+import { usePopup } from '@/composables/popup.use';
 
 import { helper } from '@/view/workout-diary/helper/helper';
 import { useWorkoutDiary } from '@/view/workout-diary/use/workout-diary.use';

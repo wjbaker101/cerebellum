@@ -1,6 +1,6 @@
 <template>
-    <div class="kanban-column flex flex-vertical gap" :class=" { 'draggable': isDraggable }">
-        <header class="flex gap-small align-items-center flex-auto">
+    <div class="flex flex-vertical kanban-column gap" :class=" { 'draggable': isDraggable }">
+        <header class="flex flex-auto align-items-center gap-small">
             <h2>{{ kanbanColumn.title }}</h2>
             <div class="flex-auto">
                 <ButtonComponent class="primary mini" @click="onAddItem(kanbanColumn)">
@@ -53,7 +53,7 @@ import KanbanColumnModalComponent, { IKanbanColumnModalProps } from '@/view/kanb
 
 import { recordHelper } from '@/helper/record.helper';
 import { useApi } from '@/api/api.use';
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 

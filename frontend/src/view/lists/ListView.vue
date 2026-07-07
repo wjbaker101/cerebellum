@@ -1,5 +1,5 @@
 <template>
-    <ViewComponent v-if="list" class="list-view flex flex-vertical gap" :heading="list.title">
+    <ViewComponent v-if="list" class="flex flex-vertical list-view gap" :heading="list.title">
         <template v-slot:title>
             <h1>
                 <HiddenTextboxComponent v-model="listTitle" @finish="onTitleConfirm" />
@@ -13,7 +13,7 @@
             </div>
         </template>
         <div class="list" v-if="list">
-            <div class="add-item-container flex gap-small align-items-center">
+            <div class="flex align-items-center gap-small add-item-container">
                 <div>
                     <input type="text" v-model="newItemContent" placeholder="Item contents...">
                 </div>
@@ -47,7 +47,7 @@ import { debounce } from 'ts-debounce';
 import HiddenTextboxComponent from '@/component/HiddenTextboxComponent.vue';
 import ListItemModalComponent, { IListItemModalProps } from '@/view/lists/modal/ListItemModal.component.vue';
 
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 import { useApi } from '@/api/api.use';
 
 import { IList, IListItem } from '@/view/lists/model/List.model';

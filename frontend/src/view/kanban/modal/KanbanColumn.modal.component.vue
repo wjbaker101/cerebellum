@@ -8,7 +8,7 @@
                 </FormInputComponent>
             </FormSectionComponent>
             <FormSectionComponent class="flex gap-small">
-                <ButtonComponent class="primary flex-auto" @click="onConfirm">
+                <ButtonComponent class="flex-auto primary" @click="onConfirm">
                     <IconComponent icon="tick" gap="right" />
                     <span>Confirm</span>
                 </ButtonComponent>
@@ -22,7 +22,7 @@
 import { ref } from 'vue';
 
 import { useApi } from '@/api/api.use';
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 
 import { IKanbanBoard, IKanbanColumn } from '@/view/kanban/model/KanbanBoard.model';
 

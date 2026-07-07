@@ -1,22 +1,10 @@
 FROM node:20-alpine AS frontend
 
-ARG AWS_ACCESS_KEY_ID
-ARG AWS_SECRET_ACCESS_KEY
-ARG AWS_DEFAULT_REGION
-
-RUN apk update
-RUN apk add --no-cache aws-cli
-
 WORKDIR /app
 
 COPY ./frontend/package.json .
 COPY ./frontend/yarn.lock .
-COPY ./frontend/.npmrc .
 
-RUN export CODEARTIFACT_AUTH_TOKEN="$(aws codeartifact get-authorization-token --domain wjb --domain-owner 144953083930 --region eu-west-2 --query authorizationToken --output text)" \
-    && npm config set '//wjb-144953083930.d.codeartifact.eu-west-2.amazonaws.com/npm/npm-libs/:_authToken' "${CODEARTIFACT_AUTH_TOKEN}"
-
-RUN yarn run co:login
 RUN yarn install
 
 COPY ./frontend .

@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { useModal } from '@wjb/vue/use/modal.use';
+import { useModal } from '@/composables/modal.use';
 import { useApi } from '@/api/api.use';
 
 import { IListItem } from '@/view/lists/model/List.model';

@@ -1,5 +1,5 @@
 <template>
-    <div class="page flex breakpoint">
+    <div class="flex page breakpoint">
         <NavComponent></NavComponent>
         <router-view></router-view>
         <ModalComponent />
@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import ModalComponent from '@wjb/vue/component/ModalComponent.vue';
-import PopupComponent from '@wjb/vue/component/PopupComponent.vue';
+import ModalComponent from '@/component/ModalComponent.vue';
+import PopupComponent from '@/component/PopupComponent.vue';
 import NavComponent from '@/component/nav/NavComponent.vue';
 </script>
 
