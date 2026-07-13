@@ -1,4 +1,4 @@
-FROM node:20-alpine AS frontend
+FROM oven/bun:latest AS frontend
 
 WORKDIR /app
 
