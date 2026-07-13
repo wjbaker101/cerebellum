@@ -8,22 +8,22 @@
         "serve": "vite preview"
     },
     "dependencies": {
-        "@vuepic/vue-datepicker": "^8.1.0",
-        "dayjs": "^1.11.4",
-        "sortablejs": "^1.15.0",
-        "sortablejs-vue3": "^1.2.3",
-        "ts-debounce": "^4.0.0",
-        "vue": "^3.2.13",
-        "vue-router": "^4.0.3"
+        "@vuepic/vue-datepicker": "^14.0.0",
+        "dayjs": "^1.11.21",
+        "sortablejs": "^1.15.7",
+        "sortablejs-vue3": "^1.3.0",
+        "ts-debounce": "^5.0.1",
+        "vue": "^3.5.39",
+        "vue-router": "^5.1.0"
     },
     "devDependencies": {
-        "@types/node": "^20.11.17",
-        "@types/sortablejs": "^1.15.0",
-        "@vitejs/plugin-vue": "^5.0.4",
-        "sass": "^1.32.7",
-        "typescript": "~5.3.3",
-        "vite": "^5.1.1",
-        "vite-plugin-pwa": "^0.19.2"
+        "@types/node": "^26.1.1",
+        "@types/sortablejs": "^1.15.9",
+        "@vitejs/plugin-vue": "^6.0.7",
+        "sass": "^1.101.0",
+        "typescript": "~7.0.2",
+        "vite": "^8.1.4",
+        "vite-plugin-pwa": "^1.3.0"
     },
     "browserslist": [
         "> 1%",
