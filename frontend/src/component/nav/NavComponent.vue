@@ -25,28 +25,10 @@
                     <div>Dashboard</div>
                 </GradientBorderComponent>
             </router-link>
-            <router-link to="/notes" class="tab" @click.native="onNavigate">
-                <GradientBorderComponent :on-hover="!route.path.startsWith('/notes')">
-                    <IconComponent icon="page-text" />
-                    <div>Notes</div>
-                </GradientBorderComponent>
-            </router-link>
-            <router-link to="/lists" class="tab" @click.native="onNavigate">
-                <GradientBorderComponent :on-hover="!route.path.startsWith('/lists')">
-                    <IconComponent icon="menu" />
-                    <div>Lists</div>
-                </GradientBorderComponent>
-            </router-link>
             <router-link to="/workout-diary" class="tab" @click.native="onNavigate">
                 <GradientBorderComponent :on-hover="!route.path.startsWith('/workout-diary')">
                     <IconComponent icon="flex" />
                     <div>Workout Diary</div>
-                </GradientBorderComponent>
-            </router-link>
-            <router-link to="/kanban" class="tab" @click.native="onNavigate">
-                <GradientBorderComponent :on-hover="!route.path.startsWith('/kanban')">
-                    <IconComponent icon="menu" style="transform:rotate(90deg)" />
-                    <div>Kanban</div>
                 </GradientBorderComponent>
             </router-link>
         </ul>
