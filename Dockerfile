@@ -3,13 +3,13 @@ FROM node:20-alpine AS frontend
 WORKDIR /app
 
 COPY ./frontend/package.json .
-COPY ./frontend/yarn.lock .
+COPY ./frontend/bun.lock .
 
-RUN yarn install
+RUN bun install --frozen-lockfile --ignore-scripts
 
 COPY ./frontend .
 
-RUN yarn run build
+RUN bun --bun run build
 
 
 
